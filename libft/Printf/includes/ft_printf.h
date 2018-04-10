@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 17:51:37 by clegirar          #+#    #+#             */
-/*   Updated: 2018/01/03 16:10:51 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/04/10 17:28:57 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define BUFFER 155
 
-# include "../libft/libft.h"
+# include "../../libft.h"
 # include <stdarg.h>
 # include <stdio.h>
 

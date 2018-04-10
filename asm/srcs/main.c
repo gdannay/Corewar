@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:44:45 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/10 17:02:27 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/04/10 17:39:42 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,19 @@ uint32_t	swap_32_bytes(uint32_t nb)
 
 int	main(void)
 {
-
-	/*header_t	*head;
-	struct stat	buf;
+	header_t	*head;
 	head = (header_t *)malloc(sizeof(header_t));
-
 	head->magic = swap_32_bytes((uint32_t)COREWAR_EXEC_MAGIC);
 	strcpy(head->prog_name, "emtagueule");
 	head->prog_size = swap_32_bytes(5);
 	strcpy(head->comment, "Tufaiclem");
-	write(1, head, sizeof(*head));*/
+	write(1, head, sizeof(*head));
+	char c = 1;
+	write (1, &c, 1);
+	c = 0;
+	write (1, &c, 1);
+	write (1, &c, 1);
+	write (1, &c, 1);
+	write (1, &c, 1);
 	return (0);
 }

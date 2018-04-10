@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:39:56 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/10 17:02:30 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/04/10 17:27:47 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include "../../libft/libft.h"
 
 # define BIT_2 16711680
 # define BIT_3 65280
