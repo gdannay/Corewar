@@ -6,7 +6,7 @@
 #    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 08:52:25 by clegirar          #+#    #+#              #
-#    Updated: 2018/04/11 14:44:17 by gdannay          ###   ########.fr        #
+#    Updated: 2018/04/11 18:41:16 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,6 +101,7 @@ SRCS	=	ft_atoi.c				\
 			ft_atoll_base.c			\
 			ft_tabcpy.c				\
 			ft_splitspace.c			\
+			ft_stridx.c				\
 			./Printf/srcs/ft_printf.c					\
 			./Printf/srcs/ft_dprintf.c					\
 			./Printf/srcs/ft_sprintf.c					\

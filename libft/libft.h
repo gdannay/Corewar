@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 08:52:16 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/11 14:44:57 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/11 18:44:22 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,5 +146,6 @@ unsigned	int					ft_atoi_base(char *str,
 		int base, char c);
 char							**ft_tabcpy(char **tab, int i);
 char							**ft_splitspace(char const *s);
+int								ft_stridx(char *str, char *cmp);
 
 #endif

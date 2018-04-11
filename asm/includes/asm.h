@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:39:56 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/11 16:59:25 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/11 19:31:20 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@
 
 # define BIT_2 16711680
 # define BIT_3 65280
+# define T_STRING 16
+# define T_INSTR 32
+# define T_DIR_LAB 64
+# define T_IND_LAB 128
+# define T_END 256
 
 typedef struct		s_inst
 {
@@ -39,5 +44,7 @@ t_inst				*parse_file(int fd);
 void				free_list(t_inst *first);
 void				*exit_free(char *line, t_inst *first, header_t *header, char **split);
 header_t			*create_header(int fd);
+void				error_message(int line, int col, int type, char *str);
+int					get_type(char *str);
 
 #endif
