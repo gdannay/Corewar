@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:50:30 by gdannay           #+#    #+#             */
-/*   Updated: 2018/04/19 14:10:11 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/19 14:15:47 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int			check_and_copy(char *line, header_t *header,
 	int		k;
 	int		l;
 
-	dprintf(1, "CHECK");
+	dprintf(1, "CHECK\n");
 	j = type == T_COMMAND_NAME ? ft_strlen(NAME_CMD_STRING)
 		: ft_strlen(COMMENT_CMD_STRING);
 	while (line[j] && (line[j] == ' ' || line[j] == '\t'))
@@ -99,10 +99,11 @@ static header_t		*get_infos(int fd, header_t *header)
 	ret = 0;
 	while (++i < 2 && (ret = get_next_line(fd, &line)) == 1)
 	{
+		dprintf(1, "LINE = %s\n", line);
 		if ((type = get_type(line)) != T_COMMAND_NAME
 				&& type != T_COMMAND_COMMENT)
 		{
-			dprintf(1, "ICIC");
+			dprintf(1, "ICIC = %d\n", type);
 			exit_error(i + 1, 1, header, line);
 			return (NULL);
 		}

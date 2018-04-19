@@ -3,111 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/10 11:47:00 by clegirar          #+#    #+#             */
-/*   Updated: 2017/12/03 15:58:44 by clegirar         ###   ########.fr       */
+/*   Created: 2017/11/14 19:25:50 by gdannay           #+#    #+#             */
+/*   Updated: 2018/01/11 10:37:47 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "libft.h"
+#include <stdio.h>
 
-static	t_gnl	*find_maillon(t_gnl *lst, const int fd)
+void			free_tmp(t_lst **lst, t_lst *tmp)
 {
-	t_gnl	*tmp;
-	t_gnl	*new;
+	t_lst	*bef;
+	t_lst	*nxt;
 
-	if (lst == NULL)
+	bef = (*lst);
+	nxt = tmp->next;
+	if ((*lst) == tmp)
+		(*lst) = (*lst)->next;
+	else
 	{
-		if (!(lst = (t_gnl *)ft_memalloc(sizeof(t_gnl))))
-			return (NULL);
-		lst->fd = fd;
-		lst->tmp = NULL;
-		lst->next = NULL;
-		return (lst);
+		while (bef && bef->next != tmp)
+			bef = bef->next;
+		if (nxt == NULL)
+			bef->next = NULL;
+		else
+			bef->next = nxt;
 	}
-	new = lst;
-	while (new && new->fd != fd)
+	free(tmp->txt);
+	free(tmp);
+}
+
+static char		*get_line(t_lst *tmp)
+{
+	int		i;
+	char	*new;
+	char	buff[BUFF_SIZE + 1];
+	int		ret;
+	char	*tmptxt;
+
+	i = 0;
+	while (ft_strchr(tmp->txt, '\n') == NULL &&
+			(ret = read(tmp->fd, buff, BUFF_SIZE)) > 0)
 	{
-		tmp = new;
-		new = new->next;
+		buff[ret] = '\0';
+		tmptxt = tmp->txt;
+		tmp->txt = ft_strjoin(tmptxt, buff);
+		free(tmptxt);
 	}
-	if (new == NULL)
-	{
-		new = find_maillon(new, fd);
-		tmp->next = new;
-	}
+	if (ret == -1)
+		return (NULL);
+	while (tmp->txt && tmp->txt[i] != '\n' && tmp->txt[i] != '\0')
+		i++;
+	if ((new = (char *)malloc(sizeof(char) * (i + 1))) == NULL)
+		return (NULL);
+	if (tmp->txt)
+		new = ft_strncpy(new, tmp->txt, (size_t)i);
+	new[i] = '\0';
 	return (new);
 }
 
-static	void	del_lst(t_gnl *temp, t_gnl **lst)
+static t_lst	*new_fd(int fd, t_lst **lst)
 {
-	t_gnl	*new;
-	t_gnl	*tmp;
+	t_lst	*new;
+	t_lst	*tmp;
 
-	new = *lst;
-	tmp = *lst;
-	if (new == temp)
-		*lst = temp->next;
-	while (new && new != temp)
-	{
-		tmp = new;
-		new = new->next;
-	}
-	if (new == temp)
-		tmp->next = temp->next;
-	free(temp->tmp);
-	free(temp);
+	tmp = (*lst);
+	if (fd < 0)
+		return (NULL);
+	while (tmp && tmp->next != NULL)
+		tmp = tmp->next;
+	if ((new = (t_lst *)malloc(sizeof(t_list))) == NULL)
+		return (NULL);
+	new->next = NULL;
+	new->txt = NULL;
+	new->fd = fd;
+	if ((*lst) == NULL)
+		(*lst) = new;
+	else
+		tmp->next = new;
+	return (new);
 }
 
-static	int		check_char(t_gnl *temp, char **line, t_gnl **lst)
+int				get_next_line(int fd, char **line)
 {
-	char	*l;
+	static t_lst	*lst = NULL;
+	t_lst			*tmp;
+	char			*tmptxt;
 
-	if (ft_strchr(temp->tmp, CHAR))
+	tmp = lst;
+	while (tmp && tmp->fd != fd)
+		tmp = tmp->next;
+	if (tmp == NULL)
 	{
-		*line = ft_strsub(temp->tmp, 0, ft_strchr(temp->tmp, CHAR) - temp->tmp);
-		l = temp->tmp;
-		temp->tmp = ft_strsub(temp->tmp, ft_strchr(temp->tmp, CHAR)
-				- temp->tmp + 1, ft_strlen(ft_strchr(temp->tmp, CHAR)));
-		ft_strdel(&l);
-		return (1);
+		if ((tmp = new_fd(fd, &lst)) == NULL)
+			return (-1);
 	}
-	else if (ft_strlen(temp->tmp) > 0 && temp->tmp[0] != '\0'
-			&& ft_strchr(temp->tmp, '\0'))
-	{
-		*line = ft_strdup(temp->tmp);
-		ft_strdel(&temp->tmp);
-		return (1);
-	}
-	del_lst(temp, lst);
-	return (0);
-}
-
-int				get_next_line(const int fd, char **line)
-{
-	static	t_gnl	*lst = NULL;
-	t_gnl			*temp;
-	char			buff[BUFF_SIZE + 1];
-	int				ret;
-
-	if (line == NULL || fd < 0)
+	if (!(line) || (*line = get_line(tmp)) == NULL)
 		return (-1);
-	if (lst == NULL)
-		lst = find_maillon(lst, (int)fd);
-	temp = find_maillon(lst, (int)fd);
-	ft_bzero(buff, BUFF_SIZE + 1);
-	ret = 0;
-	while (ft_strchr(temp->tmp, CHAR) == NULL
-			&& (ret = read(fd, buff, BUFF_SIZE)) > 0)
+	if (!(tmp->txt) || !(ft_strcmp(tmp->txt, "\0")) ||
+			ft_strcmp(tmp->txt, "\0") == 3 || ft_strcmp(tmp->txt, "\0") == 16)
 	{
-		temp->tmp = ft_memrealloc(temp->tmp,
-				ft_strlen(temp->tmp), ft_strlen(temp->tmp) + BUFF_SIZE + 1);
-		temp->tmp = ft_strcat(temp->tmp, buff);
-		ft_bzero(buff, BUFF_SIZE + 1);
+		free_tmp(&lst, tmp);
+		return (0);
 	}
-	if (ret == -1)
-		return (-1);
-	return (check_char(temp, line, &lst));
+	tmptxt = tmp->txt;
+	tmp->txt = ft_strsub(tmptxt, (ft_strlen(*line) + 1), ft_strlen(tmp->txt));
+	free(tmptxt);
+	return (1);
 }

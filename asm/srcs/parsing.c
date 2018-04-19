@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/04/19 14:03:54 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/19 14:14:54 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int			get_type(char *str)
 	int i;
 
 	i = 1;
+	dprintf(1, "STR = %s\n", str);
 	if (str == NULL || str[0] == '\0')
 		return (T_END);
 	if (str[0] == 'r' && str[1])
