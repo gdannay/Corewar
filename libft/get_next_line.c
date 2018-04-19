@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 11:47:00 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/19 14:32:50 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/19 15:02:09 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static	int		check_char(t_gnl *temp, char **line, t_gnl **lst)
 {
 	char	*l;
 
-	dprintf(1, "OOOOOO = %s\n", temp->tmp);
 	if (ft_strchr(temp->tmp, CHAR))
 	{
 		*line = ft_strsub(temp->tmp, 0, ft_strchr(temp->tmp, CHAR) - temp->tmp);

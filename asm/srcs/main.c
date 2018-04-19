@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:44:45 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/17 16:22:44 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/19 15:18:29 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,44 +17,6 @@ uint32_t	swap_32_bytes(uint32_t nb)
 	nb = (nb << 24) | ((nb << 8) & BIT_2)
 		| (nb >> 24) | ((nb >> 8) & BIT_3);
 	return (nb);
-}
-
-void		error_message(int line, int col, int type, char *str)
-{
-	if (type == T_INSTR)
-		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] INTRUCTION \"%s\"\n",
-		line, col, str);
-	else if (type == T_STRING)
-		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] STRING \"\"%s\"\"\n",
-		line, col, str);
-	else if (type == T_REG)
-		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] REGISTER \"%s\"\n",
-		line, col, str);
-	else if (type == T_IND_LAB)
-		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] INDIRECT_LABEL \"%s\"\n",
-		line, col, str);
-	else if (type == T_DIR_LAB)
-		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] DIRECT_LABEL \"%s\"\n",
-		line, col, str);
-	else if (type == T_COMMAND_NAME)
-		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] COMMAND_NAME \"%s\"\n",
-		line, col, str);
-	else if (type == T_COMMAND_COMMENT)
-		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] COMMAND_COMMENT \"%s\"\n",
-		line, col, str);
-	else if (type == T_DIR_LAB)
-		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] ENDLINE\n", line, col);
-	else if (type == ERROR)
-		ft_dprintf(2, "Lexical Error at [%d:%d]\n", line, col);
-	ft_strdel(&str);
 }
 
 int	main(int ac, char **av)
@@ -79,6 +41,6 @@ int	main(int ac, char **av)
 		close(fd);
 		return (-1);
 	}
-	exit_free(NULL, first, header, NULL);
+	exit_free(NULL, first, header);
 	return (0);
 }

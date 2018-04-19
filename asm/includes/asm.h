@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:39:56 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/17 18:29:39 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/19 15:18:00 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,11 @@ typedef struct		s_inst
 
 t_inst				*parse_file(int fd);
 void				free_list(t_inst *first);
-void				*exit_free(char *line, t_inst *first, header_t *header, char **split);
+void				*exit_free(char *line, t_inst *first, header_t *header);
 header_t			*create_header(int fd);
 void				error_message(int line, int col, int type, char *str);
 int					get_type(char *str);
-int					get_index(char *str);
+int					get_end_index(char *str);
+void				error_message(int line, int col, int type, char *str);
 
 #endif

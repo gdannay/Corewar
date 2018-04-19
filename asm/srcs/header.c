@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:50:30 by gdannay           #+#    #+#             */
-/*   Updated: 2018/04/19 14:30:05 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/19 15:46:36 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int			exit_error(int line, int col, header_t *header, char *str)
 		error_message(line - 2, col + 1, type, NULL);
 	else
 		error_message(line, col + 1, type,
-				ft_strsub(str, col, get_index(str + col)));
+				ft_strsub(str, col, get_end_index(str + col)));
 	free(header);
 	ft_strdel(&str);
 	return (0);
@@ -57,7 +57,6 @@ static int			check_and_copy(char *line, header_t *header,
 	int		k;
 	int		l;
 
-	dprintf(1, "CHECK\n");
 	j = type == T_COMMAND_NAME ? ft_strlen(NAME_CMD_STRING)
 		: ft_strlen(COMMENT_CMD_STRING);
 	while (line[j] && (line[j] == ' ' || line[j] == '\t'))
@@ -75,15 +74,9 @@ static int			check_and_copy(char *line, header_t *header,
 	if (line[l])
 		return (exit_error(i + 1, l, header, line));
 	if (type == T_COMMAND_NAME)
-	{
 		ft_strncpy(header->prog_name, line + j + 1, k - j - 1);
-		dprintf(1, "TEST = %d %s %s\n", type, line + j + 1, header->prog_name);
-	}
 	else if (type == T_COMMAND_COMMENT)
-	{
 		ft_strncpy(header->comment, line + j + 1, k - j - 1);
-		dprintf(1, "TEST = %d %s %s\n", type, line + j + 1, header->comment);
-	}
 	return (1);
 }
 
@@ -94,28 +87,25 @@ static header_t		*get_infos(int fd, header_t *header)
 	int		ret;
 	int		type;
 
-	i = -1;
+	i = 0;
 	line = NULL;
 	ret = 0;
-	while (++i < 2 && (ret = get_next_line(fd, &line)) == 1)
+	while (i < 2 && (ret = get_next_line(fd, &line)) == 1)
 	{
-		dprintf(1, "LINE = %s\n", line);
-		if ((type = get_type(line)) != T_COMMAND_NAME
+		if (ft_strlen(line) > 0 && (type = get_type(line)) != T_COMMAND_NAME
 				&& type != T_COMMAND_COMMENT)
 		{
-			dprintf(1, "ICIC = %d\n", type);
 			exit_error(i + 1, 1, header, line);
 			return (NULL);
 		}
-		dprintf(1, "LALA = %d %d\n", type, i);
-		if (check_and_copy(line, header, i, type) == 0)
+		if (ft_strlen(line) > 0 && check_and_copy(line, header, i, type) == 0)
 			return (NULL);
-		dprintf(1, "TEST3 = %s %s\n", header->prog_name, header->comment);
+		if (ft_strlen(line) > 0)
+			i++;
 		ft_strdel(&line);
 	}
-	dprintf(1, "RET = %d %d\n", ret, i);
 	if (ret == -1)
-		return (exit_free(line, NULL, header, NULL));
+		return (exit_free(line, NULL, header));
 	return (header);
 }
 
@@ -123,11 +113,12 @@ header_t			*create_header(int fd)
 {
 	header_t	*header;
 
-	if ((header = (header_t *)ft_memalloc(sizeof(header))) == NULL)
+	if ((header = (header_t *)ft_memalloc(sizeof(header_t))) == NULL)
 		return (NULL);
 	if ((header = get_infos(fd, header)) == NULL
 			|| (ft_strlen(header->comment) &&
 				ft_strlen(header->prog_name)))
 		return (header);
-	return (exit_free(NULL, NULL, header, NULL));
+	free(header);
+	return (NULL);
 }
