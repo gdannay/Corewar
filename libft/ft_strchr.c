@@ -6,11 +6,12 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 08:44:41 by clegirar          #+#    #+#             */
-/*   Updated: 2018/01/30 15:58:31 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/04/19 14:32:57 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
+#include <stdio.h>
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -23,6 +24,7 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)&(s[i]));
 	while (s[i])
 	{
+		//dprintf(1, "CLE = %c %d\n", s[i], s[i]);
 		if (s[i + 1] == (unsigned char)c)
 			return ((char *)&(s[i + 1]));
 		i++;

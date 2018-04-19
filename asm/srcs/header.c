@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:50:30 by gdannay           #+#    #+#             */
-/*   Updated: 2018/04/19 14:15:47 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/19 14:30:05 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ static header_t		*get_infos(int fd, header_t *header)
 		if (check_and_copy(line, header, i, type) == 0)
 			return (NULL);
 		dprintf(1, "TEST3 = %s %s\n", header->prog_name, header->comment);
+		ft_strdel(&line);
 	}
 	dprintf(1, "RET = %d %d\n", ret, i);
 	if (ret == -1)
