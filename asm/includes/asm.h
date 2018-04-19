@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:39:56 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/11 19:31:20 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/17 18:29:39 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 # define T_DIR_LAB 64
 # define T_IND_LAB 128
 # define T_END 256
+# define T_COMMAND_NAME 512
+# define T_COMMAND_COMMENT 1024
+# define ERROR 0
 
 typedef struct		s_inst
 {
@@ -46,5 +49,6 @@ void				*exit_free(char *line, t_inst *first, header_t *header, char **split);
 header_t			*create_header(int fd);
 void				error_message(int line, int col, int type, char *str);
 int					get_type(char *str);
+int					get_index(char *str);
 
 #endif

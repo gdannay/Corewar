@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 18:39:45 by gdannay           #+#    #+#             */
-/*   Updated: 2018/04/11 18:44:30 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/17 19:04:55 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ int		ft_stridx(char *str, char *cmp)
 	if (str == NULL)
 		return (0);
 	if ((tmp = ft_strstr(str, cmp)) == NULL)
-		return (0);
+		return (ft_strlen(str));
 	return (tmp - str);
 }

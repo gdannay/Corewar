@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:44:45 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/11 19:39:55 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/04/17 16:22:44 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		error_message(int line, int col, int type, char *str)
 		line, col, str);
 	else if (type == T_STRING)
 		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] STRING \"%s\"\n",
+		"Syntax error at token [TOKEN][%03d:%03d] STRING \"\"%s\"\"\n",
 		line, col, str);
 	else if (type == T_REG)
 		ft_dprintf(2,
@@ -41,10 +41,20 @@ void		error_message(int line, int col, int type, char *str)
 		ft_dprintf(2,
 		"Syntax error at token [TOKEN][%03d:%03d] DIRECT_LABEL \"%s\"\n",
 		line, col, str);
+	else if (type == T_COMMAND_NAME)
+		ft_dprintf(2,
+		"Syntax error at token [TOKEN][%03d:%03d] COMMAND_NAME \"%s\"\n",
+		line, col, str);
+	else if (type == T_COMMAND_COMMENT)
+		ft_dprintf(2,
+		"Syntax error at token [TOKEN][%03d:%03d] COMMAND_COMMENT \"%s\"\n",
+		line, col, str);
 	else if (type == T_DIR_LAB)
 		ft_dprintf(2,
-		"Syntax error at token [TOKEN][%03d:%03d] ENDLINE\n",
-		line, col);
+		"Syntax error at token [TOKEN][%03d:%03d] ENDLINE\n", line, col);
+	else if (type == ERROR)
+		ft_dprintf(2, "Lexical Error at [%d:%d]\n", line, col);
+	ft_strdel(&str);
 }
 
 int	main(int ac, char **av)
