@@ -51,5 +51,7 @@ void				error_message(int line, int col, int type, char *str);
 int					get_type(char *str);
 int					get_end_index(char *str);
 void				error_message(int line, int col, int type, char *str);
+void 		check_params(t_inst *new, char *line, int j);
+
 
 #endif

@@ -17,6 +17,7 @@ SRCS			=	srcs/main.c			\
 					srcs/list.c			\
 					srcs/header.c		\
 					srcs/error.c		\
+					srcs/parsing_params.c	\
 					../op/op.c			\
 					srcs/matching.c
 
@@ -31,17 +32,17 @@ LFLAGS			=	../libft/libft.a -g3 -fsanitize=address
 all				:	$(NAME)
 
 $(NAME)			:	$(OBJS)
-					make -C ../libft
-					$(CC) $(OBJS) $(LFLAGS) -o $(NAME)
+					@make -C ../libft
+					@$(CC) $(OBJS) $(LFLAGS) -o $(NAME)
 
 %.o				:	%.c
-					$(CC) -o $@ -c $< $(CFLAGS)
+					@$(CC) -o $@ -c $< $(CFLAGS)
 
 clean			:
 					make clean -C ../libft
 					rm -rf $(OBJS)
 
-fclean			:	
+fclean			:
 					rm -rf $(OBJS)
 					make fclean -C ../libft
 					rm -rf $(NAME)
