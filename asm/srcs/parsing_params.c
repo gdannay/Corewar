@@ -129,12 +129,14 @@ int 		check_params(t_inst *new, char *line, int j)
 	int i;
 	int type;
 
+	i = -1;
+	while (++i < 4)
+		new->params[i] = NULL;
 	if ((line = format_params(new, line)) == NULL)
 		return (ERROR);
 	split = ft_strsplit(line, SEPARATOR_CHAR);
 	if (verif_nb_params(&split, split, j) == ERROR)
 		return (ERROR);
-
 	i = -1;
 	while (split[++i])
 	{
@@ -156,6 +158,7 @@ int 		check_params(t_inst *new, char *line, int j)
 		}
 		if (!(type & op_tab[j].type_par[i]))
 			return (verif_type(new, &split, split[i], i));
+		new->params[i] = ft_strdup(split[i]);
 	}
 	free_split(&split);
 	return (TRUE);

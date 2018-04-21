@@ -37,6 +37,7 @@ typedef struct		s_inst
 {
 	char			*label;
 	char			*name;
+	char			*params[3];
 	int				p1;
 	int				p2;
 	int				p3;

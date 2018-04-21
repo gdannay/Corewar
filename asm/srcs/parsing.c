@@ -37,7 +37,8 @@ static	int		fill_label(t_inst *new, char *line)
 	i = find_next_char(line, 0);
 	if ((idx = ft_stridx(line, ":")) != (int)ft_strlen(line) && idx > 0 && line[idx - 1] != '%')
 	{
-		new->label = ft_strsub(line, i, idx - i);
+		if (new != NULL)
+			new->label = ft_strsub(line, i, idx - i);
 		i = find_next_char(line, idx + 1);
 	}
 	return (i);
@@ -65,18 +66,24 @@ static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
 	}
 	i = fill_label(new, line);
 	idx = find_next_space(line, i);
-
-	while (ft_strncmp(line + i, op_tab[j].name, idx - i))
-		j++;
-	if (j > 15)
+	if (ft_strlen(line + idx) == 0)
+	{
+		printf("Invalid parameter for instruction %s : no parameters\n", line + i);
 		return (NULL);
+	}
+	while (ft_strncmp(line + i, op_tab[j].name, idx - i))
+	{
+		j++;
+		if (j > 15)
+		{
+			printf("Invalid instruction \"%s\" : no exist\n", line + i);
+			return (NULL);
+		}
+	}
 	new->name = ft_strdup(op_tab[j].name);
 	i = find_next_char(line, idx);
-
 	if (check_params(new, line + i, j) == ERROR)
-	{
-		exit (0);
-	}
+		return (NULL);
 	return (new);
 
 }
@@ -84,6 +91,7 @@ static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
 t_inst		*parse_file(int fd)
 {
 	char		*line;
+	char		*temp;
 	t_inst		*first;
 	t_inst		*tmp;
 	int			ret;
@@ -93,6 +101,17 @@ t_inst		*parse_file(int fd)
 	tmp = NULL;
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
+	//	printf("parse: %s\n", line);
+		if (ft_strstr(line, ":") && ft_strlen(ft_strstr(line, ":") + 1) == 0)
+		{
+			// VERIFIER QU'IL Y A AVANT QUE DES CARACTERES PREVUS POUR UN LABEL
+			ret = get_next_line(fd, &temp);
+			if (ret != -1)
+			{
+				line = ft_strjoindel(line, temp);
+				ft_strdel(&temp);
+			}
+		}
 		if (ft_strlen(line) > 0 && (tmp = check_and_save(line, &first, tmp)) == NULL)
 			return (exit_free(line, first, NULL));
 		ft_strdel(&line);
