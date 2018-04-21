@@ -96,7 +96,7 @@ int verif_indirect(t_inst *new, char ***split, char *line)
 	return (8);
 }
 
-int verif_nb_params(char ***split_free, char **split, int j)
+int verif_nb_params(t_inst *new, char ***split_free, char **split, int j)
 {
 	int i;
 
@@ -104,7 +104,7 @@ int verif_nb_params(char ***split_free, char **split, int j)
 	while (split[++i]) ;
 	if (i != op_tab[j].nb_par)
 	{
-		printf("Invalid parameter %d type register for instruction live\n", op_tab[j].nb_par);
+		printf("Invalid parameter %d type register for instruction %s\n", op_tab[j].nb_par, new->name);
 		free_split(split_free);
 		return (ERROR);
 	}
@@ -135,7 +135,7 @@ int 		check_params(t_inst *new, char *line, int j)
 	if ((line = format_params(new, line)) == NULL)
 		return (ERROR);
 	split = ft_strsplit(line, SEPARATOR_CHAR);
-	if (verif_nb_params(&split, split, j) == ERROR)
+	if (verif_nb_params(new, &split, split, j) == ERROR)
 		return (ERROR);
 	i = -1;
 	while (split[++i])
