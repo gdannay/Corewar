@@ -73,7 +73,10 @@ static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
 	new->name = ft_strdup(op_tab[j].name);
 	i = find_next_char(line, idx);
 
-	check_params(new, line + i, j);
+	if (check_params(new, line + i, j) == ERROR)
+	{
+		exit (0);
+	}
 	return (new);
 
 }

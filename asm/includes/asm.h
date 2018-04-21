@@ -31,6 +31,7 @@
 # define T_COMMAND_NAME 512
 # define T_COMMAND_COMMENT 1024
 # define ERROR 0
+# define TRUE 1
 
 typedef struct		s_inst
 {
@@ -51,7 +52,7 @@ void				error_message(int line, int col, int type, char *str);
 int					get_type(char *str);
 int					get_end_index(char *str);
 void				error_message(int line, int col, int type, char *str);
-void 		check_params(t_inst *new, char *line, int j);
+int 		check_params(t_inst *new, char *line, int j);
 
 
 #endif

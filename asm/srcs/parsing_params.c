@@ -11,11 +11,10 @@
 /* ************************************************************************** */
 
 #include "asm.h"
-#include "get_next_line.h"
 
 extern t_op op_tab[17];
 
-char *format_params(char *line)
+char *format_params(t_inst *inst, char *line)
 {
 	int i;
 	int j;
@@ -36,78 +35,128 @@ char *format_params(char *line)
 		}
 	}
 	new[i] = '\0';
+	if (ft_strlen(new) == 0)
+	{
+		printf("Invalid parameter for instruction %s : no parameters\n", inst->name);
+		return (NULL);
+	}
 	return (new);
 }
 
-int verif_register(char *line)
+void free_split(char ***split)
 {
-  int t;
+	int i;
+	char **tab;
 
-  t = 0;
-  while (line[++t])
-  {
-    if (ft_isdigit(line[t]) == 0)
-    {
-      printf("Syntax error at token [TOKEN][004:014] INSTRUCTION \"%s\"\n", line);
-      exit(0);
-    }
-  }
-  if (ft_atoi(line + 1) < 1 || ft_atoi(line + 1) > REG_NUMBER)
-  {
-    printf("Invalid parameter 0 type register for instruction live\n");
-    exit(0);
-  }
-  return (1);
+	tab = *split;
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(*split);
 }
 
-void 		check_params(t_inst *new, char *line, int j)
+int verif_register(t_inst *new, char ***split, char *line)
 {
-	char **split;
-	int i;
-	int type;
+	if (!ft_string_isdigit(line + 1))
+	{
+		printf("Invalid parameter type register \"%s\" for instruction %s : not a numeric value\n", line + 1, new->name);
+		free_split(split);
+		return (ERROR);
+	}
+	if (ft_atoi(line + 1) < 1 || ft_atoi(line + 1) > REG_NUMBER)
+	{
+		printf("Invalid parameter type register \"%s\" for instruction %s : not in interval [1-%d]\n", line + 1, new->name, REG_NUMBER);
+		free_split(split);
+		return (ERROR);
+	}
+	return (1);
+}
 
+int verif_direct(t_inst *new, char ***split, char *line)
+{
+	if (!ft_string_isdigit(line + 1))
+	{
+		if (line[1] == LABEL_CHAR)
+			;
+		else
+		{
+			printf("Invalid parameter type direct \"%s\" for instruction %s : not a numeric value or a label\n", line + 1, new->name);
+			free_split(split);
+			return (ERROR);
+		}
+	}
+	return (2);
+}
+
+int verif_indirect(t_inst *new, char ***split, char *line)
+{
 	(void)new;
-	line = format_params(line);
-	split = ft_strsplit(line, SEPARATOR_CHAR);
+	(void)line;
+	(void)split;
+	return (8);
+}
+
+int verif_nb_params(char ***split_free, char **split, int j)
+{
+	int i;
+
 	i = -1;
 	while (split[++i]) ;
 	if (i != op_tab[j].nb_par)
 	{
 		printf("Invalid parameter %d type register for instruction live\n", op_tab[j].nb_par);
-		exit(0);
+		free_split(split_free);
+		return (ERROR);
 	}
+	return (TRUE);
+}
+
+int verif_type(t_inst *new, char ***split, char *line, int i)
+{
+	if (line[0] == 'r')
+		printf("Invalid parameter %d type register for instruction %s\n", i, new->name);
+	else if (line[0] == DIRECT_CHAR)
+		printf("Invalid parameter %d type direct for instruction %s\n", i, new->name);
+	else
+		printf("Invalid parameter %d type indirect for instruction %s\n", i, new->name);
+	free_split(split);
+	return (ERROR);
+}
+
+int 		check_params(t_inst *new, char *line, int j)
+{
+	char **split;
+	int i;
+	int type;
+
+	if ((line = format_params(new, line)) == NULL)
+		return (ERROR);
+	split = ft_strsplit(line, SEPARATOR_CHAR);
+	if (verif_nb_params(&split, split, j) == ERROR)
+		return (ERROR);
+
 	i = -1;
-	type = 0;
 	while (split[++i])
 	{
 		printf("%s\n", split[i]);
 		if (split[i][0] == 'r')
 		{
-			type = verif_register(split[i]);
+			if ((type = verif_register(new, &split, split[i])) == ERROR)
+				return (ERROR);
 		}
 		else if (split[i][0] == DIRECT_CHAR)
 		{
-			// A FAIRE
-			type = 2;
+			if ((type = verif_direct(new, &split, split[i])) == ERROR)
+				return (ERROR);
 		}
-		else if (split[i][0] == LABEL_CHAR)
+		else
 		{
-			// A FAIRE
-			type = 8;
+			if ((type = verif_indirect(new, &split, split[i])) == ERROR)
+				return (ERROR);
 		}
-		else {
-			printf("Error3\n");
-			exit(0);
-		}
-
 		if (!(type & op_tab[j].type_par[i]))
-		{
-			printf("Error2\n");
-			exit(0);
-		}
+			return (verif_type(new, &split, split[i], i));
 	}
-	i = -1;
-	while (split[++i])
-		free(split[i]);
-	free(split);
+	free_split(&split);
+	return (TRUE);
 }
