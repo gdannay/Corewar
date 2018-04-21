@@ -147,5 +147,7 @@ unsigned	int					ft_atoi_base(char *str,
 char							**ft_tabcpy(char **tab, int i);
 char							**ft_splitspace(char const *s);
 int								ft_stridx(char *str, char *cmp);
+int 							ft_string_isdigit(char *str);
+char 							*ft_strjoindel(char const *s1, char const *s2);
 
 #endif

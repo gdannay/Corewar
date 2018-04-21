@@ -64,6 +64,7 @@ SRCS	=	ft_atoi.c				\
 			ft_striter.c			\
 			ft_striteri.c			\
 			ft_strjoin.c			\
+			ft_strjoindel.c		\
 			ft_strmap.c				\
 			ft_strmapi.c			\
 			ft_strnequ.c			\
@@ -102,6 +103,7 @@ SRCS	=	ft_atoi.c				\
 			ft_tabcpy.c				\
 			ft_splitspace.c			\
 			ft_stridx.c				\
+			ft_string_isdigit.c \
 			./Printf/srcs/ft_printf.c					\
 			./Printf/srcs/ft_dprintf.c					\
 			./Printf/srcs/ft_sprintf.c					\
