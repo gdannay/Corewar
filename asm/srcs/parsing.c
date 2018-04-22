@@ -44,6 +44,28 @@ static	int		fill_label(t_inst *new, char *line)
 	return (i);
 }
 
+int verif_label(char *line)
+{
+	int j;
+	int i;
+
+	i = -1;
+	while (line[++i])
+	{
+		j = -1;
+		while (LABEL_CHARS[++j])
+		{
+			if (LABEL_CHARS[j] == line[i])
+				break ;
+		}
+		if (j == 37 && (line[i] == ':' || line[i] == '\0'))
+			return (TRUE);
+		else if (j == 37)
+			return (ERROR);
+	}
+	return (TRUE);
+}
+
 static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
 {
 	t_inst	*new;
@@ -64,19 +86,24 @@ static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
 		tmp->next = new;
 		new->prev = tmp;
 	}
-	i = fill_label(new, line);
+	if (((i = fill_label(new, line)) == 0) || (new->label && verif_label(new->label) == ERROR))
+	{
+		ft_printf("Label \"%s\" not respect LABEL_CHARS\n", new->label);
+		return (NULL);
+	}
 	idx = find_next_space(line, i);
 	if (ft_strlen(line + idx) == 0)
 	{
-		printf("Invalid parameter for instruction %s : no parameters\n", line + i);
+		ft_printf("Invalid parameter for instruction %s : no parameters\n", line + i);
 		return (NULL);
 	}
 	while (ft_strncmp(line + i, op_tab[j].name, idx - i))
 	{
+		//STRCNP NE SUFFIT, IL FAUT CODER UE FONCTION SPECIALEMENT POUR
 		j++;
 		if (j > 15)
 		{
-			printf("Invalid instruction \"%s\" : no exist\n", line + i);
+			ft_printf("Invalid instruction \"%s\" : no exist\n", line + i);
 			return (NULL);
 		}
 	}
@@ -101,12 +128,9 @@ t_inst		*parse_file(int fd)
 	tmp = NULL;
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
-	//	printf("parse: %s\n", line);
-		if (ft_strstr(line, ":") && ft_strlen(ft_strstr(line, ":") + 1) == 0)
+		if (ft_strstr(line, ":") && ft_strlen(ft_strstr(line, ":") + 1) == 0 && verif_label(line) == TRUE)
 		{
-			// VERIFIER QU'IL Y A AVANT QUE DES CARACTERES PREVUS POUR UN LABEL
-			ret = get_next_line(fd, &temp);
-			if (ret != -1)
+			if ((ret = get_next_line(fd, &temp)) != -1)
 			{
 				line = ft_strjoindel(line, temp);
 				ft_strdel(&temp);

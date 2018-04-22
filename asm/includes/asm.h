@@ -54,6 +54,12 @@ int					get_type(char *str);
 int					get_end_index(char *str);
 void				error_message(int line, int col, int type, char *str);
 int 		check_params(t_inst *new, char *line, int j);
-
+int		verif_type(t_inst *new, char ***split, char *line, int i);
+int		verif_nb_params(t_inst *new, char ***split_free, char **split, int j);
+int		verif_indirect(t_inst *new, char ***split, char *line);
+int		verif_direct(t_inst *new, char ***split, char *line);
+int		verif_register(t_inst *new, char ***split, char *line);
+void		free_split(char ***split);
+int		verif_label(char *line);
 
 #endif

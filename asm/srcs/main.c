@@ -30,7 +30,7 @@ int	main(int ac, char **av)
 	fd = -1;
 	if (ac != 2)
 	{
-		write(2, "asm takes only one file as parameter\n", 37);	
+		write(2, "asm takes only one file as parameter\n", 37);
 		return (-1);
 	}
 	if (av[1] && (fd = open(av[1], O_RDONLY)) == -1)
