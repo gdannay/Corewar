@@ -30,15 +30,19 @@ int		fill_label(t_inst *new, char *line)
 	int		i;
 	int		idx;
 
+  idx = -1;
 	i = find_next_char(line, 0);
+  if (line[i] == ':')
+  {
+    printf("Label is empty\n");
+    return (-1);
+  }
 	if ((idx = ft_stridx(line, ":")) != (int)ft_strlen(line) && idx > 0 && line[idx - 1] != '%')
 	{
 		if (new != NULL)
 			new->label = ft_strsub(line, i, idx - i);
 		i = find_next_char(line, idx + 1);
 	}
-	if (i == 0)
-		printf("Label is empty\n");
 	return (i);
 }
 

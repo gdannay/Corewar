@@ -49,8 +49,10 @@ static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
 		tmp->next = new;
 		new->prev = tmp;
 	}
-	if (((i = fill_label(new, line)) == 0) || (new->label && verif_label(new->label) == ERROR))
+	if (((i = fill_label(new, line)) == -1) || (new->label && verif_label(new->label) == ERROR))
 		return (NULL);
+	if (ft_strlen(line + i) == 0)
+		return (new);
 	if ((idx = find_next_space(line, i)) == -1)
 		return (NULL);
 	if ((j = take_index_in_op(new, line + i, idx - i)) == -1)

@@ -41,6 +41,25 @@ int	main(int ac, char **av)
 		close(fd);
 		return (-1);
 	}
+	/*
+	while (first)
+	{
+		if (first->label)
+			printf("%-8s", first->label);
+		else
+			printf("        ");
+		if (first->name)
+			printf("%-8s", first->name);
+		if (first->params[0])
+			printf("p1: %s", first->params[0]);
+			if (first->params[1])
+				printf(" | p2: %s", first->params[1]);
+				if (first->params[2])
+					printf(" | p3: %s", first->params[2]);
+		printf("\n");
+		first = first->next;
+	}
+	*/
 	exit_free(NULL, first, header);
 	return (0);
 }
