@@ -15,55 +15,22 @@
 
 extern t_op op_tab[17];
 
-int		find_next_char(char *str, int i)
+static t_inst		*initialize_inst(void)
 {
-	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-		i++;
-	return (i);
-}
-
-int		find_next_space(char *str, int i)
-{
-	while (str[i] && str[i] != ' ' && str[i] != '\t')
-		i++;
-	return (i);
-}
-
-static	int		fill_label(t_inst *new, char *line)
-{
-	int		i;
-	int		idx;
-
-	i = find_next_char(line, 0);
-	if ((idx = ft_stridx(line, ":")) != (int)ft_strlen(line) && idx > 0 && line[idx - 1] != '%')
-	{
-		if (new != NULL)
-			new->label = ft_strsub(line, i, idx - i);
-		i = find_next_char(line, idx + 1);
-	}
-	return (i);
-}
-
-int verif_label(char *line)
-{
-	int j;
+	t_inst *new;
 	int i;
 
+	new = NULL;
+	if ((new = (t_inst *)malloc(sizeof(t_inst))) == NULL)
+		return (NULL);
+	new->label = NULL;
+	new->name = NULL;
+	new->next = NULL;
+	new->prev = NULL;
 	i = -1;
-	while (line[++i])
-	{
-		j = -1;
-		while (LABEL_CHARS[++j])
-		{
-			if (LABEL_CHARS[j] == line[i])
-				break ;
-		}
-		if (j == 37 && (line[i] == ':' || line[i] == '\0'))
-			return (TRUE);
-		else if (j == 37)
-			return (ERROR);
-	}
-	return (TRUE);
+	while (++i < 4)
+		new->params[i] = NULL;
+	return (new);
 }
 
 static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
@@ -73,12 +40,8 @@ static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
 	int		i;
 	int		j;
 
-	j = 0;
-	if ((new = (t_inst *)malloc(sizeof(t_inst))) == NULL)
-		return (0);
-	new->label = NULL;
-	new->name = NULL;
-	new->next = NULL;
+	if ((new = initialize_inst()) == NULL)
+		return (NULL);
 	if (!(*first))
 		*first = new;
 	else
@@ -87,32 +50,15 @@ static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
 		new->prev = tmp;
 	}
 	if (((i = fill_label(new, line)) == 0) || (new->label && verif_label(new->label) == ERROR))
-	{
-		ft_printf("Label \"%s\" not respect LABEL_CHARS\n", new->label);
 		return (NULL);
-	}
-	idx = find_next_space(line, i);
-	if (ft_strlen(line + idx) == 0)
-	{
-		ft_printf("Invalid parameter for instruction %s : no parameters\n", line + i);
+	if ((idx = find_next_space(line, i)) == -1)
 		return (NULL);
-	}
-	while (ft_strncmp(line + i, op_tab[j].name, idx - i))
-	{
-		//STRCNP NE SUFFIT, IL FAUT CODER UE FONCTION SPECIALEMENT POUR
-		j++;
-		if (j > 15)
-		{
-			ft_printf("Invalid instruction \"%s\" : no exist\n", line + i);
-			return (NULL);
-		}
-	}
-	new->name = ft_strdup(op_tab[j].name);
+	if ((j = take_index_in_op(new, line + i, idx - i)) == -1)
+		return (NULL);
 	i = find_next_char(line, idx);
 	if (check_params(new, line + i, j) == ERROR)
 		return (NULL);
 	return (new);
-
 }
 
 t_inst		*parse_file(int fd)

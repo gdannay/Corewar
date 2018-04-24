@@ -61,5 +61,10 @@ int		verif_direct(t_inst *new, char ***split, char *line);
 int		verif_register(t_inst *new, char ***split, char *line);
 void		free_split(char ***split);
 int		verif_label(char *line);
+int		find_next_char(char *str, int i);
+int		find_next_space(char *str, int i);
+int		fill_label(t_inst *new, char *line);
+int verif_label(char *line);
+int take_index_in_op(t_inst *inst, char *line, int size);
 
 #endif

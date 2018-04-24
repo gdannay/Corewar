@@ -14,7 +14,7 @@
 
 extern t_op op_tab[17];
 
-char *format_params(t_inst *inst, char *line)
+static char *format_params(t_inst *inst, char *line)
 {
 	int i;
 	int j;
@@ -55,22 +55,12 @@ void free_split(char ***split)
 	free(*split);
 }
 
-void initialize_new_params(t_inst *new)
-{
-	int i;
-
-	i = -1;
-	while (++i < 4)
-		new->params[i] = NULL;
-}
-
 int 		check_params(t_inst *new, char *line, int j)
 {
 	char **split;
 	int i;
 	int type;
 
-	initialize_new_params(new);
 	if ((line = format_params(new, line)) == NULL)
 		return (ERROR);
 	split = ft_strsplit(line, SEPARATOR_CHAR);
@@ -80,11 +70,11 @@ int 		check_params(t_inst *new, char *line, int j)
 	while (split[++i])
 	{
 		if (split[i][0] == 'r' && (type = verif_register(new, &split, split[i])) == ERROR)
-				return (ERROR);
+			return (ERROR);
 		if (split[i][0] == DIRECT_CHAR && (type = verif_direct(new, &split, split[i])) == ERROR)
-				return (ERROR);
+			return (ERROR);
 		if (split[i][0] != 'r' && split[i][0] != DIRECT_CHAR && (type = verif_indirect(new, &split, split[i])) == ERROR)
-				return (ERROR);
+			return (ERROR);
 		if (!(type & op_tab[j].type_par[i]))
 			return (verif_type(new, &split, split[i], i));
 		new->params[i] = ft_strdup(split[i]);
