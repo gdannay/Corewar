@@ -20,6 +20,7 @@ SRCS			=	srcs/main.c			\
 					srcs/list.c			\
 					srcs/header.c		\
 					srcs/error.c		\
+					srcs/write.c		\
 					../op/op.c			\
 					srcs/matching.c
 
