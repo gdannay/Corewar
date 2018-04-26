@@ -15,6 +15,7 @@
 void	free_list(t_inst *first)
 {
 	t_inst	*tmp;
+	int i;
 
 	while (first)
 	{
@@ -22,6 +23,9 @@ void	free_list(t_inst *first)
 		first = first->next;
 		ft_strdel(&(tmp->label));
 		ft_strdel(&(tmp->name));
+		i = -1;
+		while (tmp->params[++i])
+			ft_strdel(&(tmp->params[i]));
 		free(tmp);
 	}
 }

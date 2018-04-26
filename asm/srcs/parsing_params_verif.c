@@ -37,11 +37,21 @@ int	verif_direct(t_inst *new, char ***split, char *line)
 
 int	verif_indirect(t_inst *new, char ***split, char *line)
 {
-  // A FAIRE, LE SUJET N'EST PAS CLAIR
-	(void)new;
-	(void)line;
-	(void)split;
-	return (8);
+	if (line[0] == LABEL_CHAR)
+	{
+		if (verif_label(line + 1) == ERROR)
+		{
+			free_split(split);
+			return (ERROR);
+		}
+	}
+	else if (!ft_string_isdigit(line))
+	{
+		ft_printf("Invalid parameter type direct \"%s\" for instruction %s : not a numeric value or a label\n", line, new->name);
+		free_split(split);
+		return (ERROR);
+	}
+	return (4);
 }
 
 int 	verif_nb_params(t_inst *new, char ***split_free, char **split, int j)
