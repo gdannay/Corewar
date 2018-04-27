@@ -12,7 +12,6 @@
 
 #include "asm.h"
 
-
 uint32_t	swap_32_bytes(uint32_t nb)
 {
 	nb = (nb << 24) | ((nb << 8) & BIT_2)
@@ -42,7 +41,7 @@ int	main(int ac, char **av)
 		close(fd);
 		return (-1);
 	}
-	write_in_cor(header, first);
+	write_in_cor(av[1], header, first);
 	exit_free(NULL, first, header);
 	return (0);
 }

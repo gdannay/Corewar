@@ -41,7 +41,7 @@ typedef struct		s_inst
 	int 			p1;
 	int				p2;
 	int 			p3;
-	char			*params[3];
+	char			*params[4];
 	struct s_inst	*next;
 	struct s_inst	*prev;
 }					t_inst;
@@ -67,7 +67,7 @@ int		find_next_space(char *str, int i);
 int		fill_label(t_inst *new, char *line);
 int verif_label(char *line);
 int take_index_in_op(t_inst *inst, char *line, int size);
-void write_in_cor(header_t *header, t_inst *first);
+void write_in_cor(char *av, header_t *header, t_inst *first);
 uint32_t	swap_32_bytes(uint32_t nb);
 
 #endif
