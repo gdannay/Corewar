@@ -100,6 +100,7 @@ int take_index_in_op(t_inst *inst, char *line, int size)
 			return (-1);
 		}
 	}
+	inst->code = op_tab[j].code;
 	inst->name = ft_strdup(op_tab[j].name);
 	return (j);
 }

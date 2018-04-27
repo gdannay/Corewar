@@ -37,10 +37,11 @@ typedef struct		s_inst
 {
 	char			*label;
 	char			*name;
-	char			*params[3];
-	int				p1;
+	char 			code;
+	int 			p1;
 	int				p2;
-	int				p3;
+	int 			p3;
+	char			*params[3];
 	struct s_inst	*next;
 	struct s_inst	*prev;
 }					t_inst;
