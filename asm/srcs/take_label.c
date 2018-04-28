@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-static int add_position_bottom(t_inst *list)
+static int add_position(t_inst *list)
 {
 	int i;
 	int pos;
@@ -49,24 +49,28 @@ static int search_on_bottom(t_inst *list, char *str)
 			return (pos);
 		list = list->next;
 		if (list)
-			pos += add_position_bottom(list);
+			pos += add_position(list);
 	}
 	return (-1);
 }
 
 static int search_on_top(t_inst *list, char *str)
 {
+  int pos;
+
+	pos = 0;
 	str = ft_strstr(str, ":") + 1;
+	if (list->label && ft_strcmp(list->label, str) == 0)
+		return (0);
 	while (list)
 	{
-		if (list->label)
-		{
-			if (ft_strcmp(list->label, str) == 0)
-				return (TRUE);
-		}
+		if (list->label && ft_strcmp(list->label, str) == 0)
+			return (pos * -1);
 		list = list->prev;
+		if (list)
+			pos += add_position(list);
 	}
-	return (ERROR);
+	return (-1);
 }
 
 static void change_params(char **str, int pos)
@@ -102,10 +106,8 @@ int take_label(t_inst *list)
 			{
 				if ((pos = search_on_bottom(list, list->params[i])) != -1)
 					change_params(&list->params[i], pos);
-				else if (search_on_top(list, list->params[i]) != ERROR)
-				{
-
-				}
+				else if ((pos = search_on_top(list, list->params[i])) != -1)
+          change_params(&list->params[i], pos);
 				else
 				{
 					ft_printf("No such label %s\n", ft_strstr(list->params[i], ":") + 1);
