@@ -17,6 +17,7 @@ SRCS			=	srcs/main.c			\
 						srcs/parsing_utils.c	\
 						srcs/parsing_params.c	\
 							srcs/parsing_params_verif.c	\
+					srcs/take_label.c	\
 					srcs/list.c			\
 					srcs/header.c		\
 					srcs/error.c		\

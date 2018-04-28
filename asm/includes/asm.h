@@ -69,5 +69,6 @@ int verif_label(char *line);
 int take_index_in_op(t_inst *inst, char *line, int size);
 void write_in_cor(char *av, header_t *header, t_inst *first);
 uint32_t	swap_32_bytes(uint32_t nb);
+int take_label(t_inst *first);
 
 #endif

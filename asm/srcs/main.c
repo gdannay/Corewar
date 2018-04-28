@@ -41,7 +41,14 @@ int	main(int ac, char **av)
 		close(fd);
 		return (-1);
 	}
+	if (take_label(first) == ERROR)
+	{
+		close(fd);
+		exit_free(NULL, first, header);
+		return (-1);
+	}
 	write_in_cor(av[1], header, first);
 	exit_free(NULL, first, header);
+	close (fd);
 	return (0);
 }

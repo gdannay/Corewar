@@ -62,6 +62,7 @@ void write_direct(int fd, char *param)
 {
   int nb;
 
+
   // NORMALEMENT DIRECT EST EN 2 OCTET ET INDIRECT EN 4 MAIS L'ASM_42 FAIT DES TRUCS CHELOUS
   nb = ft_atoi(param + 1);
   nb = swap_32_bytes(nb);
