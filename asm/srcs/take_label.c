@@ -12,6 +12,8 @@
 
 #include "asm.h"
 
+extern t_op op_tab[17];
+
 static int add_position(t_inst *list)
 {
 	int i;
@@ -28,7 +30,12 @@ static int add_position(t_inst *list)
 		if (list->params[i][0] == 'r')
 			pos++;
 		else if (list->params[i][0] == DIRECT_CHAR)
-			pos += 4;
+		{
+			if (op_tab[list->code - 1].unknown == 1)
+				pos += 2;
+			else
+				pos += 4;
+		}
 		else
 			pos += 2;
 	}

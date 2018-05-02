@@ -38,9 +38,6 @@ typedef struct		s_inst
 	char			*label;
 	char			*name;
 	char 			code;
-	int 			p1;
-	int				p2;
-	int 			p3;
 	char			*params[4];
 	struct s_inst	*next;
 	struct s_inst	*prev;

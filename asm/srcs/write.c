@@ -12,15 +12,55 @@
 
 #include "asm.h"
 
-void write_header(header_t *header, int fd)
+extern t_op op_tab[17];
+
+int calcul_size_program(t_inst *first)
+{
+  int i;
+  int t;
+
+  i = 0;
+  while (first)
+  {
+    if (first->name)
+    {
+      i++;
+      if (first->code != 1 && first->code != 12
+        && first->code != 9 && first->code != 15)
+        i++;
+      t = -1;
+      while (first->params[++t])
+      {
+        if (first->params[t][0] == 'r')
+          i += 1;
+        else if (first->params[t][0] == DIRECT_CHAR)
+        {
+          if (op_tab[first->code - 1].unknown == 1)
+    				i += 2;
+    			else
+    				i += 4;
+        }
+        else
+          i += 2;
+      }
+    }
+    first = first->next;
+  }
+  return (i);
+}
+
+void write_header(header_t *header, t_inst *first, int fd)
 {
   int nb;
 
   nb = swap_32_bytes(COREWAR_EXEC_MAGIC);
+
   write(fd, (char *)&nb, sizeof(int));
-  write(fd, header->prog_name, PROG_NAME_LENGTH + 1);
-  // MANQUE TAILLE DU CHAMPION
-  write(fd, header->comment, COMMENT_LENGTH + 1);
+  write(fd, header->prog_name, PROG_NAME_LENGTH + 4);
+  nb = calcul_size_program(first);
+  nb = swap_32_bytes(nb);
+  write(fd, (char *)&nb, sizeof(unsigned int));
+  write(fd, header->comment, COMMENT_LENGTH + 4);
 }
 
 void write_code_instruction(int fd, unsigned char code)
@@ -58,15 +98,20 @@ void write_registre(int fd, char *param)
   write (fd, &nb, 1);
 }
 
-void write_direct(int fd, char *param)
+void write_direct(t_inst *first, int fd, char *param)
 {
   int nb;
 
-
-  // NORMALEMENT DIRECT EST EN 2 OCTET ET INDIRECT EN 4 MAIS L'ASM_42 FAIT DES TRUCS CHELOUS
   nb = ft_atoi(param + 1);
   nb = swap_32_bytes(nb);
-  write(fd, &nb, 4);
+
+  if (op_tab[first->code - 1].unknown == 1)
+  {
+      nb = nb >> 16;
+      write(fd, &nb, 2);
+  }
+  else
+    write(fd, &nb, 4);
 }
 
 void write_indirect(int fd, char *param)
@@ -96,7 +141,7 @@ void write_instruction(t_inst *first, int fd)
       if (first->params[i][0] == 'r')
         write_registre(fd, first->params[i]);
       else if (first->params[i][0] == DIRECT_CHAR)
-        write_direct(fd, first->params[i]);
+        write_direct(first, fd, first->params[i]);
       else
         write_indirect(fd, first->params[i]);
     }
@@ -116,6 +161,6 @@ void write_in_cor(char *av, header_t *header, t_inst *first)
 	fd = open(name, O_CREAT, S_IRWXU);
 	fd = open(name, O_TRUNC);
 	fd = open(name, O_RDWR);
-  write_header(header, fd);
+  write_header(header, first, fd);
   write_instruction(first, fd);
 }

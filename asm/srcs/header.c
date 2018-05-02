@@ -115,6 +115,7 @@ header_t			*create_header(int fd)
 
 	if ((header = (header_t *)ft_memalloc(sizeof(header_t))) == NULL)
 		return (NULL);
+	ft_bzero(header->prog_name, PROG_NAME_LENGTH + 1);
 	if ((header = get_infos(fd, header)) == NULL
 			|| (ft_strlen(header->comment) &&
 				ft_strlen(header->prog_name)))
