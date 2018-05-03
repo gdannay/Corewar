@@ -41,16 +41,20 @@ int			get_type(char *str)
 			return (T_REG);
 		return (T_INSTR);
 	}
-	else if (str[ft_strlen(str) - 1] == ':')
+	else if (str[ft_strlen(str) - 1] == LABEL_CHAR)
 		return (T_IND_LAB);
-	else if (str[0] == '%' && str[1] && str[1] == ':')
+	else if (str[0] == DIRECT_CHAR && str[1] && str[1] == LABEL_CHAR)
 		return (T_DIR_LAB);
-	else if (str[0] == '%')
+	else if (str[0] == DIRECT_CHAR)
 		return (T_DIR);
-	else if (str[0] == ':')
+	else if (str[0] == LABEL_CHAR)
 		return (T_IND_LAB);
 	else if (str[0] == '"')
 		return (T_STRING);
+	else if (str[0] == COMMENT_CHAR)
+		return (T_COMMENT);
+	else if ((ft_strstr(str, ":") && !ft_strstr(str, ",")) || (ft_strstr(str, ":") < ft_strstr(str, ",")))
+		return (T_LAB);
 	else if (!strncmp(str, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 		return (T_COMMAND_NAME);
 	else if (!strncmp(str, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))

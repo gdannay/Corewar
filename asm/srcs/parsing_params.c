@@ -20,8 +20,8 @@ static char *format_params(t_inst *inst, char *line)
 	int j;
 	char *new;
 
-	new = malloc(sizeof(char) * ft_strlen(line) + 1);
-	ft_bzero(new, ft_strlen(line));
+	if ((new = ft_memalloc(sizeof(char) * ft_strlen(line) + 1)) == NULL)
+		return (NULL);
 	i = 0;
 	j = -1;
 	while (line[++j])
@@ -63,7 +63,8 @@ int 		check_params(t_inst *new, char *line, int j)
 
 	if ((line = format_params(new, line)) == NULL)
 		return (ERROR);
-	split = ft_strsplit(line, SEPARATOR_CHAR);
+	if ((split = ft_strsplit(line, SEPARATOR_CHAR)) == NULL)
+		return (ERROR);
 	if (verif_nb_params(new, &split, split, j) == ERROR)
 		return (ERROR);
 	i = -1;

@@ -18,12 +18,12 @@ static int			exit_error(int line, int col, header_t *header, char *str)
 	int type;
 
 	type = get_type(str + col);
-	if (line > 2)
-		type = ERROR;
 	if (type == T_STRING)
 		col++;
 	if (type == ERROR)
 		error_message(line - 2, col + 1, type, NULL);
+	else if (type == T_COMMENT)
+		error_message(line - 2, col + 1, type, ft_strdup(str + col));
 	else
 		error_message(line, col + 1, type,
 				ft_strsub(str, col, get_end_index(str + col)));
@@ -57,7 +57,8 @@ static int			check_and_copy(char *line, header_t *header,
 	int		k;
 	int		l;
 
-	j = type == T_COMMAND_NAME ? ft_strlen(NAME_CMD_STRING)
+	j = find_next_char(line, 0);
+	j += type == T_COMMAND_NAME ? ft_strlen(NAME_CMD_STRING)
 		: ft_strlen(COMMENT_CMD_STRING);
 	while (line[j] && (line[j] == ' ' || line[j] == '\t'))
 		j++;
@@ -71,7 +72,7 @@ static int			check_and_copy(char *line, header_t *header,
 	l = k + 1;
 	while (line[l] && (line[l] == ' ' || line[l] == '\t'))
 		l++;
-	if (line[l])
+	if (line[l] && line[l] != COMMENT_CHAR)
 		return (exit_error(i + 1, l, header, line));
 	if (type == T_COMMAND_NAME)
 		ft_strncpy(header->prog_name, line + j + 1, k - j - 1);
@@ -90,18 +91,17 @@ static header_t		*get_infos(int fd, header_t *header)
 	i = 0;
 	line = NULL;
 	ret = 0;
-	while (i < 2 && (ret = get_next_line(fd, &line)) == 1)
+	while ((!ft_strlen(header->prog_name) || !ft_strlen(header->comment)) && (ret = get_next_line(fd, &line)) == 1)
 	{
-		if (ft_strlen(line) > 0 && (type = get_type(line)) != T_COMMAND_NAME
-				&& type != T_COMMAND_COMMENT)
+		if (ft_strlen(line) - find_next_char(line, 0) && (type = get_type(line + find_next_char(line, 0))) != T_COMMAND_NAME
+				&& type != T_COMMAND_COMMENT && type != T_COMMENT)
 		{
-			exit_error(i + 1, 1, header, line);
+			exit_error(i + 1, 0, header, line);
 			return (NULL);
 		}
-		if (ft_strlen(line) > 0 && check_and_copy(line, header, i, type) == 0)
+		if (ft_strlen(line) - find_next_char(line, 0) && type != T_COMMENT && ft_strlen(line) > 0 && check_and_copy(line, header, i, type) == 0)
 			return (NULL);
-		if (ft_strlen(line) > 0)
-			i++;
+		i++;
 		ft_strdel(&line);
 	}
 	if (ret == -1)

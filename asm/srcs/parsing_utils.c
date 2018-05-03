@@ -17,8 +17,9 @@ extern t_op op_tab[17];
 
 int		find_next_char(char *str, int i)
 {
-	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+	while (str && str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
+	//dprintf(1, "TEST = %d %c\n", str[i], str[i]);
 	return (i);
 }
 

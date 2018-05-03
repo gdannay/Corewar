@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   write.c                                            :+:      :+:    :+:   */
@@ -131,6 +131,7 @@ void write_instruction(t_inst *first, int fd)
 
   while (first)
   {
+    printf("ICI = %s %d\n", first->name, first->code);
     write_code_instruction(fd, first->code);
     if (first->code != 1 && first->code != 12
       && first->code != 9 && first->code != 15)
@@ -154,13 +155,14 @@ void write_in_cor(char *av, header_t *header, t_inst *first)
   char *name;
   int fd;
 
+  (void)header;
   // LIGNE A SUPPRIMER
     av = strrchr(av, '/') + 1;
   av[ft_strlen(av) - 2] = '\0';
   name = ft_strjoin(av, ".cor");
-	fd = open(name, O_CREAT, S_IRWXU);
-	fd = open(name, O_TRUNC);
-	fd = open(name, O_RDWR);
+	if ((fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH)) == -1)
+    return ;
   write_header(header, first, fd);
   write_instruction(first, fd);
+  close(fd);
 }

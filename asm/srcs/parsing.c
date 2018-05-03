@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/04/19 16:40:12 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/03 16:41:14 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,29 @@ t_inst		*parse_file(int fd)
 	line = NULL;
 	first = NULL;
 	tmp = NULL;
+	temp = NULL;
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
-		if (ft_strstr(line, ":") && ft_strlen(ft_strstr(line, ":") + 1) == 0 && verif_label(line) == TRUE)
+		if (line[find_next_char(line, 0)] != COMMENT_CHAR && ft_strlen(line) - find_next_char(line, 0) > 0)
 		{
-			if ((ret = get_next_line(fd, &temp)) != -1)
+			if (ft_strstr(line, ":") && ft_strlen(ft_strstr(line, ":") + 1) == 0 && verif_label(line) == TRUE)
 			{
-				line = ft_strjoindel(line, temp);
+				while (ret == 1 && (!(ft_strlen(temp) - find_next_char(temp, 0)) || (temp[find_next_char(temp, 0)] == COMMENT_CHAR)))
+				{
+					if (temp)
+						ft_strdel(&temp);
+					ret = get_next_line(fd, &temp);
+				}
+				if (ret == -1 || !(line = ft_strjoindel(line, temp)))
+				{
+					ft_strdel(&temp);
+					return (exit_free(line, first, NULL));
+				}
 				ft_strdel(&temp);
 			}
+			if (ft_strlen(line) > 0 && (tmp = check_and_save(line, &first, tmp)) == NULL)
+				return (exit_free(line, first, NULL));
 		}
-		if (ft_strlen(line) > 0 && (tmp = check_and_save(line, &first, tmp)) == NULL)
-			return (exit_free(line, first, NULL));
 		ft_strdel(&line);
 	}
 	if (ret == -1)

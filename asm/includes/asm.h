@@ -30,6 +30,7 @@
 # define T_END 256
 # define T_COMMAND_NAME 512
 # define T_COMMAND_COMMENT 1024
+# define T_COMMENT 2048
 # define ERROR 0
 # define TRUE 1
 

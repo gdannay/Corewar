@@ -42,7 +42,13 @@ void		error_message(int line, int col, int type, char *str)
 		ft_dprintf(2,
 				"Syntax error at token [TOKEN][%03d:%03d] COMMAND_COMMENT \"%s\"\n",
 				line, col, str);
-	else if (type == T_DIR_LAB)
+	else if (type == T_LAB)
+		ft_dprintf(2,
+				"Syntax error at token [TOKEN][%03d:%03d] LABEL \"%s\"\n", line, col, str);
+				else if (type == T_COMMENT)
+					ft_dprintf(2,
+							"Syntax error at token [TOKEN][%03d:%03d] COMMENT \"%s\"\n", line, col, str);
+	else if (type == T_END)
 		ft_dprintf(2,
 				"Syntax error at token [TOKEN][%03d:%03d] ENDLINE\n", line, col);
 	else if (type == ERROR)
