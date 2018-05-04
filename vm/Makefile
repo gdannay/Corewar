@@ -6,7 +6,7 @@
 #    By: clegirar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/04/19 19:18:50 by gdannay          ###   ########.fr        #
+#    Updated: 2018/05/04 16:13:03 by clegirar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,8 @@ NAME			=	./corewar
 
 SRCS			=	srcs/main.c			\
 					srcs/header.c		\
+					srcs/error.c		\
+					srcs/exec.c			\
 					../op/op.c
 
 OBJS			=	$(SRCS:.c=.o)
