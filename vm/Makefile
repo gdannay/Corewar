@@ -6,7 +6,7 @@
 #    By: clegirar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/04 16:13:03 by clegirar         ###   ########.fr        #
+#    Updated: 2018/05/04 17:15:00 by clegirar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME			=	./corewar
 SRCS			=	srcs/main.c			\
 					srcs/header.c		\
 					srcs/error.c		\
-					srcs/exec.c			\
+					srcs/arena.c		\
 					../op/op.c
 
 OBJS			=	$(SRCS:.c=.o)
@@ -24,7 +24,7 @@ CC				=	gcc
 
 CFLAGS			=	-Wall -Werror -Wextra -I includes -I ../libft/
 
-LFLAGS			=	../libft/libft.a
+LFLAGS			=	../libft/libft.a -g3 -fsanitize=address
 
 all				:	$(NAME)
 

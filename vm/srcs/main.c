@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:08:01 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/04 16:12:26 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/04 18:04:32 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ int		main(int ac, char **av)
 {
 	int 		fd;
 	int 		i;
+	char		*arena;
 	t_player	*first;
 
 	i = 0;
 	first = NULL;
+	arena = NULL;
 	if (ac < 2)
 	{
 		dprintf(2, "Usage\n");
@@ -44,11 +46,12 @@ int		main(int ac, char **av)
 			return (-1);
 		close (fd);
 	}
-	if ((execute_code(first)) == 0)
+	if (!(arena = create_arena(first)))
 	{
 		free_players(&first);
 		return (-1);
 	}
+	ft_strdel(&arena);
 	free_players(&first);
 	return (0);
 }

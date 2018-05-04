@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:18:11 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/04 16:07:04 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/04 17:59:51 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static t_player	*create_player(t_player **first, header_t *header)
 	new->next = NULL;
 	new->code = NULL;
 	new->header = NULL;
+	new->process = NULL;
+	new->global_live = 0;
+	new->last_live = 0;
 	if (*first == NULL)
 		*first = new;
 	else
@@ -87,8 +90,8 @@ int				read_file(t_player **first, int fd, char *name)
 
 	if ((player = read_header(first, fd, name)) == NULL)
 		return (code_error(first, NULL, NULL));
-	if ((buff = (char *)ft_memalloc(
-				sizeof(swap_32_bytes(player->header->prog_size) + 1))) == NULL)
+	if ((buff = (char *)ft_memalloc(sizeof(char) *
+					swap_32_bytes(player->header->prog_size))) == NULL)
 		return (0);
 	ret = read(fd, buff, swap_32_bytes(player->header->prog_size));
 	if (ret == -1)
@@ -101,7 +104,6 @@ int				read_file(t_player **first, int fd, char *name)
 	"Error: File %s has a code size that differs from what its header says\n",
 	name));
 	}
-	buff[swap_32_bytes(player->header->prog_size)] = '\0';
 	player->code = buff;
 	return (1);
 }

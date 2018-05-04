@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 15:44:27 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/04 16:09:59 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/04 17:30:32 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,18 @@
 void	free_players(t_player **first)
 {
 	t_player	*tmp;
+	t_process	*tmp_p;
 
 	while (*first)
 	{
 		tmp = *first;
 		*first = (*first)->next;
+		while (tmp->process)
+		{
+			tmp_p = tmp->process;
+			tmp->process = tmp->process->next;
+			free(tmp_p);
+		}
 		if (tmp->header)
 			free(tmp->header);
 		ft_strdel(&(tmp->code));
