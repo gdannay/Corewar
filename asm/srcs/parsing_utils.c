@@ -41,41 +41,42 @@ int		find_next_space(char *str, int i)
 int		fill_label(t_inst *new, char *line)
 {
 	int		i;
-	int		idx;
+	int sauv;
 
-  idx = -1;
 	i = find_next_char(line, 0);
-  if (line[i] == ':')
+	if (line[i] == ':')
   {
-    printf("Label is empty\n");
+    ft_printf("Label is empty\n");
     return (-1);
   }
-	if ((idx = ft_stridx(line, ":")) != (int)ft_strlen(line) && idx > 0 && line[idx - 1] != '%')
+	sauv = i;
+	while (line[i])
 	{
-		if (new != NULL)
-			new->label = ft_strsub(line, i, idx - i);
-		i = find_next_char(line, idx + 1);
+		if (ft_strchr(LABEL_CHARS, line[i]) == NULL)
+		{
+			if (line[i] == LABEL_CHAR)
+			{
+				if (new != NULL)
+					new->label = ft_strsub(line, sauv, i - sauv);
+				i = find_next_char(line, i + 1);
+				return (i);
+			}
+			else
+				return (sauv);
+		}
+		i++;
 	}
-	return (i);
+	return (-1);
 }
 
 int verif_label(char *line)
 {
-	int j;
 	int i;
 
 	i = -1;
 	while (line[++i])
 	{
-		j = -1;
-		while (LABEL_CHARS[++j])
-		{
-			if (LABEL_CHARS[j] == line[i])
-				break ;
-		}
-		if (j == 37 && (line[i] == ':' || line[i] == '\0'))
-			return (TRUE);
-		else if (j == 37)
+		if (ft_strchr(LABEL_CHARS, line[i]) == NULL)
 		{
 			ft_printf("Label \"%s\" not respect LABEL_CHARS: \"%s\"\n", line, LABEL_CHARS);
 			return (ERROR);

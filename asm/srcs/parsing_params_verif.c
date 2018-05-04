@@ -6,15 +6,15 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:20 by vferreir          #+#    #+#             */
-/*   Updated: 2018/04/26 18:04:22 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/05/04 15:14:25 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-extern t_op op_tab[17];
+extern	t_op op_tab[17];
 
-int	verif_register(t_inst *new, char ***split, char *line)
+int		verif_register(t_inst *new, char ***split, char *line)
 {
 	if (!ft_string_isdigit(line + 1))
 	{
@@ -31,7 +31,7 @@ int	verif_register(t_inst *new, char ***split, char *line)
 	return (1);
 }
 
-int	verif_direct(t_inst *new, char ***split, char *line)
+int		verif_direct(t_inst *new, char ***split, char *line)
 {
 	if (!ft_string_isdigit(line + 1))
 	{
@@ -47,7 +47,7 @@ int	verif_direct(t_inst *new, char ***split, char *line)
 	return (2);
 }
 
-int	verif_indirect(t_inst *new, char ***split, char *line)
+int		verif_indirect(t_inst *new, char ***split, char *line)
 {
 	if (line[0] == LABEL_CHAR)
 	{
@@ -66,12 +66,13 @@ int	verif_indirect(t_inst *new, char ***split, char *line)
 	return (4);
 }
 
-int 	verif_nb_params(t_inst *new, char ***split_free, char **split, int j)
+int		verif_nb_params(t_inst *new, char ***split_free, char **split, int j)
 {
 	int i;
 
 	i = -1;
-	while (split[++i]) ;
+	while (split[++i])
+		;
 	if (i != op_tab[j].nb_par)
 	{
 		ft_printf("Invalid parameter %d type register for instruction %s\n", op_tab[j].nb_par, new->name);
@@ -81,7 +82,7 @@ int 	verif_nb_params(t_inst *new, char ***split_free, char **split, int j)
 	return (TRUE);
 }
 
-int	verif_type(t_inst *new, char ***split, char *line, int i)
+int		verif_type(t_inst *new, char ***split, char *line, int i)
 {
 	if (line[0] == 'r')
 		ft_printf("Invalid parameter %d type register for instruction %s\n", i, new->name);
