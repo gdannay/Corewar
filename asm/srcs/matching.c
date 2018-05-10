@@ -53,11 +53,11 @@ int			get_type(char *str)
 		return (T_STRING);
 	else if (str[0] == COMMENT_CHAR)
 		return (T_COMMENT);
-	else if ((ft_strstr(str, ":") && !ft_strstr(str, ",")) || (ft_strstr(str, ":") < ft_strstr(str, ",")))
-		return (T_LAB);
 	else if (!strncmp(str, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 		return (T_COMMAND_NAME);
 	else if (!strncmp(str, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
 		return (T_COMMAND_COMMENT);
+	else if ((ft_strstr(str, ":") && !ft_strstr(str, ",")) || (ft_strstr(str, ":") < ft_strstr(str, ",")))
+		return (T_LAB);
 	return (T_INSTR);
 }

@@ -48,15 +48,13 @@ static int search_on_bottom(t_inst *list, char *str)
 
 	pos = 0;
 	str = ft_strstr(str, ":") + 1;
-	if (list->label && ft_strcmp(list->label, str) == 0)
-		return (0);
 	while (list)
 	{
 		if (list->label && ft_strcmp(list->label, str) == 0)
 			return (pos);
-		list = list->next;
 		if (list)
 			pos += add_position(list);
+		list = list->next;
 	}
 	return (-1);
 }
@@ -67,8 +65,6 @@ static int search_on_top(t_inst *list, char *str)
 
 	pos = 0;
 	str = ft_strstr(str, ":") + 1;
-	if (list->label && ft_strcmp(list->label, str) == 0)
-		return (0);
 	while (list)
 	{
 		if (list->label && ft_strcmp(list->label, str) == 0)
