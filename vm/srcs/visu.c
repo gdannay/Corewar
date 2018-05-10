@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 10:49:42 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/09 14:18:24 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/10 15:09:25 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void 		visu(char *arena, t_player *first)
 		{
 			/*init_color(COLOR_RED, 700, 0, 0);
 			attron(COLOR_PAIR(1));*/
-			mvprintw(y, x, "%02x", arena[i]);
+			mvprintw(y, x, "%02hhx", arena[i]);
 			refresh();
 			//attroff(COLOR_PAIR(1));
 			i++;
