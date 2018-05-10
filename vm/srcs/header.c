@@ -107,3 +107,26 @@ int				read_file(t_player **first, int fd, char *name)
 	player->code = buff;
 	return (1);
 }
+
+t_player *read_av(char **av, int ac)
+{
+	t_player *first;
+	int fd;
+	int i;
+
+	first = NULL;
+	i = 0;
+	while (++i < ac)
+	{
+
+		if ((fd = open(av[i], O_RDONLY)) == -1)
+		{
+			dprintf(2, "Can't read source file %s\n", av[i]);
+			return (NULL);
+		}
+		else if ((read_file(&first, fd, av[i])) == 0)
+			return (NULL);
+		close (fd);
+	}
+	return (first);
+}

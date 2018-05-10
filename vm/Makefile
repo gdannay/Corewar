@@ -21,7 +21,7 @@ SRCS			=	srcs/main.c			\
 
 OBJS			=	$(SRCS:.c=.o)
 
-CC				=	gcc
+CC				=	@gcc
 
 CFLAGS			=	-Wall -Werror -Wextra -I includes -I ../libft/
 
@@ -30,8 +30,9 @@ LFLAGS			=	../libft/libft.a -lncurses -g3 -fsanitize=address
 all				:	$(NAME)
 
 $(NAME)			:	$(OBJS)
-					make -C ../libft
-					$(CC) $(OBJS) $(LFLAGS) -o $(NAME)
+					@make -C ../libft
+					@$(CC) $(OBJS) $(LFLAGS) -o $(NAME)
+					@rm -rf $(OBJS)
 
 %.o				:	%.c
 					$(CC) -o $@ -c $< $(CFLAGS)

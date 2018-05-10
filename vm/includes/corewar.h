@@ -27,6 +27,7 @@
 
 typedef struct			s_process
 {
+	int process;
 	int					live;
 	char				carry;
 	char				*pc;
@@ -62,5 +63,6 @@ int						code_error(t_player **first, char *str, char *name);
 //int					execute_code(t_player *first);
 char					*create_arena(t_player *first);
 void 					visu(char *arena, t_player *first);
+t_player *read_av(char **av, int ac);
 
 #endif

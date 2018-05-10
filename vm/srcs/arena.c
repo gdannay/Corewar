@@ -42,6 +42,7 @@ static t_process	*create_process(char *pc)
 
 	if ((new = ft_memalloc(sizeof(t_process))) == NULL)
 		return (NULL);
+	new->process = 0;
 	new->cycle = 0;
 	new->live = 0;
 	new->carry = 0;
