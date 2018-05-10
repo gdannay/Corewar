@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: clegirar <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/04 17:15:00 by clegirar         ###   ########.fr        #
+#    Updated: 2018/05/09 10:54:20 by clegirar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRCS			=	srcs/main.c			\
 					srcs/header.c		\
 					srcs/error.c		\
 					srcs/arena.c		\
+					srcs/visu.c			\
 					../op/op.c
 
 OBJS			=	$(SRCS:.c=.o)
@@ -24,7 +25,7 @@ CC				=	gcc
 
 CFLAGS			=	-Wall -Werror -Wextra -I includes -I ../libft/
 
-LFLAGS			=	../libft/libft.a -g3 -fsanitize=address
+LFLAGS			=	../libft/libft.a -lncurses -g3 -fsanitize=address
 
 all				:	$(NAME)
 
@@ -39,7 +40,7 @@ clean			:
 					make clean -C ../libft
 					rm -rf $(OBJS)
 
-fclean			:	
+fclean			:
 					rm -rf $(OBJS)
 					make fclean -C ../libft
 					rm -rf $(NAME)

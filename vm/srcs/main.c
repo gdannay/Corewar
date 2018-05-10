@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:08:01 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/04 18:04:32 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/09 10:48:29 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		main(int ac, char **av)
 		free_players(&first);
 		return (-1);
 	}
+	visu(arena, first);
 	ft_strdel(&arena);
 	free_players(&first);
 	return (0);

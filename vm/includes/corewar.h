@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/04 18:04:48 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/09 10:51:01 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
+# include <ncurses.h>
 
 # define HEADER_SIZE sizeof(header_t)
 #
@@ -60,5 +61,6 @@ void					*header_error(header_t *header, char *str, char *name);
 int						code_error(t_player **first, char *str, char *name);
 //int					execute_code(t_player *first);
 char					*create_arena(t_player *first);
+void 					visu(char *arena, t_player *first);
 
 #endif
