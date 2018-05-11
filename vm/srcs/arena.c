@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-static	int	nbr_players(t_player *first)
+int	nbr_players(t_player *first)
 {
 	int			i;
 	t_player	*tmp;
@@ -36,21 +36,6 @@ static void	copy_code(char *arena, char *code, int size)
 		arena[i] = code[i];
 }
 
-static t_process	*create_process(char *pc)
-{
-	t_process	*new;
-
-	if ((new = ft_memalloc(sizeof(t_process))) == NULL)
-		return (NULL);
-	new->process = 0;
-	new->cycle = 0;
-	new->live = 0;
-	new->carry = 0;
-	new->pc = pc;
-	new->next = NULL;
-	return (new);
-}
-
 char		*create_arena(t_player *first)
 {
 	char		*arena;
@@ -68,10 +53,27 @@ char		*create_arena(t_player *first)
 	while (tmp)
 	{
 		copy_code(arena + i * space, tmp->code, (int)swap_32_bytes(tmp->header->prog_size));
-		if ((tmp->process = create_process(arena + i * space)) == NULL)
-			return (NULL);
 		tmp = tmp->next;
 		i++;
 	}
 	return (arena);
+}
+
+t_machine *create_machine(t_player *first)
+{
+	t_machine *machine;
+
+	if (!(machine = (t_machine *)ft_memalloc(sizeof(t_machine))))
+		return (NULL);
+	if (!(machine->arena = create_arena(first)))
+	{
+		free_players(&first);
+		return (NULL);
+	}
+	machine->cycle = 0;
+	machine->cycle_to_die = 0;
+	machine->cycle_delta = 0;
+	machine->nbr_live = 0;
+	machine->process = 0;
+	return (machine);
 }

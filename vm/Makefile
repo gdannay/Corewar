@@ -17,6 +17,10 @@ SRCS			=	srcs/main.c			\
 					srcs/error.c		\
 					srcs/arena.c		\
 					srcs/visu.c			\
+					srcs/utils.c		\
+					srcs/process.c	\
+					srcs/run.c			\
+					srcs/instruction_1_to_5.c	\
 					../op/op.c
 
 OBJS			=	$(SRCS:.c=.o)

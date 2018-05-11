@@ -15,18 +15,11 @@
 void	free_players(t_player **first)
 {
 	t_player	*tmp;
-	t_process	*tmp_p;
 
 	while (*first)
 	{
 		tmp = *first;
 		*first = (*first)->next;
-		while (tmp->process)
-		{
-			tmp_p = tmp->process;
-			tmp->process = tmp->process->next;
-			free(tmp_p);
-		}
 		if (tmp->header)
 			free(tmp->header);
 		ft_strdel(&(tmp->code));

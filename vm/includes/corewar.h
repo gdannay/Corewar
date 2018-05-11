@@ -27,21 +27,24 @@
 
 typedef struct			s_process
 {
-	int process;
+	int					registre[REG_NUMBER];
+	int					numero_who_create_process;
+	int 				position;
 	int					live;
 	char				carry;
 	char				*pc;
 	int					cycle;
 	struct s_process	*next;
+	struct s_process  *prev;
 }						t_process;
 
 typedef struct			s_player
 {
 	header_t			*header;
-	char				*code;
-	t_process			*process;
-	int					global_live;
-	int					last_live;
+	char					*code;
+	int 					numero;
+	int						global_live;
+	int						last_live;
 	struct s_player		*next;
 }						t_player;
 
@@ -55,6 +58,13 @@ typedef struct			s_machine
 	unsigned long		process;
 }						t_machine;
 
+typedef struct 		s_map
+{
+	struct s_player		*player;
+	struct s_machine	*machine;
+	struct s_process	*process;
+}									t_map;
+
 uint32_t				swap_32_bytes(uint32_t nb);
 void					free_players(t_player **first);
 int						read_file(t_player **first, int fd, char *name);
@@ -64,5 +74,18 @@ int						code_error(t_player **first, char *str, char *name);
 char					*create_arena(t_player *first);
 void 					visu(char *arena, t_player *first);
 t_player *read_av(char **av, int ac);
-
+int recup_int(char *str);
+t_machine *create_machine(t_player *first);
+t_process *initialize_process(t_player *player);
+int	nbr_players(t_player *first);
+void run_vm(t_map *map);
+int instruction_live(t_machine *machine, t_process *process, t_player *player);
+int instruction_ld(t_machine *machine, t_process *process);
+int instruction_st(t_machine *machine, t_process *process);
+char *take_opcode(unsigned char c, char *str);
+void take_params(char *arena, int pos, int *params, char *str, int unknown);
+int recup_nb_32(char *arena, int position);
+int recup_nb_16(char *arena, int position);
+void write_in_arena_32(char *arena, int registre, int pos);
+t_process	*create_process(t_process **process, t_process *tmp, int pos, int player_numero);
 #endif

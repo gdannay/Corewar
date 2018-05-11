@@ -14,6 +14,7 @@
 
 static t_player	*create_player(t_player **first, header_t *header)
 {
+	static int i = -1;
 	t_player	*new;
 	t_player	*tmp;
 
@@ -21,8 +22,8 @@ static t_player	*create_player(t_player **first, header_t *header)
 		return (NULL);
 	new->next = NULL;
 	new->code = NULL;
+	new->numero = i;
 	new->header = NULL;
-	new->process = NULL;
 	new->global_live = 0;
 	new->last_live = 0;
 	if (*first == NULL)
@@ -35,6 +36,7 @@ static t_player	*create_player(t_player **first, header_t *header)
 		tmp->next = new;
 	}
 	new->header = header;
+	i--;
 	return (new);
 }
 
@@ -118,7 +120,6 @@ t_player *read_av(char **av, int ac)
 	i = 0;
 	while (++i < ac)
 	{
-
 		if ((fd = open(av[i], O_RDONLY)) == -1)
 		{
 			dprintf(2, "Can't read source file %s\n", av[i]);
