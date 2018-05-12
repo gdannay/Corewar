@@ -1,6 +1,6 @@
 #include "corewar.h"
 
-int instruction_live(t_machine *machine, t_process *process, t_player *player)
+int instruction_live(t_vm *vm, t_process *process, t_player *player)
 {
 	int numero_live;
 
@@ -11,7 +11,7 @@ int instruction_live(t_machine *machine, t_process *process, t_player *player)
 		printf("Progress\n");
 		return (0);
 	}
-	numero_live = recup_nb_32(machine->arena, process->position + 1);
+	numero_live = recup_nb_32(vm->arena, process->position + 1);
 	while (player)
 	{
 		if (player->numero == numero_live)
@@ -23,43 +23,94 @@ int instruction_live(t_machine *machine, t_process *process, t_player *player)
 	return (5);
 }
 
-int instruction_ld(t_machine *machine, t_process *process)
+int instruction_ld(t_vm *vm, t_process *process)
 {
-  char str[4];
-  int params[4];
+	char str[4];
+	int params[4];
 
-  printf("LD --> ");
-  if (process->cycle + 1 < 5)
-  {
-    process->cycle++;
-    printf("Progress\n");
-    return (0);
-  }
-  take_opcode(machine->arena[(process->position + 1) % MEM_SIZE], str);
-  take_params(machine->arena, process->position + 2, params, str, 0);
-  process->registre[params[1] - 1] = params[0];
-  process->carry = 1;
-  process->cycle = 0;
-  printf(" Done\n");
-  return (2 + params[3]);
+	printf("LD --> ");
+	if (process->cycle + 1 < 5)
+	{
+		process->cycle++;
+		printf("Progress\n");
+		return (0);
+	}
+	take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str);
+	take_params(vm->arena, process->position + 2, params, str, 0);
+	process->registre[params[1] - 1] = params[0];
+	if (!params[0] && str[0] == 'd')
+		process->carry = 1;
+	else
+		process->carry = 0;
+	process->cycle = 0;
+	printf(" Done\n");
+	return (2 + params[3]);
 }
 
-int instruction_st(t_machine *machine, t_process *process)
+int instruction_st(t_vm *vm, t_process *process)
 {
-  char str[4];
-  int params[4];
+	char str[4];
+	int params[4];
 
-  printf("ST --> ");
-  if (process->cycle + 1 < 5)
-  {
-    process->cycle++;
-    printf("Progress\n");
-    return (0);
-  }
-  take_opcode(machine->arena[(process->position + 1) % MEM_SIZE], str);
-  take_params(machine->arena, process->position + 2, params, str, 0);
-  write_in_arena_32(machine->arena, process->registre[params[0] - 1], process->position + (params[1] % IDX_MOD));
-  process->cycle = 0;
-  printf(" Done\n");
-  return (2 + params[3]);
+	printf("ST --> ");
+	if (process->cycle + 1 < 5)
+	{
+		process->cycle++;
+		printf("Progress\n");
+		return (0);
+	}
+	take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str);
+	take_params(vm->arena, process->position + 2, params, str, 0);
+	write_in_arena_32(vm->arena, process->registre[params[0] - 1], process->position + (params[1] % IDX_MOD));
+	process->cycle = 0;
+	printf(" Done\n");
+	return (2 + params[3]);
+}
+
+int instruction_add(t_vm *vm, t_process *process)
+{
+	char str[4];
+	int params[4];
+
+	printf("ADD --> ");
+	if (process->cycle + 1 < 10)
+	{
+		process->cycle++;
+		printf("Progress\n");
+		return (0);
+	}
+	take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str);
+	take_params(vm->arena, process->position + 2, params, str, 0);
+	process->registre[params[2] - 1] = process->registre[params[0] - 1] + process->registre[params[1] - 1];
+	if (!process->registre[params[2] - 1])
+		process->carry = 1;
+	else
+		process->carry = 0;
+	process->cycle = 0;
+	printf(" Done\n");
+	return (2 + params[3]);
+}
+
+int instruction_sub(t_vm *vm, t_process *process)
+{
+	char str[4];
+	int params[4];
+
+	printf("SUB --> ");
+	if (process->cycle + 1 < 10)
+	{
+		process->cycle++;
+		printf("Progress\n");
+		return (0);
+	}
+	take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str);
+	take_params(vm->arena, process->position + 2, params, str, 0);
+	process->registre[params[2] - 1] = process->registre[params[0] - 1] - process->registre[params[1] - 1];
+	if (!process->registre[params[2] - 1])
+		process->carry = 1;
+	else
+		process->carry = 0;
+	process->cycle = 0;
+	printf(" Done\n");
+	return (2 + params[3]);
 }

@@ -48,7 +48,7 @@ typedef struct			s_player
 	struct s_player		*next;
 }						t_player;
 
-typedef struct			s_machine
+typedef struct			s_vm
 {
 	char				*arena;
 	long				cycle;
@@ -56,12 +56,12 @@ typedef struct			s_machine
 	int					cycle_delta;
 	int					nbr_live;
 	unsigned long		process;
-}						t_machine;
+}						t_vm;
 
 typedef struct 		s_map
 {
 	struct s_player		*player;
-	struct s_machine	*machine;
+	struct s_vm	*vm;
 	struct s_process	*process;
 }									t_map;
 
@@ -75,13 +75,17 @@ char					*create_arena(t_player *first);
 void 					visu(char *arena, t_player *first);
 t_player *read_av(char **av, int ac);
 int recup_int(char *str);
-t_machine *create_machine(t_player *first);
+t_vm *create_vm(t_player *first);
 t_process *initialize_process(t_player *player);
 int	nbr_players(t_player *first);
 void run_vm(t_map *map);
-int instruction_live(t_machine *machine, t_process *process, t_player *player);
-int instruction_ld(t_machine *machine, t_process *process);
-int instruction_st(t_machine *machine, t_process *process);
+
+int instruction_live(t_vm *vm, t_process *process, t_player *player);
+int instruction_ld(t_vm *vm, t_process *process);
+int instruction_st(t_vm *vm, t_process *process);
+int instruction_add(t_vm *vm, t_process *process);
+int instruction_sub(t_vm *vm, t_process *process);
+
 char *take_opcode(unsigned char c, char *str);
 void take_params(char *arena, int pos, int *params, char *str, int unknown);
 int recup_nb_32(char *arena, int position);

@@ -16,7 +16,7 @@ int		main(int ac, char **av)
 {
 	t_map 		*map;
 	t_player	*player;
-	t_machine *machine;
+	t_vm *vm;
 	t_process *process;
 
 	if (ac < 2)
@@ -26,19 +26,20 @@ int		main(int ac, char **av)
 	}
 	if ((player = read_av(av, ac)) == NULL)
 		return (-1);
-	if ((machine = create_machine(player)) == NULL)
+	if ((vm = create_vm(player)) == NULL)
 		return (-1);
 	process = initialize_process(player);
 
 	// Creation d'une map contenant les trois structures pour plus de lisibilité
 	if (!(map = malloc(sizeof(t_map))))
 		return (-1);
+
 	map->player = player;
-	map->machine = machine;
+	map->vm = vm;
 	map->process = process;
 
 	run_vm(map);
-//	visu(machine->arena, player);
+//	visu(vm->arena, player);
 	free_players(&player);
 	return (0);
 }

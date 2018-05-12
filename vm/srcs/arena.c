@@ -59,21 +59,21 @@ char		*create_arena(t_player *first)
 	return (arena);
 }
 
-t_machine *create_machine(t_player *first)
+t_vm *create_vm(t_player *first)
 {
-	t_machine *machine;
+	t_vm *vm;
 
-	if (!(machine = (t_machine *)ft_memalloc(sizeof(t_machine))))
+	if (!(vm = (t_vm *)ft_memalloc(sizeof(t_vm))))
 		return (NULL);
-	if (!(machine->arena = create_arena(first)))
+	if (!(vm->arena = create_arena(first)))
 	{
 		free_players(&first);
 		return (NULL);
 	}
-	machine->cycle = 0;
-	machine->cycle_to_die = 0;
-	machine->cycle_delta = 0;
-	machine->nbr_live = 0;
-	machine->process = 0;
-	return (machine);
+	vm->cycle = 0;
+	vm->cycle_to_die = 0;
+	vm->cycle_delta = 0;
+	vm->nbr_live = 0;
+	vm->process = 0;
+	return (vm);
 }
