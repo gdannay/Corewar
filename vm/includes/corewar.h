@@ -23,7 +23,6 @@
 # include <ncurses.h>
 
 # define HEADER_SIZE sizeof(header_t)
-#
 
 typedef struct			s_process
 {
@@ -79,10 +78,12 @@ int recup_int(char *str);
 t_vm *create_vm(t_player *first);
 t_process *initialize_process(t_player *player);
 int	nbr_players(t_player *first);
-void run_vm(t_map *map);
+int run_vm(t_map *map);
 
 int instruction_live(t_vm *vm, t_process *process, t_player *player);
 int instruction_ld(t_vm *vm, t_process *process);
+int instruction_lld(t_vm *vm, t_process *process);
+int instruction_lldi(t_vm *vm, t_process *process);
 int instruction_st(t_vm *vm, t_process *process);
 int instruction_add(t_vm *vm, t_process *process);
 int instruction_sub(t_vm *vm, t_process *process);
@@ -91,11 +92,15 @@ int	instruction_or(t_vm *vm, t_process *process);
 int	instruction_xor(t_vm *vm, t_process *process);
 int	instruction_zjmp(t_vm *vm, t_process *process);
 int	instruction_ldi(t_vm *vm, t_process *process);
+int	instruction_sti(t_vm *vm, t_process *process);
+int	instruction_fork(t_vm *vm, t_process *process, t_process **begin);
 
+void 	print_process(t_process *process);
 char *take_opcode(unsigned char c, char *str);
 void take_params(char *arena, int pos, int *params, char *str, int unknown);
 int recup_nb_32(char *arena, int position);
 int recup_nb_16(char *arena, int position);
 void write_in_arena_32(char *arena, int registre, int pos);
 t_process	*create_process(t_process **process, t_process *tmp, int pos, int player_numero);
+int				create_new_process(t_process **begin, t_process *process, int pos, int n);
 #endif

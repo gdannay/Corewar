@@ -1,5 +1,27 @@
 #include "corewar.h"
 
+int 	create_new_process(t_process **begin, t_process *process, int pos, int n)
+{
+	t_process	*new;
+	int				i;
+
+	if (!(new = ft_memalloc(sizeof(t_process))))
+		return (0);
+	new->numero_who_create_process = n;
+	new->position = pos;
+	new->cycle = 0;
+	new->live = process->live;
+	new->carry = process->carry;
+	new->inst = 0;
+	i = -1;
+	while (++i < REG_NUMBER)
+		new->registre[i] = process->registre[i];
+	new->next = *begin;
+	(*begin)->prev = new;
+	*begin = new;
+	return (1);
+}
+
 t_process	*create_process(t_process **process, t_process *tmp, int pos, int player_numero)
 {
 	t_process	*new;
@@ -40,7 +62,8 @@ t_process *initialize_process(t_player *player)
   i = 0;
   while (player)
   {
-    tmp = create_process(&process, tmp, space * i, player->numero);
+    if (!(tmp = create_process(&process, tmp, space * i, player->numero)))
+			return (NULL);
 		tmp->registre[0] = player->numero;
     player = player->next;
     i++;
