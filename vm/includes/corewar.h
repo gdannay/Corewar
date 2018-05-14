@@ -34,6 +34,7 @@ typedef struct			s_process
 	char				carry;
 	char				*pc;
 	int					cycle;
+	char				inst;
 	struct s_process	*next;
 	struct s_process  *prev;
 }						t_process;
@@ -85,6 +86,11 @@ int instruction_ld(t_vm *vm, t_process *process);
 int instruction_st(t_vm *vm, t_process *process);
 int instruction_add(t_vm *vm, t_process *process);
 int instruction_sub(t_vm *vm, t_process *process);
+int instruction_and(t_vm *vm, t_process *process);
+int	instruction_or(t_vm *vm, t_process *process);
+int	instruction_xor(t_vm *vm, t_process *process);
+int	instruction_zjmp(t_vm *vm, t_process *process);
+int	instruction_ldi(t_vm *vm, t_process *process);
 
 char *take_opcode(unsigned char c, char *str);
 void take_params(char *arena, int pos, int *params, char *str, int unknown);

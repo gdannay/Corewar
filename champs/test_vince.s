@@ -1,5 +1,6 @@
 .name "Vincent"
 .comment "Cor"
 
-st r1, 6
-live %0
+entree:
+        ldi %1, %3, r5
+        st r5, 6

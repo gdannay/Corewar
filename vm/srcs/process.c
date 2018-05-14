@@ -13,6 +13,7 @@ t_process	*create_process(t_process **process, t_process *tmp, int pos, int play
 	new->live = 0;
 	new->carry = 0;
 	new->next = NULL;
+	new->inst = 0;
 	i = -1;
 	while (++i < REG_NUMBER)
 		new->registre[i] = 0;
