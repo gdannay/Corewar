@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/09 10:51:01 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/15 18:34:25 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	instruction_zjmp(t_vm *vm, t_process *process);
 int	instruction_ldi(t_vm *vm, t_process *process);
 int	instruction_sti(t_vm *vm, t_process *process);
 int	instruction_fork(t_vm *vm, t_process *process, t_process **begin);
+int	instruction_lfork(t_vm *vm, t_process *process, t_process **begin);
 
 void 	print_process(t_process *process);
 char *take_opcode(unsigned char c, char *str);

@@ -51,6 +51,8 @@ char *take_opcode(unsigned char c, char *str)
       str[i] = 'r';
     else if (c >> 6 == 3)
       str[i] = 'i';
+    else if (!c >> 6)
+      return (NULL);
     c = c << 2;
   }
   return (str);

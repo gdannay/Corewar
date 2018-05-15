@@ -30,6 +30,8 @@ static int read_instruction(t_map *map, t_process **begin, t_process *process, i
 		return (instruction_lld(map->vm, process));
 	else if (current == 14)
 		return (instruction_lldi(map->vm, process));
+	else if (current == 15)
+		return (instruction_lfork(map->vm, process, begin));
 	else
 	{
 		printf("Not instruction\n");
@@ -68,7 +70,7 @@ int run_vm(t_map *map)
 	*/
 
 	vm = map->vm;
-	while (map->process && vm->cycle < 60)
+	while (map->process && vm->cycle < 900)
 	{
 		printf("\n== Cycle: %ld ==\n", vm->cycle);
 		tmp = map->process;
