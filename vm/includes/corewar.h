@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/15 18:34:25 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/15 20:40:10 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct			s_player
 	int 					numero;
 	int						global_live;
 	int						last_live;
+	int						start;
 	struct s_player		*next;
 }						t_player;
 
@@ -70,9 +71,8 @@ void					free_players(t_player **first);
 int						read_file(t_player **first, int fd, char *name);
 void					*header_error(header_t *header, char *str, char *name);
 int						code_error(t_player **first, char *str, char *name);
-//int					execute_code(t_player *first);
 char					*create_arena(t_player *first);
-void 					visu(char *arena, t_player *first);
+void 					print_arena(t_vm *vm, char *arena);
 t_player *read_av(char **av, int ac);
 int recup_int(char *str);
 t_vm *create_vm(t_player *first);
