@@ -2,5 +2,6 @@
 .comment "Cor"
 
 entree:
-        ldi %1, %3, r5
-        st r5, 6
+        live %-1
+        and %1, %2, r5
+        sti r5, %5, %5

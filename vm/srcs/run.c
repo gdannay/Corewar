@@ -1,76 +1,102 @@
 #include "corewar.h"
 
-static void read_instruction(t_vm *vm, t_process *process, t_player *player, int current)
+static int read_instruction(t_map *map, t_process **begin, t_process *process, int current)
 {
 	if (current == 1)
-		process->position += instruction_live(vm, process, player);
+		return (instruction_live(map->vm, process, map->player));
   else if (current == 2)
-		process->position += instruction_ld(vm, process);
+		return (instruction_ld(map->vm, process));
   else if (current == 3)
-  	process->position += instruction_st(vm, process);
+  	return (instruction_st(map->vm, process));
 	else if (current == 4)
-	 	process->position += instruction_add(vm, process);
+	 	return (instruction_add(map->vm, process));
 	else if (current == 5)
-		process->position += instruction_sub(vm, process);
+		return (instruction_sub(map->vm, process));
 	else if (current == 6)
-		process->position += instruction_and(vm, process);
+		return (instruction_and(map->vm, process));
 	else if (current == 7)
-		process->position += instruction_or(vm, process);
+		return (instruction_or(map->vm, process));
 	else if (current == 8)
-		process->position += instruction_xor(vm, process);
+		return (instruction_xor(map->vm, process));
 	else if (current == 9)
-		process->position += instruction_zjmp(vm, process);
+		return (instruction_zjmp(map->vm, process));
 	else if (current == 10)
-		process->position += instruction_ldi(vm, process);
+		return (instruction_ldi(map->vm, process));
+	else if (current == 11)
+		return (instruction_sti(map->vm, process));
+	else if (current == 12)
+		return (instruction_fork(map->vm, process, begin));
+	else if (current == 13)
+		return (instruction_lld(map->vm, process));
+	else if (current == 14)
+		return (instruction_lldi(map->vm, process));
+	else if (current == 15)
+		return (instruction_lfork(map->vm, process, begin));
 	else
 	{
-		printf("Not instruction\n");
+		//printf("Not instruction\n");
 		process->position++;
+	}
+	return (1);
+}
+
+void 	print_process(t_process *process)
+{
+	t_process	*tmp;
+	int		i = 1;
+
+	tmp = process;
+	while (tmp)
+	{
+		printf("%d\n", i);
+		i++;
+		tmp = tmp->next;
 	}
 }
 
-void run_vm(t_map *map)
+int run_vm(t_map *map)
 {
 	t_vm *vm;
-	t_process *process;
+	t_process	*tmp;
+	int				ret;
+	int				i;
 
-	/*
-	J'ai dissocié process de player parce que les instructions
-	s’exécutent dans l’ordre décroissant des numéros de processus,
-	et c'est trop compliqué de gérer l'ordre si les process sont
-	stockés à plusieurs endroit différents et pas dans une liste
-	chronologique de création.
-	*/
-
+	initscr();
+	noecho();
+	curs_set(FALSE);
 	vm = map->vm;
-	while (1)
+	while (map->process)
 	{
-		printf("\n== Cycle: %ld ==\n", vm->cycle);
-		process = map->process;
-		while (process)
+		tmp = map->process;
+		i = 0;
+		while (tmp)
 		{
-			process->position %= MEM_SIZE;
-			printf("Position: %d\n", process->position);
-			if (process->inst)
-				read_instruction(vm, process, map->player, process->inst);
+			tmp->position %= MEM_SIZE;
+			/*mvprintw(10, 1800, "Nb process: %d\n", i);
+			refresh();
+			mvprintw(20, 1800, "Position: %d\n", tmp->position);
+			refresh();*/
+			if (tmp->inst)
+				ret = read_instruction(map, &map->process, tmp, tmp->inst);
 			else
-				read_instruction(vm, process, map->player, vm->arena[process->position]);
-
-			// Pour l'instant je parcours les process dans l'ordre croissant de creation, à changer plus tard en ordre decroissant
-			process = process->next;
-      break;
+				ret = read_instruction(map, &map->process, tmp, vm->arena[tmp->position]);
+			if (!ret)
+				return (0);
+			i++;
+			tmp = tmp->next;
 		}
-		// A changer par la vraie condition d'arret avec CYCLE_TO_DIE
-		if (vm->cycle == 40)
-			break ;
+		print_arena(vm, vm->arena);
+		/*printw("\n== Cycle: %ld ==\n", vm->cycle);
+		refresh();*/
+		//visu(map, vm->arena, map->player);
 		vm->cycle++;
 	}
-
+	endwin();
 	printf("\nRESULT\n");
 	while (map->player)
 	{
 		printf("Player: %d -> nb live: %d\n", map->player->numero, map->player->global_live);
 		map->player = map->player->next;
 	}
-	visu(vm->arena, map->player);
+	return (1);
 }

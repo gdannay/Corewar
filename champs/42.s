@@ -4,7 +4,7 @@
 entree:	live	%42		# entree
 	ld %0,  r5
 	ld	%8,r5
-	zjmp	%:bite
+	zjmp %:bite
 
 tir:	sti	r1,%:tirb,%1
 	ld	%2304,r10

@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:08:01 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/09 10:48:29 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/15 20:18:15 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int		main(int ac, char **av)
 		return (-1);
 	if ((vm = create_vm(player)) == NULL)
 		return (-1);
-	process = initialize_process(player);
+	if (!(process = initialize_process(player)))
+		return (-1);
 
 	// Creation d'une map contenant les trois structures pour plus de lisibilité
 	if (!(map = malloc(sizeof(t_map))))
@@ -38,7 +39,8 @@ int		main(int ac, char **av)
 	map->vm = vm;
 	map->process = process;
 
-	run_vm(map);
+	if (!(run_vm(map)))
+		return (-1);
 //	visu(vm->arena, player);
 	free_players(&player);
 	return (0);
