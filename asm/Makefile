@@ -6,7 +6,7 @@
 #    By: clegirar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/04/19 15:25:40 by gdannay          ###   ########.fr        #
+#    Updated: 2018/05/17 15:16:27 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,16 +14,15 @@ NAME			=	asm
 
 SRCS			=	srcs/main.c			\
 					srcs/parsing.c		\
-						srcs/parsing_utils.c	\
-						srcs/parsing_params.c	\
-							srcs/parsing_params_verif.c	\
-					srcs/take_label.c	\
-					srcs/list.c			\
+					srcs/label.c		\
+					srcs/parameters.c	\
+					srcs/dereference.c	\
 					srcs/header.c		\
-					srcs/error.c		\
+					srcs/exit_error.c	\
 					srcs/write.c		\
+					srcs/instructions.c	\
 					../op/op.c			\
-					srcs/matching.c
+					srcs/type.c
 
 OBJS			=	$(SRCS:.c=.o)
 

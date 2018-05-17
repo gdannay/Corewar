@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:39:56 by clegirar          #+#    #+#             */
-/*   Updated: 2018/04/19 15:18:00 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/17 16:06:48 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,40 +33,36 @@
 # define T_COMMENT 2048
 # define ERROR 0
 # define TRUE 1
+//# define malloc(x) NULL
 
 typedef struct		s_inst
 {
 	char			*label;
 	char			*name;
-	char 			code;
+	int				code;
 	char			*params[4];
+	unsigned char	codage;
 	struct s_inst	*next;
 	struct s_inst	*prev;
 }					t_inst;
 
-t_inst				*parse_file(int fd);
-void				free_list(t_inst *first);
+t_inst				*parse_file(int fd, header_t *header, int *row);
+int					check_and_save(char *line, t_inst **first, int row, char **label);
 void				*exit_free(char *line, t_inst *first, header_t *header);
-header_t			*create_header(int fd);
-void				error_message(int line, int col, int type, char *str);
+header_t			*create_header(int fd, int *row);
+int					error_message(int line, int col, int type, char *str);
 int					get_type(char *str);
-int					get_end_index(char *str);
-void				error_message(int line, int col, int type, char *str);
-int 		check_params(t_inst *new, char *line, int j);
-int		verif_type(t_inst *new, char ***split, char *line, int i);
-int		verif_nb_params(t_inst *new, char ***split_free, char **split, int j);
-int		verif_indirect(t_inst *new, char ***split, char *line);
-int		verif_direct(t_inst *new, char ***split, char *line);
-int		verif_register(t_inst *new, char ***split, char *line);
-void		free_split(char ***split);
-int		verif_label(char *line);
-int		find_next_char(char *str, int i);
-int		find_next_space(char *str, int i);
-int		fill_label(t_inst *new, char *line);
-int verif_label(char *line);
-int take_index_in_op(t_inst *inst, char *line, int size);
-void write_in_cor(char *av, header_t *header, t_inst *first);
-uint32_t	swap_32_bytes(uint32_t nb);
-int take_label(t_inst *first);
+int 				check_params(t_inst *new, char *line, int row, int col);
+int					verif_label(char *line, int row);
+int					find_next_char(char *str, int i);
+int					find_next_space(char *str, int i);
+int					fill_label(t_inst *new, char *line, int row);
+int					write_in_cor(char *av, header_t *header, t_inst *first);
+uint32_t			swap_32_bytes(uint32_t nb);
+uint16_t			swap_16_bytes(uint16_t nb);
+int 				take_label(t_inst *first);
+int					display_error(int infos, char *instr, char *param, char *line);
+void				*exit_error(int line, int col, header_t *header, char *str);
+int					compute_size_program(t_inst *first, int size);
 
 #endif

@@ -6,100 +6,87 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/03 16:41:14 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/05/17 15:51:19 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 #include "get_next_line.h"
 
-extern t_op op_tab[17];
+extern struct s_op op_tab[17];
 
-static t_inst		*initialize_inst(void)
+int		find_next_char(char *str, int i)
 {
-	t_inst *new;
-	int i;
-
-	new = NULL;
-	if ((new = (t_inst *)malloc(sizeof(t_inst))) == NULL)
-		return (NULL);
-	new->label = NULL;
-	new->name = NULL;
-	new->next = NULL;
-	new->prev = NULL;
-	i = -1;
-	while (++i < 4)
-		new->params[i] = NULL;
-	return (new);
+	while (str && str[i] && (str[i] == ' ' || str[i] == '\t'))
+		i++;
+	return (i);
 }
 
-static	t_inst	*check_and_save(char *line, t_inst **first, t_inst *tmp)
+int		find_next_space(char *str, int i)
 {
-	t_inst	*new;
-	int		idx;
-	int		i;
-	int		j;
+	int temp;
 
-	if ((new = initialize_inst()) == NULL)
-		return (NULL);
-	if (!(*first))
-		*first = new;
-	else
+	temp = i;
+	while (str[i] && str[i] != ' ' && str[i] != '\t')
+		i++;
+	return (i);
+}
+
+static void	delete_comment(char *str)
+{
+	int	i;
+	int	com;
+
+	i = 0;
+	com = 0;
+	while (str[i] && str[i] != COMMENT_CHAR)
+		i++;
+	ft_bzero(str + i, ft_strlen(str) - i);
+}
+
+static int	parse_line(char *line, char **label, int *row, t_inst **first)
+{
+	int			next;
+
+	next = find_next_char(line, 0);
+	if (line[next])
 	{
-		tmp->next = new;
-		new->prev = tmp;
+		if (ft_strstr(line, ":") &&
+				!line[find_next_char(line, ft_stridx(line, ":") + 1)] &&
+				verif_label(line, *row) == TRUE)
+		{
+			ft_strdel(label);
+			if ((*label = ft_strsub(line, next, find_next_space(line, next) -
+							next - 1)) == NULL)
+				return (ERROR);
+		}
+		else if ((check_and_save(line, first, *row, label)) == 0)
+			return (ERROR);
 	}
-	if (((i = fill_label(new, line)) == -1) || (new->label && verif_label(new->label) == ERROR))
-		return (NULL);
-	if (ft_strlen(line + i) == 0)
-		return (new);
-	if ((idx = find_next_space(line, i)) == -1)
-		return (NULL);
-	if ((j = take_index_in_op(new, line + i, idx - i)) == -1)
-		return (NULL);
-	i = find_next_char(line, idx);
-	if (check_params(new, line + i, j) == ERROR)
-		return (NULL);
-	return (new);
+	return (TRUE);
 }
 
-t_inst		*parse_file(int fd)
+t_inst		*parse_file(int fd, header_t *header, int *row)
 {
 	char		*line;
-	char		*temp;
+	char		*label;
 	t_inst		*first;
-	t_inst		*tmp;
 	int			ret;
 
 	line = NULL;
 	first = NULL;
-	tmp = NULL;
-	temp = NULL;
+	label = NULL;
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
-		if (line[find_next_char(line, 0)] != COMMENT_CHAR && ft_strlen(line) - find_next_char(line, 0) > 0)
-		{
-			if (ft_strstr(line, ":") && ft_strlen(ft_strstr(line, ":") + 1) == 0 && verif_label(line) == TRUE)
-			{
-				while (ret == 1 && (!(ft_strlen(temp) - find_next_char(temp, 0)) || (temp[find_next_char(temp, 0)] == COMMENT_CHAR)))
-				{
-					if (temp)
-						ft_strdel(&temp);
-					ret = get_next_line(fd, &temp);
-				}
-				if (ret == -1 || !(line = ft_strjoindel(line, temp)))
-				{
-					ft_strdel(&temp);
-					return (exit_free(line, first, NULL));
-				}
-				ft_strdel(&temp);
-			}
-			if (ft_strlen(line) > 0 && (tmp = check_and_save(line, &first, tmp)) == NULL)
-				return (exit_free(line, first, NULL));
-		}
+		delete_comment(line);
+		if (!parse_line(line, &label, row, &first))
+			return (exit_free(line, first, header));
 		ft_strdel(&line);
+		*row = *row + 1;
 	}
+	if (label)
+		ft_strdel(&label);
 	if (ret == -1)
-		return (exit_free(line, first, NULL));
+		return (exit_free(line, first, header));
 	return (first);
 }
