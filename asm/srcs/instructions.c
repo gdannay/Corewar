@@ -6,18 +6,18 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 13:57:04 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/17 14:00:51 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/21 18:53:19 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-extern t_op op_tab[17];
+extern struct s_op op_tab[17];
 
-static t_inst		*initialize_inst(void)
+static t_inst	*initialize_inst(void)
 {
-	t_inst *new;
-	int i;
+	t_inst	*new;
+	int		i;
 
 	new = NULL;
 	if ((new = (t_inst *)malloc(sizeof(t_inst))) == NULL)
@@ -33,7 +33,7 @@ static t_inst		*initialize_inst(void)
 	return (new);
 }
 
-static int take_index_in_op(t_inst *inst, char *line, int row, int *col)
+static int		take_index_in_op(t_inst *inst, char *line, int row, int *col)
 {
 	int j;
 	int op_code;
@@ -47,7 +47,8 @@ static int take_index_in_op(t_inst *inst, char *line, int row, int *col)
 	}
 	if (op_code == -1)
 	{
-		ft_dprintf(2, "Instruction \"%s\" does not exist [TOKEN][%03d:%03d]\n", line, row, *col);
+		ft_dprintf(2, "Instruction \"%s\" does not exist [TOKEN][%03d:%03d]\n",
+				line, row, *col);
 		return (ERROR);
 	}
 	inst->code = op_code;
@@ -57,18 +58,10 @@ static int take_index_in_op(t_inst *inst, char *line, int row, int *col)
 	return (TRUE);
 }
 
-int	check_and_save(char *line, t_inst **first, int row, char **label)
+static void		place_maillon(t_inst **first, t_inst *new)
 {
-	t_inst	*new;
 	t_inst	*tmp;
-	int		i;
 
-	if ((new = initialize_inst()) == NULL)
-	{
-		if (*label)
-			ft_strdel(label);
-		return (ERROR);
-	}
 	if (!(*first))
 		*first = new;
 	else
@@ -79,6 +72,21 @@ int	check_and_save(char *line, t_inst **first, int row, char **label)
 		tmp->next = new;
 		new->prev = tmp;
 	}
+}
+
+int				check_and_save(char *line, t_inst **first,
+				int row, char **label)
+{
+	t_inst	*new;
+	int		i;
+
+	if ((new = initialize_inst()) == NULL)
+	{
+		if (*label)
+			ft_strdel(label);
+		return (ERROR);
+	}
+	place_maillon(first, new);
 	if (*label)
 	{
 		if ((new->label = ft_strdup(*label)) == NULL)

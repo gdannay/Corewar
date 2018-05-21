@@ -6,7 +6,7 @@
 #    By: clegirar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/17 15:16:27 by gdannay          ###   ########.fr        #
+#    Updated: 2018/05/21 18:29:00 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS			=	srcs/main.c			\
 					srcs/parameters.c	\
 					srcs/dereference.c	\
 					srcs/header.c		\
+					srcs/check_header.c	\
 					srcs/exit_error.c	\
 					srcs/write.c		\
 					srcs/instructions.c	\

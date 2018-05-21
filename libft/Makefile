@@ -6,7 +6,7 @@
 #    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 08:52:25 by clegirar          #+#    #+#              #
-#    Updated: 2018/04/11 18:41:16 by gdannay          ###   ########.fr        #
+#    Updated: 2018/05/21 14:07:40 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ SRCS	=	ft_atoi.c				\
 			ft_striter.c			\
 			ft_striteri.c			\
 			ft_strjoin.c			\
+			ft_strnjoin.c			\
 			ft_strjoindel.c		\
 			ft_strmap.c				\
 			ft_strmapi.c			\

@@ -3,8 +3,19 @@
 # l'annee derniere
 #     VOALA
 #
-.name		"Celebration Funebre v0.99pl42"
-.comment	"Jour J"
+.name		"Celebration Funebre v0.99pl42a
+ll
+segesg
+
+
+agawrgawga
+awfwafwefeafef "
+.comment	"Jour J
+
+
+
+
+ggg"							
 
 		ld   %0,r3		
 label:		zjmp %:avantdebt
@@ -16,9 +27,9 @@ code:		live %42			# 5
 		live %42			# 5
 		sti  r15,%0,r14			# 6
 		zjmp %-200			# 3
-		live %42			# 5
+label:	live %42			# 5
 		sti  r15,%0,r14			# 6
-		zjmp %-200			# 3
+		zjmp %:label			# 3
 		live %42			# 5
 		sti  r15,%0,r14			# 6
 		zjmp %-200			# 3
@@ -58,7 +69,7 @@ level10:	live %42
 		fork %:level100
 level101:	live %42
 		ldi  %4,%:code,r15 		#set des octets 5-8
-		ld   %-190,r14			#=$A-6-4
+		ld   :level11,r14			#=$A-6-4
 		ld   %0,r2
 		zjmp %:label
 		

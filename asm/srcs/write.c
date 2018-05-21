@@ -6,15 +6,15 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:05 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/17 16:06:08 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/21 19:01:07 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-extern t_op op_tab[17];
+extern struct s_op op_tab[17];
 
-static int write_header(header_t *header, t_inst *first, int fd)
+static int	write_header(header_t *header, t_inst *first, int fd)
 {
 	int	size;
 
@@ -29,7 +29,7 @@ static int write_header(header_t *header, t_inst *first, int fd)
 static int	write_registre(int fd, char *param)
 {
 	char	nb;
-	
+
 	nb = ft_atoi(param + 1);
 	if ((write(fd, &nb, 1)) < 0)
 		return (ERROR);
@@ -69,7 +69,7 @@ static int	write_indirect(int fd, char *param)
 
 static int	write_instruction(t_inst *first, int fd)
 {
-	int 	i;
+	int		i;
 	int		type;
 	t_inst	*tmp;
 	char	code;
@@ -92,7 +92,7 @@ static int	write_instruction(t_inst *first, int fd)
 			if (type == REG_CODE && !write_registre(fd, tmp->params[i]))
 				return (ERROR);
 			else if (type == DIR_CODE && !write_direct(tmp, fd, tmp->params[i]))
-					return (ERROR);
+				return (ERROR);
 			else if (type == IND_CODE && !write_indirect(fd, tmp->params[i]))
 				return (ERROR);
 		}
@@ -101,16 +101,17 @@ static int	write_instruction(t_inst *first, int fd)
 	return (TRUE);
 }
 
-int		write_in_cor(char *av, header_t *header, t_inst *first)
+int			write_in_cor(char *av, header_t *header, t_inst *first)
 {
-	char *name;
-	int fd;
+	char	*name;
+	int		fd;
 
 	av = strrchr(av, '/') + 1;
 	av[ft_strlen(av) - 2] = '\0';
 	if ((name = ft_strjoin(av, ".cor")) == NULL)
 		return (ERROR);
-	if ((fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH)) == -1
+	if ((fd = open(name, O_WRONLY | O_CREAT | O_TRUNC,
+				S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH)) == -1
 			|| (write_header(header, first, fd)) == ERROR
 			|| (write_instruction(first, fd)) == ERROR)
 		return (ERROR);

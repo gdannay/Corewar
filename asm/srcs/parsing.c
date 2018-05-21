@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/17 15:51:19 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/21 18:58:28 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 extern struct s_op op_tab[17];
 
-int		find_next_char(char *str, int i)
+int			find_next_char(char *str, int i)
 {
 	while (str && str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	return (i);
 }
 
-int		find_next_space(char *str, int i)
+int			find_next_space(char *str, int i)
 {
 	int temp;
 

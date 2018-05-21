@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:39:56 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/17 16:06:48 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/21 18:33:05 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define T_COMMENT 2048
 # define ERROR 0
 # define TRUE 1
+# define NEXT 2
 //# define malloc(x) NULL
 
 typedef struct		s_inst
@@ -48,21 +49,29 @@ typedef struct		s_inst
 
 t_inst				*parse_file(int fd, header_t *header, int *row);
 int					check_and_save(char *line, t_inst **first, int row, char **label);
-void				*exit_free(char *line, t_inst *first, header_t *header);
 header_t			*create_header(int fd, int *row);
-int					error_message(int line, int col, int type, char *str);
 int					get_type(char *str);
 int 				check_params(t_inst *new, char *line, int row, int col);
-int					verif_label(char *line, int row);
 int					find_next_char(char *str, int i);
 int					find_next_space(char *str, int i);
+
 int					fill_label(t_inst *new, char *line, int row);
+int 				take_label(t_inst *first);
+int					verif_label(char *line, int row);
+
 int					write_in_cor(char *av, header_t *header, t_inst *first);
+
 uint32_t			swap_32_bytes(uint32_t nb);
 uint16_t			swap_16_bytes(uint16_t nb);
-int 				take_label(t_inst *first);
+
 int					display_error(int infos, char *instr, char *param, char *line);
-void				*exit_error(int line, int col, header_t *header, char *str);
+void				*exit_free(char *line, t_inst *first, header_t *header);
+int					error_message(int line, int col, int type, char *str);
+void				*exit_error(int row, int col, char **line, char **str);
+
+int					check_type(header_t *header, int check, int type);
+char				*check_line(char **line, int fd, int *i, int type);
+int					check_length(char **str, char **line, int type, int length);
 int					compute_size_program(t_inst *first, int size);
 
 #endif

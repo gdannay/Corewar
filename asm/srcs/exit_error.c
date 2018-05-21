@@ -6,42 +6,42 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:07:45 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/17 14:33:02 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/21 18:49:14 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void		*exit_error(int line, int col, header_t *header, char *str)
+void			*exit_error(int row, int col, char **line, char **s)
 {
 	int		type;
 	char	*msg;
 
-	type = get_type(str + col);
+	type = get_type(*s + col);
 	msg = NULL;
 	if (type & T_STRING)
 		col++;
 	if (type & ERROR)
-		error_message(line, col + 1, type, NULL);
+		error_message(row, col + 1, type, NULL);
 	else if (type & T_COMMENT)
 	{
-		if ((msg = ft_strdup(str + col)) == NULL)
+		if ((msg = ft_strdup(*s + col)) == NULL)
 			return (NULL);
-		error_message(line, col + 1, type, msg);
+		error_message(row, col + 1, type, msg);
 	}
 	else
 	{
-		if ((msg = ft_strsub(str, col, find_next_space(str, col) - 1)) == NULL)
+		if ((msg = ft_strsub(*s, col, find_next_space(*s, col) - 1)) == NULL)
 			return (NULL);
-		error_message(line, col + 1, type, msg);
+		error_message(row, col + 1, type, msg);
 	}
-	free(header);
-	ft_strdel(&str);
+	ft_strdel(s);
+	ft_strdel(line);
 	ft_strdel(&msg);
 	return (NULL);
 }
 
-static void	next_messages(int line, int col, int type, char *str)
+static void		next_messages(int line, int col, int type, char *str)
 {
 	if (type & T_COMMAND_NAME)
 		ft_dprintf(2,
@@ -94,7 +94,7 @@ int				error_message(int line, int col, int type, char *str)
 	return (ERROR);
 }
 
-int			display_error(int infos, char *instr, char *param, char *line)
+int				display_error(int infos, char *instr, char *param, char *line)
 {
 	int nb;
 	int row;
@@ -115,7 +115,7 @@ int			display_error(int infos, char *instr, char *param, char *line)
 	return (ERROR);
 }
 
-void		*exit_free(char *line, t_inst *first, header_t *header)
+void			*exit_free(char *line, t_inst *first, header_t *header)
 {
 	t_inst	*tmp;
 	int		i;
