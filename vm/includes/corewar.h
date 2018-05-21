@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 14:22:59 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/21 17:03:15 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ typedef struct			s_player
 	int						last_live;
 	int						start;
 	struct s_player		*next;
+	struct s_player		*prev;
 }						t_player;
 
 typedef struct			s_vm
 {
 	char				*arena;
-	long				cycle;
+	unsigned long long				cycle;
 	int					cycle_to_die;
 	int					cycle_delta;
 	int					nbr_live;

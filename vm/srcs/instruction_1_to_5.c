@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 12:09:17 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/21 15:23:16 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/21 17:14:12 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int instruction_live(t_vm *vm, t_process *process, t_player *player)
 	if (process->cycle + 1 < 10)
 		return (inst_progress(process, 1));
 	numero_live = recup_nb_32(vm->arena, process->position + 1);
+	process->live++;
 	while (player)
 	{
 		if (player->numero == numero_live)
@@ -312,7 +313,8 @@ int instruction_lfork(t_vm *vm, t_process *process, t_process **begin)
 	if (process->cycle + 1 < 1000)
 		return (inst_progress(process, 15));
 	if (!(create_new_process(begin, process, process->position
-		+ (recup_nb_16(vm->arena, process->position + 1)),
+		+ process->position + recup_nb_16(vm->arena, process->position + 1)
+		- process->position),
 		process->numero_who_create_process)))
 		return (0);
 	return (inst_done(process, 3));

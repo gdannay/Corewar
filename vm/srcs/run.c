@@ -59,6 +59,60 @@ void 	print_process(t_process *process)
 	}
 }
 
+void 	kill_process(t_process **process, t_map *map)
+{
+	t_process	*tmp;
+
+	(void)tmp;
+
+	if (*process && !(*process)->prev)
+	{
+		printf("1\n");
+		tmp = (*process);
+		map->process = (*process)->next;
+		(*process) = (*process)->next;
+		if (*process)
+			(*process)->prev = NULL;
+		free(tmp);
+	}
+	else
+	{
+		tmp = (*process);
+		(*process) = (*process)->next;
+		tmp->prev->next = (*process);
+		if (*process)
+			(*process)->prev = tmp->prev;
+		free(tmp);
+	}
+}
+
+int condition_arret(t_map *map)
+{
+	t_process	*process;
+
+	//printf("%llu\n", map->vm->cycle);
+	process = map->process;
+	if (!map->vm->cycle_to_die)
+	{
+		while (process)
+		{
+			if (process->live == 0)
+				kill_process(&process, map);
+			else
+			{
+				process->live = 0;
+				process = process->next;
+			}
+		}
+		map->vm->cycle_to_die = CYCLE_TO_DIE - map->vm->cycle_delta;
+		map->vm->cycle_delta += CYCLE_DELTA;
+	}
+	if (!map->process)
+		return (0);
+	map->vm->cycle_to_die--;
+	return (1);
+}
+
 int run_vm(t_map *map)
 {
 	t_process	*tmp;
@@ -66,13 +120,18 @@ int run_vm(t_map *map)
 	int				i;
 
 	//init_window();
-	while (map->process && map->vm->cycle < 38)
+	while (condition_arret(map))
 	{
 		tmp = map->process;
 		i = 0;
+		printf("\n== Cycle: %llu, cycle_to_die = %d, cycle_delta = %d ==\n", map->vm->cycle, map->vm->cycle_to_die, map->vm->cycle_delta);
 		while (tmp)
 		{
 			tmp->position %= MEM_SIZE;
+			if (i == 3)
+			{
+				exit (0);
+			}
 			printf("Nb process: %d\n", i);
 			printf("Position: %d\n", tmp->position);
 			/*mvprintw(10, 1800, "Nb process: %d\n", i);
@@ -91,7 +150,6 @@ int run_vm(t_map *map)
 		//print_arena(map->vm, map->vm->arena);
 		/*printw("\n== Cycle: %ld ==\n", vm->cycle);
 		refresh();*/
-		printf("\n== Cycle: %ld ==\n", map->vm->cycle);
 		map->vm->cycle++;
 	}
 	//print_arena(map->vm, map->vm->arena);

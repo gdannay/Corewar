@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:08:01 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 11:39:47 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/21 16:50:59 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int		main(int ac, char **av)
 		return (-1);
 	}
 	if ((!(map = malloc(sizeof(t_map))))
-	|| ((map->player = read_av(av, ac)) == NULL)
-	|| ((map->vm = create_vm(map->player)) == NULL)
+	|| (!(map->player = read_av(av, ac)))
+	|| (!(map->vm = create_vm(map->player)))
 	|| (!(map->process = initialize_process(map->player))))
 		return (-1);
 	if (!(run_vm(map)))

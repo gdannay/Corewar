@@ -60,12 +60,14 @@ t_process *initialize_process(t_player *player)
   tmp = NULL;
   space = MEM_SIZE / nbr_players(player);
   i = 0;
+	while (player->next)
+		player = player->next;
   while (player)
   {
     if (!(tmp = create_process(&process, tmp, space * i, player->numero)))
 			return (NULL);
 		tmp->registre[0] = player->numero;
-    player = player->next;
+    player = player->prev;
     i++;
   }
   return (process);

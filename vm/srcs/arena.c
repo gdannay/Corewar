@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 16:11:29 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/15 20:17:35 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/21 16:26:52 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ t_vm *create_vm(t_player *first)
 		return (NULL);
 	}
 	vm->cycle = 0;
-	vm->cycle_to_die = 0;
-	vm->cycle_delta = 0;
+	vm->cycle_to_die = CYCLE_TO_DIE;
+	vm->cycle_delta = CYCLE_DELTA;
 	vm->nbr_live = 0;
 	vm->process = 0;
 	return (vm);
