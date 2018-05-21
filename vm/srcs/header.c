@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:18:11 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 17:04:03 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/21 18:32:02 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,23 @@ int				read_file(t_player **first, int fd, char *name)
 	t_player	*player;
 
 	if ((player = read_header(first, fd, name)) == NULL)
-		return (code_error(first, NULL, NULL));
+		return (0);
 	if ((buff = (char *)ft_memalloc(sizeof(char) *
 					swap_32_bytes(player->header->prog_size))) == NULL)
 		return (0);
 	ret = read(fd, buff, swap_32_bytes(player->header->prog_size));
 	if (ret == -1)
-		return (code_error(first,
+		return (code_error(buff, &player,
 					"A error occured while reading the file %s\n", name));
 	else if ((ret < (int)swap_32_bytes(player->header->prog_size))
 			|| ((ret = read(fd, &test, 1)) != 0))
 	{
-		return (code_error(first,
+		return (code_error(buff, &player,
 	"Error: File %s has a code size that differs from what its header says\n",
 	name));
 	}
 	player->code = buff;
+	ft_strdel(&buff);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 17:03:15 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/21 18:37:56 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct			s_process
 	int 				position;
 	int					live;
 	char				carry;
-	char				*pc;
 	int					cycle;
 	char				inst;
 	struct s_process	*next;
@@ -74,10 +73,9 @@ typedef	struct		s_ptr
 }					t_ptr;
 
 uint32_t				swap_32_bytes(uint32_t nb);
-void					free_players(t_player **first);
 int						read_file(t_player **first, int fd, char *name);
 void					*header_error(header_t *header, char *str, char *name);
-int						code_error(t_player **first, char *str, char *name);
+int						code_error(char *buff, t_player **player, char *str, char *name);
 char					*create_arena(t_player *first);
 void 					print_arena(t_vm *vm, char *arena);
 t_player *read_av(char **av, int ac);
@@ -102,6 +100,12 @@ int	instruction_ldi(t_vm *vm, t_process *process);
 int	instruction_sti(t_vm *vm, t_process *process);
 int	instruction_fork(t_vm *vm, t_process *process, t_process **begin);
 int	instruction_lfork(t_vm *vm, t_process *process, t_process **begin);
+int	instruction_aff(t_vm *vm, t_process *process);
+
+void					free_players(t_player **first);
+void 					free_vm(t_vm **vm);
+void 					free_process(t_process **process);
+int 					free_map(t_map *map);
 
 void 	print_process(t_process *process);
 char *take_opcode(unsigned char c, char *str);

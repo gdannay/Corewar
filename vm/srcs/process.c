@@ -5,7 +5,7 @@ int 	create_new_process(t_process **begin, t_process *process, int pos, int n)
 	t_process	*new;
 	int				i;
 
-	if (!(new = ft_memalloc(sizeof(t_process))))
+	if (!(new = (t_process *)ft_memalloc(sizeof(t_process))))
 		return (0);
 	new->numero_who_create_process = n;
 	new->position = pos;
@@ -27,7 +27,7 @@ t_process	*create_process(t_process **process, t_process *tmp, int pos, int play
 	t_process	*new;
 	int i;
 
-	if ((new = ft_memalloc(sizeof(t_process))) == NULL)
+	if ((new = (t_process *)ft_memalloc(sizeof(t_process))) == NULL)
 		return (NULL);
 	new->numero_who_create_process = player_numero;
 	new->position = pos;

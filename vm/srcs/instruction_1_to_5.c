@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 12:09:17 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/21 17:14:12 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/21 17:55:02 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ int instruction_and(t_vm *vm, t_process *process)
 			+ (params[1] % IDX_MOD));
 	if (params[2] && params[2] >= 1 && params[2] <= 16)
 		process->registre[params[2] - 1] = params[0] & params[1];
-	process->carry = (!process->registre[params[2] - 1]) ? 1 : 0;
+	process->carry = (params[2] && params[2] >= 1 && params[2] <= 16
+		&& !process->registre[params[2] - 1]) ? 1 : 0;
 	return (inst_done(process, 2 + params[3]));
 }
 
@@ -256,9 +257,9 @@ int instruction_fork(t_vm *vm, t_process *process, t_process **begin)
 	printf("FORK --> ");
 	if (process->cycle + 1 < 800)
 		return (inst_progress(process, 12));
-	if (!(create_new_process(begin, process, process->position
-		+ (process->position + recup_nb_16(vm->arena, process->position + 1))
-		% IDX_MOD - process->position, process->numero_who_create_process)))
+	if (!(create_new_process(begin, process,
+		(process->position + recup_nb_16(vm->arena, process->position + 1))
+		% IDX_MOD, process->numero_who_create_process)))
 		return (0);
 	return (inst_done(process, 3));
 }
@@ -313,9 +314,25 @@ int instruction_lfork(t_vm *vm, t_process *process, t_process **begin)
 	if (process->cycle + 1 < 1000)
 		return (inst_progress(process, 15));
 	if (!(create_new_process(begin, process, process->position
-		+ process->position + recup_nb_16(vm->arena, process->position + 1)
-		- process->position),
+		+ (recup_nb_16(vm->arena, process->position + 1)),
 		process->numero_who_create_process)))
 		return (0);
 	return (inst_done(process, 3));
+}
+
+int instruction_aff(t_vm *vm, t_process *process)
+{
+	char str[4];
+	int params[4];
+
+	printf("AFF --> ");
+	if (process->cycle + 1 < 2)
+		return (inst_progress(process, 16));
+	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))
+		return (1);
+	take_params(vm->arena, process->position + 2, params, str, 1);
+	if (params[0] && params[0] >= 1 && params[0] <= 16)
+		params[0] = process->registre[params[0] - 1];
+	ft_printf("%c\n", params[0] % 256);
+	return (inst_done(process, 2 + params[3]));
 }

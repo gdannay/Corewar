@@ -6,7 +6,7 @@
 #    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/21 14:21:18 by clegirar         ###   ########.fr        #
+#    Updated: 2018/05/21 18:36:07 by clegirar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS			=	srcs/main.c			\
 					srcs/run.c			\
 					srcs/instruction_1_to_5.c	\
 					srcs/utils_instructions.c	\
+					srcs/free_all.c	\
 					../op/op.c
 
 OBJS			=	$(SRCS:.c=.o)
@@ -30,7 +31,7 @@ CC				=	@gcc
 
 CFLAGS			=	-Wall -Werror -Wextra -I includes -I ../libft/
 
-LFLAGS			=	../libft/libft.a -lncurses -g3 -fsanitize=address
+LFLAGS			=	../libft/libft.a -lncurses
 
 all				:	$(NAME)
 

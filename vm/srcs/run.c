@@ -13,7 +13,8 @@ static	t_ptr	g_ptr[] =
 	{10, &instruction_ldi},
 	{11, &instruction_sti},
 	{13, &instruction_lld},
-	{14, &instruction_lldi}
+	{14, &instruction_lldi},
+	{16, &instruction_aff}
 };
 
 static int read_instruction(t_map *map, t_process **begin, t_process *process,
@@ -67,7 +68,6 @@ void 	kill_process(t_process **process, t_map *map)
 
 	if (*process && !(*process)->prev)
 	{
-		printf("1\n");
 		tmp = (*process);
 		map->process = (*process)->next;
 		(*process) = (*process)->next;
@@ -128,10 +128,6 @@ int run_vm(t_map *map)
 		while (tmp)
 		{
 			tmp->position %= MEM_SIZE;
-			if (i == 3)
-			{
-				exit (0);
-			}
 			printf("Nb process: %d\n", i);
 			printf("Position: %d\n", tmp->position);
 			/*mvprintw(10, 1800, "Nb process: %d\n", i);
@@ -153,6 +149,7 @@ int run_vm(t_map *map)
 		map->vm->cycle++;
 	}
 	//print_arena(map->vm, map->vm->arena);
+	//while (1);
 	//endwin();
 	printf("\nRESULT\n");
 	while (map->player)
