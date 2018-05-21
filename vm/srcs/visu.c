@@ -6,11 +6,18 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 10:49:42 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/15 20:54:23 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/18 16:47:16 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+void 		init_window(void)
+{
+	initscr();
+	noecho();
+	curs_set(FALSE);
+}
 
 void 		print_arena(t_vm *vm, char *arena)
 {

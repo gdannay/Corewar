@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/15 20:40:10 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/21 14:22:59 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ typedef struct 		s_map
 	struct s_process	*process;
 }									t_map;
 
+typedef	struct		s_ptr
+{
+	int							current;
+	int							(*f)(t_vm *vm, t_process *process);
+}					t_ptr;
+
 uint32_t				swap_32_bytes(uint32_t nb);
 void					free_players(t_player **first);
 int						read_file(t_player **first, int fd, char *name);
@@ -104,4 +110,8 @@ int recup_nb_16(char *arena, int position);
 void write_in_arena_32(char *arena, int registre, int pos);
 t_process	*create_process(t_process **process, t_process *tmp, int pos, int player_numero);
 int				create_new_process(t_process **begin, t_process *process, int pos, int n);
+void 			init_window(void);
+int				inst_progress(t_process *process, int inst);
+int				inst_done(t_process *process, int add_pos);
+
 #endif

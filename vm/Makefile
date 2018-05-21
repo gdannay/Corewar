@@ -6,7 +6,7 @@
 #    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/15 18:51:40 by clegirar         ###   ########.fr        #
+#    Updated: 2018/05/21 14:21:18 by clegirar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS			=	srcs/main.c			\
 					srcs/process.c	\
 					srcs/run.c			\
 					srcs/instruction_1_to_5.c	\
+					srcs/utils_instructions.c	\
 					../op/op.c
 
 OBJS			=	$(SRCS:.c=.o)
