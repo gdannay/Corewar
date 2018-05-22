@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 10:49:42 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/18 16:47:16 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/22 14:53:29 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void 		print_arena(t_vm *vm, char *arena)
 	while (i < MEM_SIZE)
 	{
 		/*init_color(COLOR_RED, 700, 0, 0);
-		attron(COLOR_PAIR(1));*/
+		  attron(COLOR_PAIR(1));*/
 		mvprintw(y, x, "%02hhx", arena[i]);
 		refresh();
 		//attroff(COLOR_PAIR(1));

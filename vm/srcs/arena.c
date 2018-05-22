@@ -6,13 +6,13 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 16:11:29 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/21 18:33:58 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/22 14:46:31 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int	nbr_players(t_player *first)
+int			nbr_players(t_player *first)
 {
 	int			i;
 	t_player	*tmp;
@@ -29,7 +29,7 @@ int	nbr_players(t_player *first)
 
 static void	copy_code(char *arena, char *code, int size)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < size)
@@ -52,7 +52,8 @@ char		*create_arena(t_player *first)
 	tmp = first;
 	while (tmp)
 	{
-		copy_code(arena + i * space, tmp->code, (int)swap_32_bytes(tmp->header->prog_size));
+		copy_code(arena + i * space, tmp->code,
+				(int)swap_32_bytes(tmp->header->prog_size));
 		tmp->start = i * space;
 		tmp = tmp->next;
 		i++;
@@ -60,12 +61,12 @@ char		*create_arena(t_player *first)
 	return (arena);
 }
 
-t_vm *create_vm(t_player *first)
+t_vm		*create_vm(t_player *first)
 {
-	t_vm *vm;
+	t_vm	*vm;
 
 	if ((!(vm = (t_vm *)ft_memalloc(sizeof(t_vm))))
-		|| (!(vm->arena = create_arena(first))))
+			|| (!(vm->arena = create_arena(first))))
 		return (NULL);
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;

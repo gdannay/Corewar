@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 18:35:38 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/21 18:35:54 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/22 14:48:36 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	free_players(t_player **first)
 	}
 }
 
-void 	free_vm(t_vm **vm)
+void	free_vm(t_vm **vm)
 {
 	ft_strdel(&(*vm)->arena);
 	free(*vm);
 }
 
-void 	free_process(t_process **process)
+void	free_process(t_process **process)
 {
 	t_process	*tmp;
 

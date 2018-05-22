@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/22 14:58:20 by vferreir          #+#    #+#             */
+/*   Updated: 2018/05/22 14:58:56 by vferreir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 
-int 	create_new_process(t_process **begin, t_process *process, int pos, int n)
+int			create_new_process(t_process **begin, t_process *process, int pos, int n)
 {
 	t_process	*new;
-	int				i;
+	int			i;
 
 	if (!(new = (t_process *)ft_memalloc(sizeof(t_process))))
 		return (0);
@@ -25,7 +37,7 @@ int 	create_new_process(t_process **begin, t_process *process, int pos, int n)
 t_process	*create_process(t_process **process, t_process *tmp, int pos, int player_numero)
 {
 	t_process	*new;
-	int i;
+	int			i;
 
 	if ((new = (t_process *)ft_memalloc(sizeof(t_process))) == NULL)
 		return (NULL);
@@ -39,36 +51,36 @@ t_process	*create_process(t_process **process, t_process *tmp, int pos, int play
 	i = -1;
 	while (++i < REG_NUMBER)
 		new->registre[i] = 0;
-  if (!(*process))
-    *process = new;
-  else
-  {
-    tmp->next = new;
-    new->prev = tmp;
-  }
+	if (!(*process))
+		*process = new;
+	else
+	{
+		tmp->next = new;
+		new->prev = tmp;
+	}
 	return (new);
 }
 
-t_process *initialize_process(t_player *player)
+t_process	*initialize_process(t_player *player)
 {
-  t_process *process;
-  t_process *tmp;
-  int space;
-  int i;
+	t_process	*process;
+	t_process	*tmp;
+	int			space;
+	int			i;
 
-  process = NULL;
-  tmp = NULL;
-  space = MEM_SIZE / nbr_players(player);
-  i = 0;
+	process = NULL;
+	tmp = NULL;
+	space = MEM_SIZE / nbr_players(player);
+	i = 0;
 	while (player->next)
 		player = player->next;
-  while (player)
-  {
-    if (!(tmp = create_process(&process, tmp, space * i, player->numero)))
+	while (player)
+	{
+		if (!(tmp = create_process(&process, tmp, space * i, player->numero)))
 			return (NULL);
 		tmp->registre[0] = player->numero;
-    player = player->prev;
-    i++;
-  }
-  return (process);
+		player = player->prev;
+		i++;
+	}
+	return (process);
 }

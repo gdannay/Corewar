@@ -21,6 +21,9 @@ SRCS			=	srcs/main.c			\
 					srcs/process.c	\
 					srcs/run.c			\
 					srcs/instruction_1_to_5.c	\
+					srcs/instruction_6_to_10.c	\
+					srcs/instruction_11_to_15.c	\
+					srcs/instruction_16.c	\
 					srcs/utils_instructions.c	\
 					srcs/free_all.c	\
 					../op/op.c

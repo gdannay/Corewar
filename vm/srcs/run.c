@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/22 14:45:14 by vferreir          #+#    #+#             */
+/*   Updated: 2018/05/22 14:56:53 by vferreir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 
 static	t_ptr	g_ptr[] =
@@ -18,7 +30,7 @@ static	t_ptr	g_ptr[] =
 };
 
 static int read_instruction(t_map *map, t_process **begin, t_process *process,
-	int current)
+		int current)
 {
 	int		i;
 
@@ -29,7 +41,7 @@ static int read_instruction(t_map *map, t_process **begin, t_process *process,
 		return (instruction_fork(map->vm, process, begin));
 	else if (current == 15)
 		return (instruction_lfork(map->vm, process, begin));
-  else if (current)
+	else if (current)
 	{
 		while (g_ptr[i].current)
 		{
@@ -131,9 +143,9 @@ int run_vm(t_map *map)
 			printf("Nb process: %d\n", i);
 			printf("Position: %d\n", tmp->position);
 			/*mvprintw(10, 1800, "Nb process: %d\n", i);
-			refresh();
-			mvprintw(20, 1800, "Position: %d\n", tmp->position);
-			refresh();*/
+			  refresh();
+			  mvprintw(20, 1800, "Position: %d\n", tmp->position);
+			  refresh();*/
 			if (tmp->inst)
 				ret = read_instruction(map, &map->process, tmp, tmp->inst);
 			else
@@ -145,7 +157,7 @@ int run_vm(t_map *map)
 		}
 		//print_arena(map->vm, map->vm->arena);
 		/*printw("\n== Cycle: %ld ==\n", vm->cycle);
-		refresh();*/
+		  refresh();*/
 		map->vm->cycle++;
 	}
 	//print_arena(map->vm, map->vm->arena);

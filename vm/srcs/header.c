@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:18:11 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 18:32:02 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/22 14:50:48 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_player	*create_player(t_player **first, header_t *header)
 {
-	static int i = -1;
+	static int	i = -1;
 	t_player	*new;
 	t_player	*tmp;
 
@@ -49,12 +49,12 @@ static header_t	*check_magic_length(header_t *header, char *name)
 	if ((*magic = (int)swap_32_bytes(*magic)) != COREWAR_EXEC_MAGIC)
 	{
 		return (header_error(header,
-				"Error: File %s has an invalid header\n", name));
+					"Error: File %s has an invalid header\n", name));
 	}
 	if (swap_32_bytes(header->prog_size) > CHAMP_MAX_SIZE)
 	{
 		dprintf(2, "Error: File %s has too large a code (%d bytes > %d bytes)\n"
-			, name, swap_32_bytes(header->prog_size), CHAMP_MAX_SIZE);
+				, name, swap_32_bytes(header->prog_size), CHAMP_MAX_SIZE);
 		free(header);
 		return (NULL);
 	}
@@ -75,7 +75,7 @@ static t_player	*read_header(t_player **first, int fd, char *name)
 	else if (ret < (int)sizeof(header_t))
 	{
 		return (header_error(header,
-				"Error: File %s is too small to be a champion\n", name));
+					"Error: File %s is too small to be a champion\n", name));
 	}
 	if ((header = check_magic_length(header, name)) == NULL)
 		return (NULL);
@@ -104,19 +104,19 @@ int				read_file(t_player **first, int fd, char *name)
 			|| ((ret = read(fd, &test, 1)) != 0))
 	{
 		return (code_error(buff, &player,
-	"Error: File %s has a code size that differs from what its header says\n",
-	name));
+					"Error: File %s has a code size that differs from what its header says\n",
+					name));
 	}
 	player->code = buff;
 	ft_strdel(&buff);
 	return (1);
 }
 
-t_player *read_av(char **av, int ac)
+t_player		*read_av(char **av, int ac)
 {
-	t_player *first;
-	int fd;
-	int i;
+	t_player	*first;
+	int			fd;
+	int			i;
 
 	first = NULL;
 	i = 0;
@@ -129,7 +129,7 @@ t_player *read_av(char **av, int ac)
 		}
 		else if ((read_file(&first, fd, av[i])) == 0)
 			return (NULL);
-		close (fd);
+		close(fd);
 	}
 	return (first);
 }
