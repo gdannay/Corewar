@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/28 14:05:40 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/28 16:11:19 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct 		s_map
 	struct s_player		*player;
 	struct s_vm	*vm;
 	struct s_process	*process;
+	int							space;
 }									t_map;
 
 typedef	struct		s_ptr

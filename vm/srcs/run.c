@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:45:14 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/28 14:25:55 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/28 18:55:08 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int				run_vm(t_map *map)
 	t_process	*tmp;
 	int				ret;
 	int				i;
+	int				get;
 
 	init_window();
 	arena = subwin(stdscr, 66, 195, 0, 0);
@@ -141,6 +142,7 @@ int				run_vm(t_map *map)
 	wrefresh(infos);
 	while (condition_arret(map))
 	{
+		get = 0;
 		tmp = map->process;
 		i = 0;
 		mvwprintw(infos, 1, 1, "== Cycle: %llu, cycle_to_die = %d, cycle_delta = %d ==", map->vm->cycle, map->vm->cycle_to_die, map->vm->cycle_delta);
@@ -165,7 +167,10 @@ int				run_vm(t_map *map)
 			tmp = tmp->next;
 		}
 		print_arena(arena, map->vm, map->vm->arena);
-		map->vm->cycle++;
+		if ((get = getch()) == 32)
+			map->space = (map->space) ? 0 : 1;
+		else if (get == 115 || map->space)
+			map->vm->cycle++;
 	}
 	endwin();
 	printf("\nRESULT\n");
