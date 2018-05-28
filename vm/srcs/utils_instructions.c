@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 14:20:48 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/22 14:53:47 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/05/28 13:33:43 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		inst_progress(t_process *process, int inst)
 {
 	process->inst = inst;
 	process->cycle++;
-	printf("Progress\n");
+	//printf("Progress\n");
 	return (1);
 }
 
@@ -25,11 +25,11 @@ int		inst_done(t_process *process, int add_pos)
 	process->cycle = 0;
 	process->inst = 0;
 	process->position += add_pos;
-	printf("Done\n");
+	//printf("Done\n");
 	return (1);
 }
 
-char *take_opcode(unsigned char c, char *str)
+char	*take_opcode(unsigned char c, char *str)
 {
 	int i;
 
@@ -52,7 +52,8 @@ char *take_opcode(unsigned char c, char *str)
 	return (str);
 }
 
-void take_params(char *arena, int pos, int *params, char *str, int unknown)
+void	take_params(char *arena, int pos, int *params,
+		char *str, int unknown)
 {
 	int i;
 

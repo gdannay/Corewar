@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   instruction_16.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:40:19 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/22 14:54:39 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/05/28 13:57:00 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int instruction_aff(t_vm *vm, t_process *process)
+int	instruction_aff(t_vm *vm, t_process *process)
 {
 	char	str[4];
 	int		params[4];
 
-	printf("AFF --> ");
+	//printf("AFF --> ");
 	if (process->cycle + 1 < 2)
 		return (inst_progress(process, 16));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))

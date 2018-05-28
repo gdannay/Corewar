@@ -6,17 +6,19 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 12:09:17 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/22 14:53:10 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/05/28 13:33:36 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
+extern struct s_op op_tab[17];
+
 int	instruction_live(t_vm *vm, t_process *process, t_player *player)
 {
 	int	numero_live;
 
-	printf("LIVE --> ");
+	//printf("LIVE --> ");
 	if (process->cycle + 1 < 10)
 		return (inst_progress(process, 1));
 	numero_live = recup_nb_32(vm->arena, process->position + 1);
@@ -35,7 +37,7 @@ int	instruction_ld(t_vm *vm, t_process *process)
 	char	str[4];
 	int		params[4];
 
-	printf("LD --> ");
+	//printf("LD --> ");
 	if (process->cycle + 1 < 5)
 		return (inst_progress(process, 2));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))
@@ -55,13 +57,14 @@ int	instruction_st(t_vm *vm, t_process *process)
 	char	str[4];
 	int		params[4];
 
-	printf("ST --> ");
+	//printf("ST --> ");
 	if (process->cycle + 1 < 5)
 		return (inst_progress(process, 3));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))
 		return (1);
 	take_params(vm->arena, process->position + 2, params, str, 0);
-	if (str[1] && str[1] == 'r' && params[1] && params[1] >= 1 && params[1] <= 16
+	if (str[1] && str[1] == 'r'
+			&& params[1] && params[1] >= 1 && params[1] <= 16
 			&& params[0] && params[0] >= 1 && params[0] <= 16)
 		process->registre[params[1] - 1] = process->registre[params[0] - 1];
 	else if (params[0] && params[0] >= 1 && params[0] <= 16)
@@ -76,7 +79,7 @@ int	instruction_add(t_vm *vm, t_process *process)
 	char	str[4];
 	int		params[4];
 
-	printf("ADD --> ");
+	//printf("ADD --> ");
 	if (process->cycle + 1 < 10)
 		return (inst_progress(process, 4));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))
@@ -97,7 +100,7 @@ int	instruction_sub(t_vm *vm, t_process *process)
 	char	str[4];
 	int		params[4];
 
-	printf("SUB --> ");
+	//printf("SUB --> ");
 	if (process->cycle + 1 < 10)
 		return (inst_progress(process, 5));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))

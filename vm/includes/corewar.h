@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 18:37:56 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/28 14:05:40 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int						read_file(t_player **first, int fd, char *name);
 void					*header_error(header_t *header, char *str, char *name);
 int						code_error(char *buff, t_player **player, char *str, char *name);
 char					*create_arena(t_player *first);
-void 					print_arena(t_vm *vm, char *arena);
+void 					print_arena(WINDOW *visu, t_vm *vm, char *arena);
 t_player *read_av(char **av, int ac);
 int recup_int(char *str);
 t_vm *create_vm(t_player *first);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:45:14 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/22 14:56:53 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/05/28 14:25:55 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static	t_ptr	g_ptr[] =
 	{16, &instruction_aff}
 };
 
-static int read_instruction(t_map *map, t_process **begin, t_process *process,
-		int current)
+static	int		read_instruction(t_map *map, t_process **begin,
+		t_process *process, int current)
 {
 	int		i;
 
@@ -52,17 +52,18 @@ static int read_instruction(t_map *map, t_process **begin, t_process *process,
 	}
 	else
 	{
-		printf("Not instruction\n");
+		//printf("Not instruction\n");
 		process->position++;
 	}
 	return (1);
 }
 
-void 	print_process(t_process *process)
+void			print_process(t_process *process)
 {
 	t_process	*tmp;
-	int		i = 1;
+	int			i;
 
+	i = 1;
 	tmp = process;
 	while (tmp)
 	{
@@ -72,11 +73,9 @@ void 	print_process(t_process *process)
 	}
 }
 
-void 	kill_process(t_process **process, t_map *map)
+void			kill_process(t_process **process, t_map *map)
 {
 	t_process	*tmp;
-
-	(void)tmp;
 
 	if (*process && !(*process)->prev)
 	{
@@ -98,7 +97,7 @@ void 	kill_process(t_process **process, t_map *map)
 	}
 }
 
-int condition_arret(t_map *map)
+int				condition_arret(t_map *map)
 {
 	t_process	*process;
 
@@ -125,23 +124,32 @@ int condition_arret(t_map *map)
 	return (1);
 }
 
-int run_vm(t_map *map)
+int				run_vm(t_map *map)
 {
+	WINDOW		*arena;
+	WINDOW		*infos;
 	t_process	*tmp;
 	int				ret;
 	int				i;
 
-	//init_window();
+	init_window();
+	arena = subwin(stdscr, 66, 195, 0, 0);
+	infos = subwin(stdscr, 66, 100, 0, 197);
+	box(arena, ACS_VLINE, ACS_HLINE);
+	box(infos, ACS_VLINE, ACS_HLINE);
+  wrefresh(arena);
+	wrefresh(infos);
 	while (condition_arret(map))
 	{
 		tmp = map->process;
 		i = 0;
-		printf("\n== Cycle: %llu, cycle_to_die = %d, cycle_delta = %d ==\n", map->vm->cycle, map->vm->cycle_to_die, map->vm->cycle_delta);
+		mvwprintw(infos, 1, 1, "== Cycle: %llu, cycle_to_die = %d, cycle_delta = %d ==", map->vm->cycle, map->vm->cycle_to_die, map->vm->cycle_delta);
+		wrefresh(infos);
 		while (tmp)
 		{
 			tmp->position %= MEM_SIZE;
-			printf("Nb process: %d\n", i);
-			printf("Position: %d\n", tmp->position);
+			//printf("Nb process: %d\n", i);
+			//printf("Position: %d\n", tmp->position);
 			/*mvprintw(10, 1800, "Nb process: %d\n", i);
 			  refresh();
 			  mvprintw(20, 1800, "Position: %d\n", tmp->position);
@@ -149,24 +157,22 @@ int run_vm(t_map *map)
 			if (tmp->inst)
 				ret = read_instruction(map, &map->process, tmp, tmp->inst);
 			else
-				ret = read_instruction(map, &map->process, tmp, map->vm->arena[tmp->position]);
+				ret = read_instruction(map, &map->process,
+						tmp, map->vm->arena[tmp->position]);
 			if (!ret)
 				return (0);
 			i++;
 			tmp = tmp->next;
 		}
-		//print_arena(map->vm, map->vm->arena);
-		/*printw("\n== Cycle: %ld ==\n", vm->cycle);
-		  refresh();*/
+		print_arena(arena, map->vm, map->vm->arena);
 		map->vm->cycle++;
 	}
-	//print_arena(map->vm, map->vm->arena);
-	//while (1);
-	//endwin();
+	endwin();
 	printf("\nRESULT\n");
 	while (map->player)
 	{
-		printf("Player: %d -> nb live: %d\n", map->player->numero, map->player->global_live);
+		printf("Player: %d -> nb live: %d\n",
+				map->player->numero, map->player->global_live);
 		map->player = map->player->next;
 	}
 	return (1);
