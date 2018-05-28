@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:39:56 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/21 18:33:05 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/28 13:33:17 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ int 				take_label(t_inst *first);
 int					verif_label(char *line, int row);
 
 int					write_in_cor(char *av, header_t *header, t_inst *first);
+int					write_registre(int fd, char *param);
+int					write_direct(t_inst *first, int fd, char *param);
+int					write_indirect(int fd, char *param);
 
 uint32_t			swap_32_bytes(uint32_t nb);
 uint16_t			swap_16_bytes(uint16_t nb);

@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:44:45 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/21 18:57:31 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/28 13:42:56 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ uint16_t	swap_16_bytes(uint16_t nb)
 	return (nb);
 }
 
-static int	treat_file(int fd)
+static int	treat_file(int fd, char **av)
 {
 	header_t	*header;
 	t_inst		*first;
@@ -56,13 +56,17 @@ int			main(int ac, char **av)
 	int			fd;
 
 	fd = -1;
-	//verifier si .s
 	if (ac != 2)
 	{
 		write(2, "asm takes only one file as parameter\n", 37);
 		return (-1);
 	}
+	if (!ft_strrchr(av[1], '.') || ft_strcmp(ft_strrchr(av[1], '.'), ".s") != 0)
+	{
+		ft_dprintf(2, "File \"%s\" is not a valid file\n", av[1]);
+		return (-1);
+	}
 	if (av[1] && (fd = open(av[1], O_RDONLY)) == -1)
 		return (-1);
-	return (treat_file(fd));
+	return (treat_file(fd, av));
 }

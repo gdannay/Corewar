@@ -6,7 +6,7 @@
 #    By: clegirar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/21 18:29:00 by gdannay          ###   ########.fr        #
+#    Updated: 2018/05/28 13:31:41 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS			=	srcs/main.c			\
 					srcs/check_header.c	\
 					srcs/exit_error.c	\
 					srcs/write.c		\
+					srcs/write_type.c	\
 					srcs/instructions.c	\
 					../op/op.c			\
 					srcs/type.c
@@ -31,7 +32,7 @@ CC				=	gcc
 
 CFLAGS			=	-Wall -Werror -Wextra -I includes -I ../libft/
 
-LFLAGS			=	../libft/libft.a -g3 -fsanitize=address
+LFLAGS			=	../libft/libft.a
 
 all				:	$(NAME)
 

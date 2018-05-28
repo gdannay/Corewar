@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:05 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/21 19:01:07 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/28 14:20:51 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,43 +26,17 @@ static int	write_header(header_t *header, t_inst *first, int fd)
 	return (TRUE);
 }
 
-static int	write_registre(int fd, char *param)
+static int	write_type(t_inst *tmp, int i, int fd)
 {
-	char	nb;
+	int type;
 
-	nb = ft_atoi(param + 1);
-	if ((write(fd, &nb, 1)) < 0)
+	type = tmp->codage >> 6;
+	tmp->codage = tmp->codage << 2;
+	if (type == REG_CODE && !write_registre(fd, tmp->params[i]))
 		return (ERROR);
-	return (TRUE);
-}
-
-static int	write_direct(t_inst *first, int fd, char *param)
-{
-	int nb;
-
-	nb = ft_atoi(param + 1);
-	if (op_tab[first->code].unknown == 1)
-	{
-		nb = swap_16_bytes(nb);
-		if ((write(fd, &nb, 2)) < 0)
-			return (ERROR);
-	}
-	else
-	{
-		nb = swap_32_bytes(nb);
-		if ((write(fd, &nb, 4)) < 0)
-			return (ERROR);
-	}
-	return (TRUE);
-}
-
-static int	write_indirect(int fd, char *param)
-{
-	int nb;
-
-	nb = ft_atoi(param);
-	nb = swap_16_bytes(nb);
-	if ((write(fd, &nb, 2)) < 0)
+	else if (type == DIR_CODE && !write_direct(tmp, fd, tmp->params[i]))
+		return (ERROR);
+	else if (type == IND_CODE && !write_indirect(fd, tmp->params[i]))
 		return (ERROR);
 	return (TRUE);
 }
@@ -70,7 +44,6 @@ static int	write_indirect(int fd, char *param)
 static int	write_instruction(t_inst *first, int fd)
 {
 	int		i;
-	int		type;
 	t_inst	*tmp;
 	char	code;
 
@@ -87,13 +60,7 @@ static int	write_instruction(t_inst *first, int fd)
 			return (ERROR);
 		while (tmp->params[++i])
 		{
-			type = tmp->codage >> 6;
-			tmp->codage = tmp->codage << 2;
-			if (type == REG_CODE && !write_registre(fd, tmp->params[i]))
-				return (ERROR);
-			else if (type == DIR_CODE && !write_direct(tmp, fd, tmp->params[i]))
-				return (ERROR);
-			else if (type == IND_CODE && !write_indirect(fd, tmp->params[i]))
+			if (write_type(tmp, i, fd) == ERROR)
 				return (ERROR);
 		}
 		tmp = tmp->next;
@@ -111,7 +78,7 @@ int			write_in_cor(char *av, header_t *header, t_inst *first)
 	if ((name = ft_strjoin(av, ".cor")) == NULL)
 		return (ERROR);
 	if ((fd = open(name, O_WRONLY | O_CREAT | O_TRUNC,
-				S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH)) == -1
+					S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH)) == -1
 			|| (write_header(header, first, fd)) == ERROR
 			|| (write_instruction(first, fd)) == ERROR)
 		return (ERROR);

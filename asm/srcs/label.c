@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:32 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/17 15:14:15 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/28 13:27:10 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,22 @@ extern struct s_op op_tab[17];
 
 static int	save_label(t_inst *new, char *line, int i, int sauv)
 {
+	t_inst	*tmp;
+
+	tmp = new->prev;
 	if (new->label)
 		ft_strdel(&(new->label));
 	if ((new->label = ft_strsub(line, sauv, i - sauv)) == NULL)
 		return (-1);
+	while (tmp)
+	{
+		if (tmp->label && ft_strcmp(tmp->label, new->label) == 0)
+		{
+			ft_dprintf(2, "Label \"%s\" is already used\n", new->label);
+			return (-1);
+		}
+		tmp = tmp->prev;
+	}
 	return (find_next_char(line, i + 1));
 }
 
