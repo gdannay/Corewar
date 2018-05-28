@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 18:58:28 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/28 17:59:27 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,13 @@ t_inst		*parse_file(int fd, header_t *header, int *row)
 		ft_strdel(&line);
 		*row = *row + 1;
 	}
-	if (label)
-		ft_strdel(&label);
+	ft_strdel(&label);
 	if (ret == -1)
 		return (exit_free(line, first, header));
+	if (first == NULL)
+	{
+		error_message(*row, 0, T_END, NULL);
+		return (exit_free(NULL, NULL, header));
+	}
 	return (first);
 }

@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 08:45:26 by clegirar          #+#    #+#             */
-/*   Updated: 2018/01/03 14:56:15 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/28 18:22:41 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strndup(const char *s, int n)
 	int		i;
 	int		j;
 
-	if (!s || n <= 0)
+	if (!s || n < 0)
 		return (NULL);
 	if (!(ret = ft_memalloc(n + 1)))
 		return (NULL);

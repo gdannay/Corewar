@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 18:09:25 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 18:45:57 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/28 18:04:09 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,16 @@ static int		multi_line_reader(char *line, char **str, int fd, int *i)
 	*i = *i + 1;
 	while ((ret = get_next_line(fd, &read)) == 1)
 	{
-		if (ft_strlen(read) > 0)
-		{
-			if (!read[ft_stridx(read, "\"")] && !(read = ft_strjoindel(read, "\n")))
-				return (ERROR);
-			if ((check = add_line(str, &read, i, ft_stridx(read, "\""))) == ERROR)
-				return (ERROR);
-		}
+		if (read && !read[ft_stridx(read, "\"")] && !(read = ft_strjoindel(read, "\n")))
+			return (ERROR);
+		if ((check = add_line(str, &read, i, ft_stridx(read, "\""))) == ERROR)
+			return (ERROR);
 		else if (check == TRUE)
 			return (TRUE);
 		*i = *i + 1;
 		ft_strdel(&read);
 	}
+	error_message(*i, 0, T_END, NULL);
 	return (ERROR);
 }
 

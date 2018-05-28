@@ -6,7 +6,7 @@
 #    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 08:52:25 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/21 14:07:40 by gdannay          ###   ########.fr        #
+#    Updated: 2018/05/28 17:38:40 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,6 +105,7 @@ SRCS	=	ft_atoi.c				\
 			ft_splitspace.c			\
 			ft_stridx.c				\
 			ft_string_isdigit.c \
+			ft_countchr.c			\
 			./Printf/srcs/ft_printf.c					\
 			./Printf/srcs/ft_dprintf.c					\
 			./Printf/srcs/ft_sprintf.c					\
