@@ -65,14 +65,18 @@ static int		multi_line_reader(char *line, char **str, int fd, int *i)
 	int		check;
 	char	*read;
 
-	if ((*str = ft_strdup(line)) == NULL)
+	if ((*str = ft_strjoin(line, "\n")) == NULL)
 		return (ERROR);
 	*i = *i + 1;
 	while ((ret = get_next_line(fd, &read)) == 1)
 	{
-		if (ft_strlen(read) > 0 &&
-			(check = add_line(str, &read, i, ft_stridx(read, "\""))) == ERROR)
-			return (ERROR);
+		if (ft_strlen(read) > 0)
+		{
+			if (!read[ft_stridx(read, "\"")] && !(read = ft_strjoindel(read, "\n")))
+				return (ERROR);
+			if ((check = add_line(str, &read, i, ft_stridx(read, "\""))) == ERROR)
+				return (ERROR);
+		}
 		else if (check == TRUE)
 			return (TRUE);
 		*i = *i + 1;

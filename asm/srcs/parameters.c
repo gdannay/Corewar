@@ -50,6 +50,19 @@ static int	check_errors(char *split, char *line, int row, int j)
 	return (TRUE);
 }
 
+static int	check_register(char *param, int type)
+{
+	int reg;
+
+	if (type == T_REG && ((reg = ft_atoi(param + 1)) > REG_NUMBER
+		|| reg < 1))
+	{
+		ft_dprintf(2, "Register number must be between 1 and %d\n", REG_NUMBER);
+		return (ERROR);
+	}
+	return (TRUE);
+}
+
 static int	parse_params(t_inst *new, char **split, char *ln, int row)
 {
 	int		i;
@@ -61,17 +74,15 @@ static int	parse_params(t_inst *new, char **split, char *ln, int row)
 	{
 		j = find_next_char(split[i], 0);
 		type = convert_type(split[i] + j);
-		new->codage += get_codage(type);
-		new->codage = new->codage << 2;
+		new->codage = (new->codage + get_codage(type)) << 2;
 		if (!(type & op_tab[new->code].type_par[i]))
 		{
 			display_error(type | i << 12 | row << 15, new->name, split[i], ln);
 			return (ERROR);
 		}
-		if (check_errors(split[i], ln, row, j) == ERROR)
-			return (ERROR);
-		if ((new->params[i] = ft_strsub(split[i], j,
-						find_next_space(split[i], j) - j)) == NULL)
+		if (check_errors(split[i], ln, row, j) == ERROR || !(new->params[i] =
+			ft_strsub(split[i], j, find_next_space(split[i], j) - j))
+			|| check_register(new->params[i], type) == ERROR)
 			return (ERROR);
 	}
 	while (++i < 4)
@@ -87,10 +98,11 @@ int			check_params(t_inst *new, char *line, int row, int col)
 	params = line + col;
 	if ((split = ft_strsplit(params, SEPARATOR_CHAR)) == NULL)
 		return (ERROR);
-	if (ft_tablen(split) != op_tab[new->code].nb_par)
+	if (ft_tablen(split) != op_tab[new->code].nb_par ||
+			op_tab[new->code].nb_par != ft_countchr(params, SEPARATOR_CHAR) + 1)
 	{
 		ft_dprintf(2,
-				"Invalid parameter count for instruction %s\n", new->name);
+				"Invalid parameter count for instruction %s at line: %d\n", new->name, row);
 		ft_tabdel(&split);
 		return (ERROR);
 	}
