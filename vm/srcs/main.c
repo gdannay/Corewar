@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:08:01 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 18:35:57 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/28 11:38:15 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		main(int ac, char **av)
 {
-	t_map 		*map;
+	t_map	*map;
 
 	if (ac < 2)
 	{
@@ -27,9 +27,9 @@ int		main(int ac, char **av)
 	map->vm = NULL;
 	map->process = NULL;
 	if ((!(map->player = read_av(av, ac)))
-	|| (!(map->vm = create_vm(map->player)))
-	|| (!(map->process = initialize_process(map->player)))
-	|| (!(run_vm(map))))
+			|| (!(map->vm = create_vm(map->player)))
+			|| (!(map->process = initialize_process(map->player)))
+			|| (!(run_vm(map))))
 		return (free_map(map));
 	free_map(map);
 	return (0);

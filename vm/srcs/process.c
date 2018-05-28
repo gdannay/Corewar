@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:58:20 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/22 14:58:56 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/05/28 11:38:49 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			create_new_process(t_process **begin, t_process *process, int pos, int n)
+int			create_new_process(t_process **begin,
+		t_process *process, int pos, int n)
 {
 	t_process	*new;
 	int			i;
@@ -34,7 +35,8 @@ int			create_new_process(t_process **begin, t_process *process, int pos, int n)
 	return (1);
 }
 
-t_process	*create_process(t_process **process, t_process *tmp, int pos, int player_numero)
+t_process	*create_process(t_process **process,
+		t_process *tmp, int pos, int player_numero)
 {
 	t_process	*new;
 	int			i;
