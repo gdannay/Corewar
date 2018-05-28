@@ -72,7 +72,7 @@ int			verif_label(char *line, int row)
 		if (ft_strchr(LABEL_CHARS, line[i]) == NULL)
 		{
 			ft_dprintf(2,
-			"Label \"%s\" does not respect LABEL_CHARS: \"%s\"\n [%03d:%03d]",
+			"Label \"%s\" does not respect LABEL_CHARS: \"%s\" [%03d:%03d]\n",
 			line, LABEL_CHARS, row, i);
 			return (ERROR);
 		}

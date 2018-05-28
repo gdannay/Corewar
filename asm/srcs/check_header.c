@@ -99,7 +99,7 @@ char			*check_line(char **line, int fd, int *i, int type)
 	else if ((*line)[k])
 	{
 		l = k + 1;
-		while ((*line)[++l] && ((*line)[l] == ' ' || (*line)[l] == '\t'))
+		while ((*line)[l] && ((*line)[l] == ' ' || (*line)[l] == '\t'))
 			l++;
 		if ((*line)[l] && (*line)[l] != COMMENT_CHAR)
 			return (exit_error(*i, l, &str, line));

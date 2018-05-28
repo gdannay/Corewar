@@ -95,6 +95,6 @@ header_t			*create_header(int fd, int *row)
 		return (NULL);
 	if ((header = get_infos(fd, header, row)) == NULL)
 		return (NULL);
-	printf("IICICI = [%s] [%s]\n", header->prog_name, header->comment);
+	//printf("IICICI = [%s] [%s]\n", header->prog_name, header->comment);
 	return (header);
 }

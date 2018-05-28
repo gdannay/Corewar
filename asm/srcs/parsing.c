@@ -47,20 +47,23 @@ static void	delete_comment(char *str)
 static int	parse_line(char *line, char **label, int *row, t_inst **first)
 {
 	int			next;
+	int 		ret;
 
 	next = find_next_char(line, 0);
+	ret = TRUE;
 	if (line[next])
 	{
 		if (ft_strstr(line, ":") &&
 				!line[find_next_char(line, ft_stridx(line, ":") + 1)] &&
-				verif_label(line, *row) == TRUE)
+				(ret = verif_label(line, *row)) == TRUE)
 		{
 			ft_strdel(label);
 			if ((*label = ft_strsub(line, next, find_next_space(line, next) -
 							next - 1)) == NULL)
 				return (ERROR);
 		}
-		else if ((check_and_save(line, first, *row, label)) == 0)
+		else if (ret == ERROR
+			|| check_and_save(line, first, *row, label) == ERROR)
 			return (ERROR);
 	}
 	return (TRUE);

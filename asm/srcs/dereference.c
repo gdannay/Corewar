@@ -80,7 +80,7 @@ static int	dereference(t_inst *inst, int i)
 	if ((pos = search_on_bottom(inst, inst->params[i])) == -1
 			&& (pos = search_on_top(inst, inst->params[i])) == -1)
 	{
-		ft_printf("No such label %s\n", ft_strstr(inst->params[i], ":") + 1);
+		ft_dprintf(2, "No such label %s\n", ft_strstr(inst->params[i], ":") + 1);
 		return (ERROR);
 	}
 	if ((conv = ft_itoa(pos)) == NULL)
