@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:59:01 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/28 11:43:08 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 15:39:42 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@ int			recup_nb_16(char *arena, int position)
 	return (nb);
 }
 
-void		write_in_arena_32(char *arena, int registre, int pos)
+void		write_in_arena_32(t_vm *vm, int registre, int pos, int nb)
 {
-	arena[pos % MEM_SIZE] = registre >> 24;
-	arena[(pos + 1) % MEM_SIZE] = registre >> 16;
-	arena[(pos + 2) % MEM_SIZE] = registre >> 8;
-	arena[(pos + 3) % MEM_SIZE] = registre;
+	vm->arena[pos % MEM_SIZE] = registre >> 24;
+	vm->arena[(pos + 1) % MEM_SIZE] = registre >> 16;
+	vm->arena[(pos + 2) % MEM_SIZE] = registre >> 8;
+	vm->arena[(pos + 3) % MEM_SIZE] = registre;
+	vm->arena_player[pos % MEM_SIZE] = nb * -1;
+	vm->arena_player[(pos + 1) % MEM_SIZE] = nb * -1;
+	vm->arena_player[(pos + 2) % MEM_SIZE] = nb * -1;
+	vm->arena_player[(pos + 3) % MEM_SIZE] = nb * -1;
 }
 
 uint32_t	swap_32_bytes(uint32_t nb)

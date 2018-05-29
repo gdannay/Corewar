@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/28 16:11:19 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 15:38:12 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct			s_player
 typedef struct			s_vm
 {
 	char				*arena;
+	char				*arena_player;
 	unsigned long long				cycle;
 	int					cycle_to_die;
 	int					cycle_delta;
@@ -64,7 +65,6 @@ typedef struct 		s_map
 	struct s_player		*player;
 	struct s_vm	*vm;
 	struct s_process	*process;
-	int							space;
 }									t_map;
 
 typedef	struct		s_ptr
@@ -78,7 +78,8 @@ int						read_file(t_player **first, int fd, char *name);
 void					*header_error(header_t *header, char *str, char *name);
 int						code_error(char *buff, t_player **player, char *str, char *name);
 char					*create_arena(t_player *first);
-void 					print_arena(WINDOW *visu, t_vm *vm, char *arena);
+void 					print_arena(WINDOW *visu, t_vm *vm, char *arena, t_map *map);
+void 					print_infos(WINDOW *infos, t_map *map);
 t_player *read_av(char **av, int ac);
 int recup_int(char *str);
 t_vm *create_vm(t_player *first);
@@ -113,7 +114,7 @@ char *take_opcode(unsigned char c, char *str);
 void take_params(char *arena, int pos, int *params, char *str, int unknown);
 int recup_nb_32(char *arena, int position);
 int recup_nb_16(char *arena, int position);
-void write_in_arena_32(char *arena, int registre, int pos);
+void write_in_arena_32(t_vm *vm, int registre, int pos, int nb);
 t_process	*create_process(t_process **process, t_process *tmp, int pos, int player_numero);
 int				create_new_process(t_process **begin, t_process *process, int pos, int n);
 void 			init_window(void);
