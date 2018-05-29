@@ -41,13 +41,6 @@ static int	treat_file(int fd, char **av)
 		return (-1);
 	}
 	close(fd);
-	t_inst *tmp;
-	tmp = first;
-	while (0 && tmp)
-	{
-		printf("%s %s %s %s %s\n", tmp->label, tmp->name, tmp->params[0], tmp->params[1], tmp->params[2]);
-		tmp = tmp->next;
-	}
 	if (take_label(first) == ERROR
 		|| write_in_cor(av[1], header, first) == ERROR)
 	{
