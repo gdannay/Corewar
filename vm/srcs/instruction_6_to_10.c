@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:39:35 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/28 17:58:32 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 13:22:02 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	instruction_and(t_vm *vm, t_process *process)
 	int		params[4];
 
 	//printf("AND --> ");
-	if (process->cycle + 1 < 6)
+	if (process->cycle < 6)
 		return (inst_progress(process, 6));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))
 		return (1);
@@ -48,7 +48,7 @@ int	instruction_or(t_vm *vm, t_process *process)
 	int		params[4];
 
 	//printf("OR --> ");
-	if (process->cycle + 1 < 6)
+	if (process->cycle < 6)
 		return (inst_progress(process, 7));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))
 		return (1);
@@ -76,7 +76,7 @@ int	instruction_xor(t_vm *vm, t_process *process)
 	int		params[4];
 
 	//printf("XOR --> ");
-	if (process->cycle + 1 < 6)
+	if (process->cycle < 6)
 		return (inst_progress(process, 8));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))
 		return (1);
@@ -95,7 +95,7 @@ int	instruction_xor(t_vm *vm, t_process *process)
 int	instruction_zjmp(t_vm *vm, t_process *process)
 {
 	//printf("ZJMP --> ");
-	if (process->cycle + 1 < 20)
+	if (process->cycle < 20)
 		return (inst_progress(process, 9));
 	return ((!process->carry) ? inst_done(process, 3)
 			: inst_done(process,
@@ -108,7 +108,7 @@ int	instruction_ldi(t_vm *vm, t_process *process)
 	int		params[4];
 
 	//printf("LDI --> ");
-	if (process->cycle + 1 < 25)
+	if (process->cycle < 25)
 		return (inst_progress(process, 10));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))
 		return (1);
