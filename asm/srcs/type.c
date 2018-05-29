@@ -18,7 +18,7 @@ static int	get_type_next_next(char *str)
 		return (T_IND_LAB);
 	else if (str[0] == '"')
 		return (T_STRING);
-	else if (str[0] == COMMENT_CHAR)
+	else if (str[0] == COMMENT_CHAR || str[0] == ';')
 		return (T_COMMENT);
 	else if (!ft_strncmp(str, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 		return (T_COMMAND_NAME);

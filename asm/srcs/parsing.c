@@ -39,7 +39,7 @@ static void	delete_comment(char *str)
 
 	i = 0;
 	com = 0;
-	while (str[i] && str[i] != COMMENT_CHAR)
+	while (str[i] && str[i] != COMMENT_CHAR && str[i] != ';')
 		i++;
 	ft_bzero(str + i, ft_strlen(str) - i);
 }

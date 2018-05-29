@@ -27,7 +27,7 @@ filler:
 
 clear:
 	live	%404
-	
+
 	add		r3, r3, r3
 	fork	%:f0_z
 	zjmp	%:f1_a
@@ -147,10 +147,10 @@ bomb_a:
 
 data_miner:
 	live	%404
-	
+
 loader:
 	ldi		%0,	%:data_miner, r3
-	
+
 shotgun:
 	ldi		%7, %:shotgun, r2
 	st		r2, 256

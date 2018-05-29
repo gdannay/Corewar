@@ -76,7 +76,7 @@ int			write_in_cor(char *av, header_t *header, t_inst *first)
 	char	*name;
 	int		fd;
 
-	av = strrchr(av, '/') + 1;
+//	av = strrchr(av, '/') + 1;
 	av[ft_strlen(av) - 2] = '\0';
 	if ((name = ft_strjoin(av, ".cor")) == NULL)
 		return (ERROR);

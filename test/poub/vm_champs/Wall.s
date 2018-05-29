@@ -1,11 +1,11 @@
-	.name "Wall"
-	.comment "Werror(you) Wextra(me)"
+ .name "Wall"
+.comment "Werror(you) Wextra(me)"
 
 start:
 	ld		%1, r14
 	zjmp	%:wallstart
 	st		r15, -8				#	15
-	
+
 stlive:
 	sti	    r1,	%:wall,	%1		#	7
 	sti		r1, %:alive, %1
@@ -30,8 +30,8 @@ kta:
 	lfork   %1941
 	live    %66					#	115
 	lfork   %2957
-	
-forklive:	
+
+forklive:
 	live	%66
 	fork	%:forklive
 	aff		r1

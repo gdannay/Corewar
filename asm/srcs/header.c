@@ -71,6 +71,7 @@ static header_t		*get_infos(int fd, header_t *header, int *row)
 	line = NULL;
 	while (check < 3 && (ret = get_next_line(fd, &line)) == 1)
 	{
+		line = ft_strtrim(line);
 		if (ft_strlen(line) > 0 && line[find_next_char(line, 0)] &&
 				(type = get_type(line + find_next_char(line, 0))) != T_COMMENT)
 		{

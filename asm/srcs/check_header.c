@@ -103,7 +103,7 @@ char			*check_line(char **line, int fd, int *i, int type)
 		l = k + 1;
 		while ((*line)[l] && ((*line)[l] == ' ' || (*line)[l] == '\t'))
 			l++;
-		if ((*line)[l] && (*line)[l] != COMMENT_CHAR)
+		if ((*line)[l] && (*line)[l] != COMMENT_CHAR && (*line)[l] != ';')
 			return (exit_error(*i, l, &str, line));
 		if ((str = ft_strndup((*line) + j + 1, k - j - 1)) == NULL)
 			return (exit_free(*line, NULL, NULL));

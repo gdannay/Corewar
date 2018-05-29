@@ -1,4 +1,7 @@
-first=champs
+make -C ~/Corewar/asm
+rm ./asm
+mv ~/Corewar/asm/asm ./
+first=vm_champs
 second=vm_champs
 files=*.cor
 
@@ -8,7 +11,7 @@ do
 	./asm_42 $file
 	echo ""
 	echo "----$file-NO--"
-	comp/./asm $file
+	./asm $file
 	echo ""
 	echo ""
 done
@@ -16,7 +19,7 @@ done
 for file in $second/*cor;
 do
 	echo "-----$file-----"
-	diff $file comp/$file
+	diff $file $file
 	echo ""
 	echo ""
 done
