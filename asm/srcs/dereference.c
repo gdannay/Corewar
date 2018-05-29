@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 15:11:01 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/17 15:57:45 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/29 13:30:24 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static int	add_position(t_inst *list)
 	unsigned char	code;
 
 	pos = 1;
+	if (list->code == -1)
+		return (0);
 	if (list->code != 0 && list->code != 11 &&
 			list->code != 8 && list->code != 14)
 		pos++;

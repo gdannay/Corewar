@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:32 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/28 13:27:10 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/29 12:16:28 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static int	save_label(t_inst *new, char *line, int i, int sauv)
 	t_inst	*tmp;
 
 	tmp = new->prev;
-	if (new->label)
-		ft_strdel(&(new->label));
 	if ((new->label = ft_strsub(line, sauv, i - sauv)) == NULL)
 		return (-1);
 	while (tmp)

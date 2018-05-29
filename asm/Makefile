@@ -6,7 +6,7 @@
 #    By: clegirar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/28 17:44:05 by gdannay          ###   ########.fr        #
+#    Updated: 2018/05/29 13:38:07 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ CC				=	gcc
 
 CFLAGS			=	-Wall -Werror -Wextra -I includes -I ../libft/
 
-LFLAGS			=	../libft/libft.a
+LFLAGS			=	../libft/libft.a -g3 -fsanitize=address
 
 all				:	$(NAME)
 

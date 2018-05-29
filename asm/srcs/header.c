@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:50:30 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/28 17:55:43 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/29 13:36:11 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int					compute_size_program(t_inst *first, int size)
 	while (tmp)
 	{
 		code = tmp->codage;
-		if (tmp->code != 0 && tmp->code != 11
-				&& tmp->code != 8 && tmp->code != 14)
+		if (tmp->code != 0 && tmp->code != 11 && tmp->code != -1 && tmp->code != 8 && tmp->code != 14)
 			size++;
 		while (code)
 		{
@@ -37,7 +36,8 @@ int					compute_size_program(t_inst *first, int size)
 				size += 2;
 			code = code << 2;
 		}
-		size++;
+		if (tmp->code != -1)
+			size++;
 		tmp = tmp->next;
 	}
 	return (size);

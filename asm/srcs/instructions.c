@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 13:57:04 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 18:53:19 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/29 12:21:11 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern struct s_op op_tab[17];
 
-static t_inst	*initialize_inst(void)
+t_inst	*initialize_inst(void)
 {
 	t_inst	*new;
 	int		i;
@@ -23,6 +23,7 @@ static t_inst	*initialize_inst(void)
 	if ((new = (t_inst *)malloc(sizeof(t_inst))) == NULL)
 		return (NULL);
 	new->label = NULL;
+	new->code = -1;
 	new->name = NULL;
 	new->next = NULL;
 	new->prev = NULL;
@@ -74,25 +75,14 @@ static void		place_maillon(t_inst **first, t_inst *new)
 	}
 }
 
-int				check_and_save(char *line, t_inst **first,
-				int row, char **label)
+int				check_and_save(char *line, t_inst **first, int row)
 {
 	t_inst	*new;
 	int		i;
 
 	if ((new = initialize_inst()) == NULL)
-	{
-		if (*label)
-			ft_strdel(label);
 		return (ERROR);
-	}
 	place_maillon(first, new);
-	if (*label)
-	{
-		if ((new->label = ft_strdup(*label)) == NULL)
-			return (ERROR);
-		ft_strdel(label);
-	}
 	if ((i = fill_label(new, line, row)) == -1)
 		return (ERROR);
 	if ((take_index_in_op(new, line + i, row, &i)) == ERROR)
