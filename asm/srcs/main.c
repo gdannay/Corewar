@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:44:45 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/28 13:42:56 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/29 12:28:38 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ static int	treat_file(int fd, char **av)
 		return (-1);
 	}
 	close(fd);
+	t_inst *tmp;
+	tmp = first;
+	while (0 && tmp)
+	{
+		printf("%s %s %s %s %s\n", tmp->label, tmp->name, tmp->params[0], tmp->params[1], tmp->params[2]);
+		tmp = tmp->next;
+	}
 	if (take_label(first) == ERROR
 		|| write_in_cor(av[1], header, first) == ERROR)
 	{

@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/28 17:59:27 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/29 13:29:53 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,29 @@ static void	delete_comment(char *str)
 	ft_bzero(str + i, ft_strlen(str) - i);
 }
 
-static int	parse_line(char *line, char **label, int *row, t_inst **first)
+static int	save_label(char *line, int next, t_inst **first)
+{
+	t_inst	*new;
+	t_inst	*tmp;
+
+	if ((new = initialize_inst()) == NULL)
+		return (ERROR);
+	if (*first == NULL)
+		*first = new;
+	else
+	{
+		tmp = *first;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+		new->prev = tmp;
+	}
+	if ((new->label = ft_strsub(line, next, find_next_space(line, next) - next - 1)) == NULL)
+		return (ERROR);
+	return (TRUE);
+}
+
+static int	parse_line(char *line, int *row, t_inst **first)
 {
 	int			next;
 	int 		ret;
@@ -57,13 +79,11 @@ static int	parse_line(char *line, char **label, int *row, t_inst **first)
 				!line[find_next_char(line, ft_stridx(line, ":") + 1)] &&
 				(ret = verif_label(line, *row)) == TRUE)
 		{
-			ft_strdel(label);
-			if ((*label = ft_strsub(line, next, find_next_space(line, next) -
-							next - 1)) == NULL)
+			if (save_label(line, next, first) == ERROR)
 				return (ERROR);
 		}
 		else if (ret == ERROR
-			|| check_and_save(line, first, *row, label) == ERROR)
+			|| check_and_save(line, first, *row) == ERROR)
 			return (ERROR);
 	}
 	return (TRUE);
@@ -72,22 +92,19 @@ static int	parse_line(char *line, char **label, int *row, t_inst **first)
 t_inst		*parse_file(int fd, header_t *header, int *row)
 {
 	char		*line;
-	char		*label;
 	t_inst		*first;
 	int			ret;
 
 	line = NULL;
 	first = NULL;
-	label = NULL;
 	while ((ret = get_next_line(fd, &line)) == 1)
 	{
 		delete_comment(line);
-		if (!parse_line(line, &label, row, &first))
+		if (!parse_line(line, row, &first))
 			return (exit_free(line, first, header));
 		ft_strdel(&line);
 		*row = *row + 1;
 	}
-	ft_strdel(&label);
 	if (ret == -1)
 		return (exit_free(line, first, header));
 	if (first == NULL)

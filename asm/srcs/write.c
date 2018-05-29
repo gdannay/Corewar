@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:05 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/28 18:14:27 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/29 13:33:47 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,21 @@ static int	write_instruction(t_inst *first, int fd)
 	tmp = first;
 	while (tmp)
 	{
-		i = -1;
-		code = (char)(tmp->code + 1);
-		if ((write(fd, &code, 1)) < 0)
-			return (ERROR);
-		if (tmp->code != 0 && tmp->code != 11
-				&& tmp->code != 8 && tmp->code != 14
-				&& (write(fd, &tmp->codage, 1)) < 0)
-			return (ERROR);
-		while (tmp->params[++i])
+		if (tmp->code != -1)
 		{
-			if (write_type(tmp, i, fd) == ERROR)
+			i = -1;
+			code = (char)(tmp->code + 1);
+			if ((write(fd, &code, 1)) < 0)
 				return (ERROR);
+			if (tmp->code != 0 && tmp->code != 11
+					&& tmp->code != 8 && tmp->code != 14
+					&& (write(fd, &tmp->codage, 1)) < 0)
+				return (ERROR);
+			while (tmp->params[++i])
+			{
+				if (write_type(tmp, i, fd) == ERROR)
+					return (ERROR);
+			}
 		}
 		tmp = tmp->next;
 	}
