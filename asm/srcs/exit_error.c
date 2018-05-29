@@ -17,6 +17,7 @@ void			*exit_error(int row, int col, char **line, char **s)
 	int		type;
 	char	*msg;
 
+	(void)line;
 	type = get_type(*s + col);
 	msg = NULL;
 	if (type & T_STRING)

@@ -1,0 +1,8 @@
+invalid28.s : error not legit
+invalid42.s : error not legit
+invalid45.s : error not legit
+invalid46.s : error not legit
+invalid47.s : error not legit
+invalid51.s : error not legit
+invalid52.s : error not legit
+err_comment_2048s.s : missing an error

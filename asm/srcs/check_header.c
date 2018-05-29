@@ -103,8 +103,10 @@ char			*check_line(char **line, int fd, int *i, int type)
 		l = k + 1;
 		while ((*line)[l] && ((*line)[l] == ' ' || (*line)[l] == '\t'))
 			l++;
+		// Correction double free avec un .name "gdffd"" ou .name "miaou #" \;# "Couco
+		// Verifier consequence sur les leaks
 		if ((*line)[l] && (*line)[l] != COMMENT_CHAR && (*line)[l] != ';')
-			return (exit_error(*i, l, &str, line));
+			return (exit_error(*i, l, NULL, line));
 		if ((str = ft_strndup((*line) + j + 1, k - j - 1)) == NULL)
 			return (exit_free(*line, NULL, NULL));
 	}

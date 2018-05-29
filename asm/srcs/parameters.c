@@ -111,7 +111,7 @@ int			check_params(t_inst *new, char *line, int row, int col)
 		ft_tabdel(&split);
 		return (ERROR);
 	}
-//	printf("ICI = %d [%s] [%s] [%s] [%s] [%s] [%x]\n", new->code, new->label, new->name, new->params[0], new->params[1], new->params[2], new->codage);
+	//printf("ICI = %d [%s] [%s] [%s] [%s] [%s] [%x]\n", new->code, new->label, new->name, new->params[0], new->params[1], new->params[2], new->codage);
 	ft_tabdel(&split);
 	return (TRUE);
 }

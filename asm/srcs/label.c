@@ -48,7 +48,7 @@ int			fill_label(t_inst *new, char *line, int row)
 		return (-1);
 	}
 	sauv = i;
-	while (line[i] && line[i] != ' ' && line[i] != DIRECT_CHAR
+	while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != DIRECT_CHAR
 			&& line[i] != COMMENT_CHAR && line[i] != SEPARATOR_CHAR)
 	{
 		if (line[i] == LABEL_CHAR && (ret = verif_label(line + sauv, row)))

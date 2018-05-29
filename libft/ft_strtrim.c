@@ -55,7 +55,7 @@ static	int		len_end(char const *s)
 	return (len);
 }
 
-char			*ft_strtrim(char const *s)
+char			*ft_strtrim(char *s)
 {
 	char	*ret;
 	size_t	i;
@@ -73,5 +73,6 @@ char			*ft_strtrim(char const *s)
 	while (s[i] && i < ft_strlen(s) - len_end(s))
 		ret[j++] = s[i++];
 	ret[j] = '\0';
+	ft_strdel(&s);
 	return (ret);
 }

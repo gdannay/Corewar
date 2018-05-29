@@ -51,7 +51,7 @@ static int	get_type_next(char *str)
 			i++;
 		while (str[i] && ft_isdigit(str[i]))
 			i++;
-		if (str[i] == '\0' || str[i] == '"' || str[i] == ' ' || str[i] == '\t')
+		if (str[i - 1] != DIRECT_CHAR && (str[i] == '\0' || str[i] == '"' || str[i] == ' ' || str[i] == '\t'))
 			return (T_DIR);
 		return (ERROR);
 	}
