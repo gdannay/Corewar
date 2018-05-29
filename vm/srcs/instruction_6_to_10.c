@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:39:35 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/29 13:22:02 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:25:26 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	instruction_ldi(t_vm *vm, t_process *process)
 		params[1] = process->registre[params[1] - 1];
 	if (str[0] && str[0] == 'i')
 		params[0] = recup_nb_32(vm->arena,
-				process->position + (params[0] % IDX_MOD));
+				process->position + params[0]) % IDX_MOD;
 	if (params[2] && params[2] >= 1 && params[2] <= 16)
 		process->registre[params[2] - 1] =
 			recup_nb_32(vm->arena, process->position + params[0] + params[1]);

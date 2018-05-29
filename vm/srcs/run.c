@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:45:14 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/29 14:44:10 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:35:45 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void			kill_process(t_process **process, t_map *map)
 	}
 }
 
-int				condition_arret(t_map *map)
+int				condition_arret(t_map *map, int get)
 {
 	t_process	*process;
 
@@ -115,12 +115,16 @@ int				condition_arret(t_map *map)
 				process = process->next;
 			}
 		}
-		map->vm->cycle_to_die = CYCLE_TO_DIE - map->vm->cycle_delta;
-		map->vm->cycle_delta += CYCLE_DELTA;
+		if (map->space || get == 's')
+		{
+			map->vm->cycle_to_die = CYCLE_TO_DIE;// - map->vm->cycle_delta;
+			//map->vm->cycle_delta += CYCLE_DELTA;
+		}
 	}
 	if (!map->process)
 		return (0);
-	map->vm->cycle_to_die--;
+	if (map->space || get == 's')
+		map->vm->cycle_to_die--;
 	return (1);
 }
 
@@ -133,31 +137,37 @@ int				run_vm(t_map *map)
 	int				i;
 	int				get;
 
-	init_window();
-	arena = subwin(stdscr, 66, 195, 0, 0);
-	infos = subwin(stdscr, 66, 100, 0, 197);
-	box(arena, ACS_VLINE, ACS_HLINE);
-	box(infos, ACS_VLINE, ACS_HLINE);
-  wrefresh(arena);
-	wrefresh(infos);
-	while (condition_arret(map))
+	if (YOLO == 1)
+	{
+		init_window();
+		arena = subwin(stdscr, 66, 195, 0, 0);
+		infos = subwin(stdscr, 66, 100, 0, 197);
+		box(arena, ACS_VLINE, ACS_HLINE);
+		box(infos, ACS_VLINE, ACS_HLINE);
+  	wrefresh(arena);
+		wrefresh(infos);
+	}
+	get = 0;
+	while (condition_arret(map, get))
 	{
 		tmp = map->process;
 		i = 1;
-		//printf("\n== Cycle: %llu, cycle_to_die = %d, cycle_delta = %d ==\n", map->vm->cycle, map->vm->cycle_to_die, map->vm->cycle_delta);
-		print_infos(infos, map);
+		if (YOLO == 0)
+			printf("\n== Cycle: %llu, cycle_to_die = %d, cycle_delta = %d ==\n", map->vm->cycle, map->vm->cycle_to_die, map->vm->cycle_delta);
+		if (YOLO == 1)
+			print_infos(infos, map);
 		while (tmp)
 		{
 			tmp->position %= MEM_SIZE;
-			//printf("Nb process: %d\n", i);
-			//printf("Position: %d\n", tmp->position);
-			/*mvprintw(10, 1800, "Nb process: %d\n", i);
-			  refresh();
-			  mvprintw(20, 1800, "Position: %d\n", tmp->position);
-			  refresh();*/
-			if (tmp->inst)
+			if (YOLO == 0)
+			{
+				printf("Nb process: %d\n", i);
+				printf("Position: %d\n", tmp->position);
+				printf("Carry = %d\n", tmp->carry);
+			}
+			if (tmp->inst && (map->space || get == 's'))
 				ret = read_instruction(map, &map->process, tmp, tmp->inst);
-			else
+			else if (map->space || get == 's')
 				ret = read_instruction(map, &map->process,
 						tmp, map->vm->arena[tmp->position]);
 			if (!ret)
@@ -165,15 +175,22 @@ int				run_vm(t_map *map)
 			i++;
 			tmp = tmp->next;
 		}
-		print_arena(arena, map->vm, map->vm->arena, map);
-		wrefresh(infos);
-		get = getch();
-		if (get == 115)
+		if (YOLO == 1)
+		{
+			print_arena(arena, map->vm, map->vm->arena, map);
+			wrefresh(infos);
+			timeout(1);
+			get = getch();
+			if (get == ' ')
+				map->space = (map->space) ? 0 : 1;
+			if (get == 's' || map->space)
+				map->vm->cycle++;
+		}
+		else
 			map->vm->cycle++;
-		//if (get == 32)
-		//	ungetch(get);
 	}
-	endwin();
+	if (YOLO == 1)
+		endwin();
 	printf("\nRESULT\n");
 	while (map->player)
 	{

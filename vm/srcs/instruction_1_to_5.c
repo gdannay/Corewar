@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 12:09:17 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/29 15:36:56 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:34:50 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	instruction_ld(t_vm *vm, t_process *process)
 	take_params(vm->arena, process->position + 2, params, str, 0);
 	if (str[0] && str[0] == 'i')
 		params[0] = recup_nb_32(vm->arena,
-				process->position + (params[0] % IDX_MOD));
+				process->position + params[0]) % IDX_MOD;
 	if (params[1] && params[1] >= 1 && params[1] <= 16)
 		process->registre[params[1] - 1] = params[0];
 	process->carry = (!params[0]) ? 1 : 0;

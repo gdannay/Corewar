@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 16:11:29 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/29 15:31:34 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 16:26:55 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char		*create_arena(t_player *first)
 	tmp = first;
 	while (tmp)
 	{
+		//ft_printf("tmp->code: %s\n", tmp->code);
+		//write(1, tmp->code, (int)swap_32_bytes(tmp->header->prog_size));
 		copy_code(arena + i * space, tmp->code,
 				(int)swap_32_bytes(tmp->header->prog_size));
 		tmp->start = i * space;
@@ -70,7 +72,7 @@ char		*create_arena(t_player *first)
 	return (arena);
 }
 
-static	char	*create_arena_player(t_player *first)
+char	*create_arena_player(t_player *first)
 {
 	char		*arena;
 	int			space;

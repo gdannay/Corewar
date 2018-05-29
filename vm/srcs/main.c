@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:08:01 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/29 14:44:15 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 16:57:46 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int		main(int ac, char **av)
 	}
 	if (!(map = (t_map *)ft_memalloc(sizeof(t_map))))
 		return (-1);
+	map->space = 0;
 	map->player = NULL;
 	map->vm = NULL;
 	map->process = NULL;

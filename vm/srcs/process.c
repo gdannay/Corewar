@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:58:20 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/29 15:40:35 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 17:18:55 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int			create_new_process(t_process **begin,
 		return (0);
 	new->numero_who_create_process = n;
 	new->position = pos;
-	new->cycle = 0;
+	new->cycle = 1;
 	new->live = process->live;
 	new->carry = process->carry;
 	new->inst = 0;
@@ -45,7 +45,7 @@ t_process	*create_process(t_process **process,
 		return (NULL);
 	new->numero_who_create_process = player_numero;
 	new->position = pos;
-	new->cycle = 0;
+	new->cycle = 1;
 	new->live = 0;
 	new->carry = 0;
 	new->next = NULL;
@@ -74,14 +74,12 @@ t_process	*initialize_process(t_player *player)
 	tmp = NULL;
 	space = MEM_SIZE / nbr_players(player);
 	i = 0;
-	while (player->next)
-		player = player->next;
 	while (player)
 	{
 		if (!(tmp = create_process(&process, tmp, space * i, player->numero)))
 			return (NULL);
 		tmp->registre[0] = player->numero;
-		player = player->prev;
+		player = player->next;
 		i++;
 	}
 	return (process);

@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/29 15:38:12 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:36:02 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <ncurses.h>
 
+# define YOLO 1
 # define HEADER_SIZE sizeof(header_t)
 
 typedef struct			s_process
@@ -65,6 +66,7 @@ typedef struct 		s_map
 	struct s_player		*player;
 	struct s_vm	*vm;
 	struct s_process	*process;
+	int	space;
 }									t_map;
 
 typedef	struct		s_ptr

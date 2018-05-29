@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:18:11 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/28 13:17:32 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 16:26:16 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static header_t	*check_magic_length(header_t *header, char *name)
 		return (header_error(header,
 					"Error: File %s has an invalid header\n", name));
 	}
-	if (swap_32_bytes(header->prog_size) > CHAMP_MAX_SIZE)
+	if ((int)swap_32_bytes(header->prog_size) > CHAMP_MAX_SIZE)
 	{
 		dprintf(2, "Error: File %s has too large a code (%d bytes > %d bytes)\n"
 				, name, swap_32_bytes(header->prog_size), CHAMP_MAX_SIZE);
@@ -94,9 +94,9 @@ int				read_file(t_player **first, int fd, char *name)
 	if ((player = read_header(first, fd, name)) == NULL)
 		return (0);
 	if ((buff = (char *)ft_memalloc(sizeof(char) *
-					swap_32_bytes(player->header->prog_size))) == NULL)
+					(int)swap_32_bytes(player->header->prog_size))) == NULL)
 		return (0);
-	ret = read(fd, buff, swap_32_bytes(player->header->prog_size));
+	ret = read(fd, buff, (int)swap_32_bytes(player->header->prog_size));
 	if (ret == -1)
 		return (code_error(buff, &player,
 					"A error occured while reading the file %s\n", name));
@@ -108,7 +108,6 @@ int				read_file(t_player **first, int fd, char *name)
 					name));
 	}
 	player->code = buff;
-	ft_strdel(&buff);
 	return (1);
 }
 

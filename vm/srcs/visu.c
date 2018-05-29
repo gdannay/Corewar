@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 10:49:42 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/29 15:34:02 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/05/29 18:34:54 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ void 		print_arena(WINDOW *visu, t_vm *vm, char *arena, t_map *map)
 	char		line[3];
 
 	(void)vm;
+	(void)map;
 	i = 0;
 	x = 2;
 	y = 1;
 	while (i < MEM_SIZE)
 	{
+		//mvwprintw(visu, y, x, "%02hhx", arena[i]);
 		line[2] = 0;
 		line[1] = (unsigned char)arena[i] % 16;
 		line[0] = ((unsigned char)arena[i] / 16) % 16;
