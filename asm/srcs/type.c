@@ -6,11 +6,23 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:11:30 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/21 11:18:23 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:49:31 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+int			convert_type(char *str)
+{
+	int	type;
+
+	type = get_type(str);
+	if (type == T_DIR_LAB)
+		return (T_DIR);
+	else if (type == T_IND_LAB)
+		return (T_IND);
+	return (type);
+}
 
 static int	get_type_next_next(char *str)
 {
@@ -51,7 +63,8 @@ static int	get_type_next(char *str)
 			i++;
 		while (str[i] && ft_isdigit(str[i]))
 			i++;
-		if (str[i - 1] != DIRECT_CHAR && (str[i] == '\0' || str[i] == '"' || str[i] == ' ' || str[i] == '\t'))
+		if (str[i - 1] != DIRECT_CHAR && (str[i] == '\0' ||
+					str[i] == '"' || str[i] == ' ' || str[i] == '\t'))
 			return (T_DIR);
 		return (ERROR);
 	}

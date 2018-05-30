@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:07:45 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/28 18:21:32 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:38:34 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void			*exit_error(int row, int col, char **line, char **s)
 	int		type;
 	char	*msg;
 
-	(void)line;
 	type = get_type(*s + col);
 	msg = NULL;
 	if (type & T_STRING)

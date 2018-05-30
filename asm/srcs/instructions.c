@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 13:57:04 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/29 12:21:11 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:40:21 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern struct s_op op_tab[17];
 
-t_inst	*initialize_inst(void)
+t_inst			*initialize_inst(void)
 {
 	t_inst	*new;
 	int		i;

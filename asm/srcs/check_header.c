@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 18:09:25 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/28 18:04:09 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:39:17 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static int		multi_line_reader(char *line, char **str, int fd, int *i)
 	*i = *i + 1;
 	while ((ret = get_next_line(fd, &read)) == 1)
 	{
-		if (read && !read[ft_stridx(read, "\"")] && !(read = ft_strjoindel(read, "\n")))
+		if (read && !read[ft_stridx(read, "\"")] &&
+				!(read = ft_strjoindel(read, "\n")))
 			return (ERROR);
 		if ((check = add_line(str, &read, i, ft_stridx(read, "\""))) == ERROR)
 			return (ERROR);
@@ -103,8 +104,6 @@ char			*check_line(char **line, int fd, int *i, int type)
 		l = k + 1;
 		while ((*line)[l] && ((*line)[l] == ' ' || (*line)[l] == '\t'))
 			l++;
-		// Correction double free avec un .name "gdffd"" ou .name "miaou #" \;# "Couco
-		// Verifier consequence sur les leaks
 		if ((*line)[l] && (*line)[l] != COMMENT_CHAR && (*line)[l] != ';')
 			return (exit_error(*i, l, NULL, line));
 		if ((str = ft_strndup((*line) + j + 1, k - j - 1)) == NULL)

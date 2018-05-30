@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:32 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/29 12:16:28 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:47:19 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 extern struct s_op op_tab[17];
 
-static int	save_label(t_inst *new, char *line, int i, int sauv)
+static int	add_label(t_inst *new, char *line, int i, int sauv)
 {
 	t_inst	*tmp;
 
@@ -34,6 +34,29 @@ static int	save_label(t_inst *new, char *line, int i, int sauv)
 	return (find_next_char(line, i + 1));
 }
 
+int			save_label(char *line, int next, t_inst **first)
+{
+	t_inst	*new;
+	t_inst	*tmp;
+
+	if ((new = initialize_inst()) == NULL)
+		return (ERROR);
+	if (*first == NULL)
+		*first = new;
+	else
+	{
+		tmp = *first;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+		new->prev = tmp;
+	}
+	if ((new->label = ft_strsub(line, next,
+			find_next_space(line, next) - next - 1)) == NULL)
+		return (ERROR);
+	return (TRUE);
+}
+
 int			fill_label(t_inst *new, char *line, int row)
 {
 	int		i;
@@ -48,11 +71,12 @@ int			fill_label(t_inst *new, char *line, int row)
 		return (-1);
 	}
 	sauv = i;
-	while (line[i] && line[i] != ' ' && line[i] != '\t' && line[i] != DIRECT_CHAR
-			&& line[i] != COMMENT_CHAR && line[i] != SEPARATOR_CHAR)
+	while (line[i] && line[i] != ' ' && line[i] != '\t' &&
+			line[i] != DIRECT_CHAR && line[i] != COMMENT_CHAR
+			&& line[i] != SEPARATOR_CHAR)
 	{
 		if (line[i] == LABEL_CHAR && (ret = verif_label(line + sauv, row)))
-			return (save_label(new, line, i, sauv));
+			return (add_label(new, line, i, sauv));
 		else if (line[i] == LABEL_CHAR && !ret)
 			return (-1);
 		i++;
@@ -70,8 +94,8 @@ int			verif_label(char *line, int row)
 		if (ft_strchr(LABEL_CHARS, line[i]) == NULL)
 		{
 			ft_dprintf(2,
-			"Label \"%s\" does not respect LABEL_CHARS: \"%s\" [%03d:%03d]\n",
-			line, LABEL_CHARS, row, i);
+		"Label \"%s\" does not respect LABEL_CHARS: \"%s\" [%03d:%03d]\n",
+		line, LABEL_CHARS, row, i);
 			return (ERROR);
 		}
 	}

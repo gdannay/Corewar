@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/29 13:29:53 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:47:42 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,32 +44,10 @@ static void	delete_comment(char *str)
 	ft_bzero(str + i, ft_strlen(str) - i);
 }
 
-static int	save_label(char *line, int next, t_inst **first)
-{
-	t_inst	*new;
-	t_inst	*tmp;
-
-	if ((new = initialize_inst()) == NULL)
-		return (ERROR);
-	if (*first == NULL)
-		*first = new;
-	else
-	{
-		tmp = *first;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-		new->prev = tmp;
-	}
-	if ((new->label = ft_strsub(line, next, find_next_space(line, next) - next - 1)) == NULL)
-		return (ERROR);
-	return (TRUE);
-}
-
 static int	parse_line(char *line, int *row, t_inst **first)
 {
 	int			next;
-	int 		ret;
+	int			ret;
 
 	next = find_next_char(line, 0);
 	ret = TRUE;

@@ -6,25 +6,13 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 18:18:58 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/17 15:59:22 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:42:56 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
 extern struct s_op op_tab[17];
-
-int			convert_type(char *str)
-{
-	int	type;
-
-	type = get_type(str);
-	if (type == T_DIR_LAB)
-		return (T_DIR);
-	else if (type == T_IND_LAB)
-		return (T_IND);
-	return (type);
-}
 
 static int	get_codage(int type)
 {
@@ -102,7 +90,8 @@ int			check_params(t_inst *new, char *line, int row, int col)
 			op_tab[new->code].nb_par != ft_countchr(params, SEPARATOR_CHAR) + 1)
 	{
 		ft_dprintf(2,
-				"Invalid parameter count for instruction %s at line: %d\n", new->name, row);
+		"Invalid parameter count for instruction %s at line: %d\n",
+		new->name, row);
 		ft_tabdel(&split);
 		return (ERROR);
 	}

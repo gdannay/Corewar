@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:50:30 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/29 13:36:11 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:38:25 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int					compute_size_program(t_inst *first, int size)
 	while (tmp)
 	{
 		code = tmp->codage;
-		if (tmp->code != 0 && tmp->code != 11 && tmp->code != -1 && tmp->code != 8 && tmp->code != 14)
+		if (tmp->code != 0 && tmp->code != 11 && tmp->code != -1
+				&& tmp->code != 8 && tmp->code != 14)
 			size++;
 		while (code)
 		{
@@ -58,17 +59,24 @@ static void			save_infos(header_t *header, int type,
 	}
 }
 
-static header_t		*get_infos(int fd, header_t *header, int *row)
+static header_t		*check_ret(int ret, char **line, header_t *header, int *row)
+{
+	if (ret == 0)
+	{
+		error_message(*row, 0, T_END, NULL);
+		return (exit_free(*line, NULL, header));
+	}
+	return (ret == -1 ? exit_free(*line, NULL, header) : header);
+}
+
+static header_t		*get_infos(int fd, header_t *header, int *row, int check)
 {
 	char		*line;
 	char		*str;
 	int			ret;
 	int			type;
-	int			check;
 
-	check = 0;
 	str = NULL;
-	line = NULL;
 	while (check < 3 && (ret = get_next_line(fd, &line)) == 1)
 	{
 		if ((line = ft_strtrim(line)) == NULL)
@@ -86,12 +94,7 @@ static header_t		*get_infos(int fd, header_t *header, int *row)
 		*row = *row + 1;
 		ft_strdel(&line);
 	}
-	if (ret == 0)
-	{
-		error_message(*row, 0, T_END, NULL);
-		return (exit_free(line, NULL, header));
-	}
-	return (ret == -1 ? exit_free(line, NULL, header) : header);
+	return (check_ret(ret, &line, header, row));
 }
 
 header_t			*create_header(int fd, int *row)
@@ -100,8 +103,7 @@ header_t			*create_header(int fd, int *row)
 
 	if ((header = (header_t *)ft_memalloc(sizeof(header_t))) == NULL)
 		return (NULL);
-	if ((header = get_infos(fd, header, row)) == NULL)
+	if ((header = get_infos(fd, header, row, 0)) == NULL)
 		return (NULL);
-	//printf("IICICI = [%s] [%s]\n", header->prog_name, header->comment);
 	return (header);
 }

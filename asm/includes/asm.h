@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:39:56 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/29 12:17:27 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:45:20 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,12 @@ int					get_type(char *str);
 int 				check_params(t_inst *new, char *line, int row, int col);
 int					find_next_char(char *str, int i);
 int					find_next_space(char *str, int i);
+int					convert_type(char *str);
 
 int					fill_label(t_inst *new, char *line, int row);
 int 				take_label(t_inst *first);
 int					verif_label(char *line, int row);
+int					save_label(char *line, int next, t_inst **first);
 t_inst				*initialize_inst(void);
 
 int					write_in_cor(char *av, header_t *header, t_inst *first);

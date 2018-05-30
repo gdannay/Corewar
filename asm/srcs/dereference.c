@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 15:11:01 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/29 13:30:24 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:27:59 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,15 @@ static int	search_on_top(t_inst *list, char *str)
 	return (-1);
 }
 
-static int	dereference(t_inst *inst, int i)
+static int	dereference(t_inst *inst, int i, int pos)
 {
-	int		pos;
 	char	*conv;
 
 	if ((pos = search_on_bottom(inst, inst->params[i])) == -1
 			&& (pos = search_on_top(inst, inst->params[i])) == -1)
 	{
-		ft_dprintf(2, "No such label %s\n", ft_strstr(inst->params[i], ":") + 1);
+		ft_dprintf(2, "No such label %s\n",
+				ft_strstr(inst->params[i], ":") + 1);
 		return (ERROR);
 	}
 	if ((conv = ft_itoa(pos)) == NULL)
@@ -119,7 +119,7 @@ int			take_label(t_inst *list)
 					inst->params[i][1] == LABEL_CHAR)
 			{
 				tmp = inst->params[i];
-				if (dereference(inst, i) == ERROR)
+				if (dereference(inst, i, 0) == ERROR)
 					return (ERROR);
 				ft_strdel(&tmp);
 			}

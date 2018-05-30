@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:05 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/29 13:33:47 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:49:11 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,8 @@ static int	write_instruction(t_inst *first, int fd)
 			code = (char)(tmp->code + 1);
 			if ((write(fd, &code, 1)) < 0)
 				return (ERROR);
-			if (tmp->code != 0 && tmp->code != 11
-					&& tmp->code != 8 && tmp->code != 14
-					&& (write(fd, &tmp->codage, 1)) < 0)
+			if (tmp->code != 0 && tmp->code != 11 && tmp->code != 8
+					&& tmp->code != 14 && (write(fd, &tmp->codage, 1)) < 0)
 				return (ERROR);
 			while (tmp->params[++i])
 			{
@@ -75,7 +74,6 @@ int			write_in_cor(char *av, header_t *header, t_inst *first)
 {
 	char	*name;
 	int		fd;
-
 //	av = strrchr(av, '/') + 1;
 	av[ft_strlen(av) - 2] = '\0';
 	if ((name = ft_strjoin(av, ".cor")) == NULL)
