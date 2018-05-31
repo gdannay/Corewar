@@ -103,10 +103,11 @@ int				condition_arret(t_map *map, int get)
 
 	//printf("%llu\n", map->vm->cycle);
 	process = map->process;
-	if (!map->vm->cycle_to_die)
+	if (map->vm->cycle_to_die <= 0)
 	{
 		while (process)
 		{
+			map->vm->nbr_live += process->live;
 			if (process->live == 0)
 				kill_process(&process, map);
 			else
@@ -117,14 +118,23 @@ int				condition_arret(t_map *map, int get)
 		}
 		if (map->space || get == 's')
 		{
-			map->vm->cycle_to_die = CYCLE_TO_DIE;// - map->vm->cycle_delta;
-			//map->vm->cycle_delta += CYCLE_DELTA;
+			if (map->vm->nbr_live >= NBR_LIVE || map->vm->max_checks == 10)
+			{
+				map->vm->cycle_delta += CYCLE_DELTA;
+				map->vm->max_checks = 0;
+			}
+			else
+				map->vm->max_checks++;
+			map->vm->cycle_to_die = CYCLE_TO_DIE;
 		}
 	}
 	if (!map->process)
 		return (0);
 	if (map->space || get == 's')
+	{
 		map->vm->cycle_to_die--;
+		map->vm->cycle++;
+	}
 	return (1);
 }
 
@@ -137,34 +147,19 @@ int				run_vm(t_map *map)
 	int				i;
 	int				get;
 
-	if (YOLO == 1)
-	{
-		init_window();
-		arena = subwin(stdscr, 66, 195, 0, 0);
-		infos = subwin(stdscr, 66, 100, 0, 197);
-		box(arena, ACS_VLINE, ACS_HLINE);
-		box(infos, ACS_VLINE, ACS_HLINE);
-  	wrefresh(arena);
-		wrefresh(infos);
-	}
+	map->vm->cycle_to_die = CYCLE_TO_DIE;
+	map->vm->nbr_live = 0;
+	map->vm->cycle_delta = 0;
+	map->vm->max_checks = 0;
+	init_window_vm(&arena, &infos);
 	get = 0;
 	while (condition_arret(map, get))
 	{
 		tmp = map->process;
 		i = 1;
-		if (YOLO == 0)
-			printf("\n== Cycle: %llu, cycle_to_die = %d, cycle_delta = %d ==\n", map->vm->cycle, map->vm->cycle_to_die, map->vm->cycle_delta);
-		if (YOLO == 1)
-			print_infos(infos, map);
 		while (tmp)
 		{
 			tmp->position %= MEM_SIZE;
-			if (YOLO == 0)
-			{
-				printf("Nb process: %d\n", i);
-				printf("Position: %d\n", tmp->position);
-				printf("Carry = %d\n", tmp->carry);
-			}
 			if (tmp->inst && (map->space || get == 's'))
 				ret = read_instruction(map, &map->process, tmp, tmp->inst);
 			else if (map->space || get == 's')
@@ -175,28 +170,8 @@ int				run_vm(t_map *map)
 			i++;
 			tmp = tmp->next;
 		}
-		if (YOLO == 1)
-		{
-			print_arena(arena, map->vm, map->vm->arena, map);
-			wrefresh(infos);
-			timeout(1);
-			get = getch();
-			if (get == ' ')
-				map->space = (map->space) ? 0 : 1;
-			if (get == 's' || map->space)
-				map->vm->cycle++;
-		}
-		else
-			map->vm->cycle++;
+		display_windows_vm(arena, infos, map, &get);
 	}
-	if (YOLO == 1)
-		endwin();
-	printf("\nRESULT\n");
-	while (map->player)
-	{
-		printf("Player: %d -> nb live: %d\n",
-				map->player->numero, map->player->global_live);
-		map->player = map->player->next;
-	}
+	endwin();
 	return (1);
 }

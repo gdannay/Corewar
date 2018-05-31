@@ -32,7 +32,7 @@ OBJS			=	$(SRCS:.c=.o)
 
 CC				=	@gcc
 
-CFLAGS			=	-Wall -Werror -Wextra -I includes -I ../libft/
+CFLAGS			=	 -I includes -I ../libft/
 
 LFLAGS			=	../libft/libft.a -lncurses
 

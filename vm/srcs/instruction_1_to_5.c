@@ -26,7 +26,10 @@ int	instruction_live(t_vm *vm, t_process *process, t_player *player)
 	while (player)
 	{
 		if (player->numero == numero_live)
+		{
+			player->last_live = vm->cycle;
 			player->global_live++;
+		}
 		player = player->next;
 	}
 	return (inst_done(process, 5));

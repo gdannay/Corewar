@@ -105,6 +105,7 @@ t_vm		*create_vm(t_player *first)
 			|| (!(vm->arena = create_arena(first)))
 			|| (!(vm->arena_player = create_arena_player(first))))
 		return (NULL);
+	vm->max_checks = 0;
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	vm->cycle_delta = CYCLE_DELTA;

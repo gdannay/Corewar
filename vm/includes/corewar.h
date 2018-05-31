@@ -58,6 +58,7 @@ typedef struct			s_vm
 	int					cycle_to_die;
 	int					cycle_delta;
 	int					nbr_live;
+	int					max_checks;
 	unsigned long		process;
 }						t_vm;
 
@@ -88,6 +89,8 @@ t_vm *create_vm(t_player *first);
 t_process *initialize_process(t_player *player);
 int	nbr_players(t_player *first);
 int run_vm(t_map *map);
+void display_windows_vm(WINDOW *arena, WINDOW *infos, t_map *map, int *get);
+
 
 int instruction_live(t_vm *vm, t_process *process, t_player *player);
 int instruction_ld(t_vm *vm, t_process *process);
@@ -111,6 +114,7 @@ void 					free_vm(t_vm **vm);
 void 					free_process(t_process **process);
 int 					free_map(t_map *map);
 
+void init_window_vm(WINDOW **arena, WINDOW **infos);
 void 	print_process(t_process *process);
 char *take_opcode(unsigned char c, char *str);
 void take_params(char *arena, int pos, int *params, char *str, int unknown);
