@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 18:09:25 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/30 16:39:17 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/31 10:36:59 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static int		multi_line_reader(char *line, char **str, int fd, int *i)
 		*i = *i + 1;
 		ft_strdel(&read);
 	}
+	ft_strdel(str);
 	error_message(*i, 0, T_END, NULL);
 	return (ERROR);
 }

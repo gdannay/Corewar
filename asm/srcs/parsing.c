@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/30 16:47:42 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/31 10:30:21 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	parse_line(char *line, int *row, t_inst **first)
 {
 	int			next;
 	int			ret;
+	t_inst		*tmp;
 
 	next = find_next_char(line, 0);
 	ret = TRUE;
@@ -57,7 +58,8 @@ static int	parse_line(char *line, int *row, t_inst **first)
 				!line[find_next_char(line, ft_stridx(line, ":") + 1)] &&
 				(ret = verif_label(line, *row)) == TRUE)
 		{
-			if (save_label(line, next, first) == ERROR)
+			if ((tmp = save_label(line, next, first)) == NULL
+					|| add_label(tmp, NULL, 0, 0) == -1)
 				return (ERROR);
 		}
 		else if (ret == ERROR

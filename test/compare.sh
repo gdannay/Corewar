@@ -14,13 +14,5 @@ do
 	echo ""
 done
 
-for file in $second/*cor;
-do
-	echo "-----$file-----"
-	diff $file $file
-	echo ""
-	echo ""
-done
-
 rm ./champs/*.cor
 rm ./vm_champs/*.cor

@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:32 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/30 16:47:19 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/31 11:16:31 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 
 extern struct s_op op_tab[17];
 
-static int	add_label(t_inst *new, char *line, int i, int sauv)
+int			add_label(t_inst *new, char *line, int i, int sauv)
 {
 	t_inst	*tmp;
 
 	tmp = new->prev;
-	if ((new->label = ft_strsub(line, sauv, i - sauv)) == NULL)
-		return (-1);
+	if (line)
+	{
+		if ((new->label = ft_strsub(line, sauv, i - sauv)) == NULL)
+			return (-1);
+	}
 	while (tmp)
 	{
 		if (tmp->label && ft_strcmp(tmp->label, new->label) == 0)
@@ -34,13 +37,13 @@ static int	add_label(t_inst *new, char *line, int i, int sauv)
 	return (find_next_char(line, i + 1));
 }
 
-int			save_label(char *line, int next, t_inst **first)
+t_inst		*save_label(char *line, int next, t_inst **first)
 {
 	t_inst	*new;
 	t_inst	*tmp;
 
 	if ((new = initialize_inst()) == NULL)
-		return (ERROR);
+		return (NULL);
 	if (*first == NULL)
 		*first = new;
 	else
@@ -52,9 +55,9 @@ int			save_label(char *line, int next, t_inst **first)
 		new->prev = tmp;
 	}
 	if ((new->label = ft_strsub(line, next,
-			find_next_space(line, next) - next - 1)) == NULL)
-		return (ERROR);
-	return (TRUE);
+					find_next_space(line, next) - next - 1)) == NULL)
+		return (NULL);
+	return (new);
 }
 
 int			fill_label(t_inst *new, char *line, int row)
@@ -94,8 +97,8 @@ int			verif_label(char *line, int row)
 		if (ft_strchr(LABEL_CHARS, line[i]) == NULL)
 		{
 			ft_dprintf(2,
-		"Label \"%s\" does not respect LABEL_CHARS: \"%s\" [%03d:%03d]\n",
-		line, LABEL_CHARS, row, i);
+			"Label \"%s\" does not respect LABEL_CHARS: \"%s\" [%03d:%03d]\n",
+			line, LABEL_CHARS, row, i);
 			return (ERROR);
 		}
 	}

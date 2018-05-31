@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:50:30 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/30 16:38:25 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/31 11:07:16 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static header_t		*get_infos(int fd, header_t *header, int *row, int check)
 	int			ret;
 	int			type;
 
+	line = NULL;
 	str = NULL;
 	while (check < 3 && (ret = get_next_line(fd, &line)) == 1)
 	{

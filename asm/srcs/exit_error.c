@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:07:45 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/30 16:38:34 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/31 11:09:42 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void			*exit_error(int row, int col, char **line, char **s)
 	}
 	else
 	{
-		if ((msg = ft_strsub(*s, col, find_next_space(*s, col) - 1)) == NULL)
+		if ((msg = ft_strsub(*s, col, find_next_space(*s, col))) == NULL)
 			return (NULL);
 		error_message(row, col + 1, type, msg);
 	}

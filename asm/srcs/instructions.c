@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 13:57:04 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/30 16:40:21 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/05/31 11:11:37 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int		take_index_in_op(t_inst *inst, char *line, int row, int *col)
 	if (op_code == -1)
 	{
 		ft_dprintf(2, "Instruction \"%s\" does not exist [TOKEN][%03d:%03d]\n",
-				line, row, *col);
+				line, row, *col + 1);
 		return (ERROR);
 	}
 	inst->code = op_code;
