@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:40:19 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/29 13:21:44 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/04 11:16:41 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	instruction_aff(t_vm *vm, t_process *process)
 	char	str[4];
 	int		params[4];
 
-	//printf("AFF --> ");
+	printf("AFF --> ");
 	if (process->cycle < 2)
 		return (inst_progress(process, 16));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))

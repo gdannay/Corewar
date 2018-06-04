@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/29 18:36:02 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/04 11:42:10 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,7 @@ int				create_new_process(t_process **begin, t_process *process, int pos, int n)
 void 			init_window(void);
 int				inst_progress(t_process *process, int inst);
 int				inst_done(t_process *process, int add_pos);
+
+void			print_params(int *params);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:45:14 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/29 18:35:45 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/04 17:02:49 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,13 +153,15 @@ int				run_vm(t_map *map)
 	map->vm->max_checks = 0;
 	init_window_vm(&arena, &infos);
 	get = 0;
-	while (condition_arret(map, get))
+	while (condition_arret(map, get))// && map->vm->cycle < 2050)
 	{
+//		printf("\nCYCLE = %llu\n", map->vm->cycle);
 		tmp = map->process;
 		i = 1;
 		while (tmp)
 		{
 			tmp->position %= MEM_SIZE;
+//			printf("POS = %d\n", tmp->position);
 			if (tmp->inst && (map->space || get == 's'))
 				ret = read_instruction(map, &map->process, tmp, tmp->inst);
 			else if (map->space || get == 's')
@@ -170,7 +172,8 @@ int				run_vm(t_map *map)
 			i++;
 			tmp = tmp->next;
 		}
-		display_windows_vm(arena, infos, map, &get);
+//		map->vm->cycle++;
+	display_windows_vm(arena, infos, map, &get);
 	}
 	endwin();
 	return (1);

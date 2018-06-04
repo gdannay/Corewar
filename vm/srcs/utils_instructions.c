@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 14:20:48 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/29 13:23:08 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/04 17:00:41 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		inst_progress(t_process *process, int inst)
 {
 	process->inst = inst;
 	process->cycle++;
-	//printf("Progress\n");
+//	printf("Progress\n");
 	return (1);
 }
 
@@ -25,7 +25,15 @@ int		inst_done(t_process *process, int add_pos)
 	process->cycle = 1;
 	process->inst = 0;
 	process->position += add_pos;
-	//printf("Done\n");
+	process->position %= MEM_SIZE;
+	if (process->position < 0)
+		process->position += MEM_SIZE;
+	process->position %= MEM_SIZE;
+//	printf("Done\n");
+	int i;
+	i = -1;
+	while (0 && ++i < REG_NUMBER)
+		printf("REG[%d] : %x\n", i, process->registre[i]);
 	return (1);
 }
 
@@ -63,7 +71,7 @@ void	take_params(char *arena, int pos, int *params,
 	{
 		if (str[i] == 'i' || (str[i] == 'd' && unknown != 0))
 		{
-			params[i] = recup_nb_16(arena, pos + params[3]);
+			params[i] = (short int)recup_nb_16(arena, pos + params[3]);
 			params[3] += 2;
 		}
 		else if (str[i] == 'd')
@@ -76,5 +84,17 @@ void	take_params(char *arena, int pos, int *params,
 			params[i] = arena[(pos + params[3]) % MEM_SIZE];
 			params[3] += 1;
 		}
+	}
+}
+
+void	print_params(int *params)
+{
+	int i;
+
+	i = 0;
+	while (0 && i < 4)
+	{
+		printf("Param[%d] : %x %d\n", i, params[i], (short int)params[i]);
+		i++;
 	}
 }
