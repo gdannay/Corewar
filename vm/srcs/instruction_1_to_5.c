@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 12:09:17 by clegirar          #+#    #+#             */
-/*   Updated: 2018/06/04 18:17:01 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/06 16:28:54 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	instruction_st(t_vm *vm, t_process *process)
 	char	str[4];
 	int		params[4];
 
-	printf("ST --> ");
+//	printf("ST --> ");
 	if (process->cycle < 5)
 		return (inst_progress(process, 3));
 	if (!(take_opcode(vm->arena[(process->position + 1) % MEM_SIZE], str)))
@@ -74,7 +74,7 @@ int	instruction_st(t_vm *vm, t_process *process)
 		process->registre[params[1] - 1] = process->registre[params[0] - 1];
 	else if (params[0] && params[0] >= 1 && params[0] <= 16)
 		write_in_arena_32(vm, process->registre[params[0] - 1],
-				process->position + (params[1] % IDX_MOD), process->numero_who_create_process);
+				process->position + (params[1] % IDX_MOD), process->color);
 	return (inst_done(process, 2 + params[3]));
 }
 

@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 18:35:38 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/28 11:28:12 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/06 14:10:38 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,15 @@ void	free_process(t_process **process)
 
 int		free_map(t_map *map)
 {
-	if (map->player)
-		free_players(&map->player);
-	if (map->vm)
-		free_vm(&map->vm);
-	if (map->process)
-		free_process(&map->process);
-	free(map);
+	if (map)
+	{
+		if (map->player)
+			free_players(&map->player);
+		if (map->vm)
+			free_vm(&map->vm);
+		if (map->process)
+			free_process(&map->process);
+		free(map);
+	}
 	return (-1);
 }

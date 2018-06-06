@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:58:20 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/29 17:18:55 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/06 16:28:59 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			create_new_process(t_process **begin,
 
 	if (!(new = (t_process *)ft_memalloc(sizeof(t_process))))
 		return (0);
-	new->numero_who_create_process = n;
+	new->color = n;
 	new->position = pos;
 	new->cycle = 1;
 	new->live = process->live;
@@ -36,14 +36,14 @@ int			create_new_process(t_process **begin,
 }
 
 t_process	*create_process(t_process **process,
-		t_process *tmp, int pos, int player_numero)
+		t_process *tmp, int pos, int color)
 {
 	t_process	*new;
 	int			i;
 
 	if ((new = (t_process *)ft_memalloc(sizeof(t_process))) == NULL)
 		return (NULL);
-	new->numero_who_create_process = player_numero;
+	new->color = color;
 	new->position = pos;
 	new->cycle = 1;
 	new->live = 0;
@@ -76,7 +76,7 @@ t_process	*initialize_process(t_player *player)
 	i = 0;
 	while (player)
 	{
-		if (!(tmp = create_process(&process, tmp, space * i, player->numero)))
+		if (!(tmp = create_process(&process, tmp, space * i, player->color)))
 			return (NULL);
 		tmp->registre[0] = player->numero;
 		player = player->next;

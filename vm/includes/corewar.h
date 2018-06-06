@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/04 11:42:10 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/06 16:28:51 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,16 @@
 # include <unistd.h>
 # include <ncurses.h>
 
-# define YOLO 1
 # define HEADER_SIZE sizeof(header_t)
+# define D_FLAG 1
+# define N_FLAG 2
+# define V_FLAG 4
+# define A_FLAG 8
 
 typedef struct			s_process
 {
 	int					registre[REG_NUMBER];
-	int					numero_who_create_process;
+	int					color;
 	int 				position;
 	int					live;
 	char				carry;
@@ -46,6 +49,7 @@ typedef struct			s_player
 	int						global_live;
 	int						last_live;
 	int						start;
+	int						color;
 	struct s_player		*next;
 	struct s_player		*prev;
 }						t_player;
@@ -65,6 +69,8 @@ typedef struct			s_vm
 typedef struct 		s_map
 {
 	struct s_player		*player;
+	char				flag;
+	int					dump;
 	struct s_vm	*vm;
 	struct s_process	*process;
 	int	space;
@@ -77,13 +83,12 @@ typedef	struct		s_ptr
 }					t_ptr;
 
 uint32_t				swap_32_bytes(uint32_t nb);
-int						read_file(t_player **first, int fd, char *name);
 void					*header_error(header_t *header, char *str, char *name);
 int						code_error(char *buff, t_player **player, char *str, char *name);
 char					*create_arena(t_player *first);
 void 					print_arena(WINDOW *visu, t_vm *vm, char *arena, t_map *map);
 void 					print_infos(WINDOW *infos, t_map *map);
-t_player *read_av(char **av, int ac);
+t_player *read_av(char **av, int ac, int i);
 int recup_int(char *str);
 t_vm *create_vm(t_player *first);
 t_process *initialize_process(t_player *player);

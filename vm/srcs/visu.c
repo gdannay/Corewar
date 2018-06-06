@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 10:49:42 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/29 18:34:54 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/06 16:28:56 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,11 @@ void 		print_infos(WINDOW *infos, t_map *map)
 	}
 	process = map->process;
 	x += 2;
-	while (process)
+	/*while (process)
 	{
 		mvwprintw(infos, ++x, 2, "Numero numero_who_create_process = %d have nb_live: %d", process->numero_who_create_process, process->live);
 		process = process->next;
-	}
+	}*/
 	wrefresh(infos);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:59:01 by vferreir          #+#    #+#             */
-/*   Updated: 2018/06/04 17:00:32 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/06 16:07:39 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void		write_in_arena_32(t_vm *vm, int registre, int pos, int nb)
 	vm->arena[(pos + 1) % MEM_SIZE] = registre >> 16;
 	vm->arena[(pos + 2) % MEM_SIZE] = registre >> 8;
 	vm->arena[(pos + 3) % MEM_SIZE] = registre;
-	vm->arena_player[pos % MEM_SIZE] = nb * -1;
-	vm->arena_player[(pos + 1) % MEM_SIZE] = nb * -1;
-	vm->arena_player[(pos + 2) % MEM_SIZE] = nb * -1;
-	vm->arena_player[(pos + 3) % MEM_SIZE] = nb * -1;
+	vm->arena_player[pos % MEM_SIZE] = nb;
+	vm->arena_player[(pos + 1) % MEM_SIZE] = nb;
+	vm->arena_player[(pos + 2) % MEM_SIZE] = nb;
+	vm->arena_player[(pos + 3) % MEM_SIZE] = nb;
 }
 
 uint32_t	swap_32_bytes(uint32_t nb)

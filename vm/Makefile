@@ -6,7 +6,7 @@
 #    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/21 18:36:07 by clegirar         ###   ########.fr        #
+#    Updated: 2018/06/06 16:16:09 by clegirar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ CC				=	@gcc
 
 CFLAGS			=	 -I includes -I ../libft/
 
-LFLAGS			=	../libft/libft.a -lncurses
+LFLAGS			=	../libft/libft.a -lncurses -g3 -fsanitize=address
 
 all				:	$(NAME)
 

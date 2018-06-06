@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 16:11:29 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/29 16:26:55 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/06 16:29:02 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static	void 	copy_nb_player(char *arena, int numero, int size)
 
 	i = -1;
 	while (++i < size)
-		arena[i] = numero * -1;
+		arena[i] = numero;
 }
 
 char		*create_arena(t_player *first)
@@ -88,7 +88,7 @@ char	*create_arena_player(t_player *first)
 	tmp = first;
 	while (tmp)
 	{
-		copy_nb_player(arena + i * space, tmp->numero,
+		copy_nb_player(arena + i * space, tmp->color,
 				(int)swap_32_bytes(tmp->header->prog_size));
 		tmp->start = i * space;
 		tmp = tmp->next;

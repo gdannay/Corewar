@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:45:14 by vferreir          #+#    #+#             */
-/*   Updated: 2018/06/04 17:02:49 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/06 16:28:49 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,10 @@ static	int		read_instruction(t_map *map, t_process **begin,
 				return (g_ptr[i].f(map->vm, process));
 			i++;
 		}
-	}
-	else
-	{
-		//printf("Not instruction\n");
 		process->position++;
 	}
+	else
+		process->position++;
 	return (1);
 }
 
@@ -116,7 +114,7 @@ int				condition_arret(t_map *map, int get)
 				process = process->next;
 			}
 		}
-		if (map->space || get == 's')
+		if (!(map->flag & V_FLAG) || map->space || get == 's')
 		{
 			if (map->vm->nbr_live >= NBR_LIVE || map->vm->max_checks == 10)
 			{
@@ -130,7 +128,7 @@ int				condition_arret(t_map *map, int get)
 	}
 	if (!map->process)
 		return (0);
-	if (map->space || get == 's')
+	if (!(map->flag & V_FLAG) || map->space || get == 's')
 	{
 		map->vm->cycle_to_die--;
 		map->vm->cycle++;
@@ -151,20 +149,21 @@ int				run_vm(t_map *map)
 	map->vm->nbr_live = 0;
 	map->vm->cycle_delta = 0;
 	map->vm->max_checks = 0;
-	init_window_vm(&arena, &infos);
+	if (map->flag & V_FLAG)
+		init_window_vm(&arena, &infos);
 	get = 0;
 	while (condition_arret(map, get))// && map->vm->cycle < 2050)
 	{
-//		printf("\nCYCLE = %llu\n", map->vm->cycle);
+		printf("\nCYCLE = %llu\n", map->vm->cycle);
 		tmp = map->process;
 		i = 1;
 		while (tmp)
 		{
 			tmp->position %= MEM_SIZE;
 //			printf("POS = %d\n", tmp->position);
-			if (tmp->inst && (map->space || get == 's'))
+			if (tmp->inst && (!(map->flag & V_FLAG) || map->space || get == 's'))
 				ret = read_instruction(map, &map->process, tmp, tmp->inst);
-			else if (map->space || get == 's')
+			else if (!(map->flag & V_FLAG) || map->space || get == 's')
 				ret = read_instruction(map, &map->process,
 						tmp, map->vm->arena[tmp->position]);
 			if (!ret)
@@ -172,9 +171,12 @@ int				run_vm(t_map *map)
 			i++;
 			tmp = tmp->next;
 		}
-//		map->vm->cycle++;
-	display_windows_vm(arena, infos, map, &get);
+		if (map->flag & V_FLAG)
+			display_windows_vm(arena, infos, map, &get);
+		else
+			map->vm->cycle++;
 	}
-	endwin();
+	if (map->flag & V_FLAG)
+		endwin();
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:39:35 by vferreir          #+#    #+#             */
-/*   Updated: 2018/06/04 19:04:21 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/06 16:22:54 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ int	instruction_or(t_vm *vm, t_process *process)
 		return (1);
 	take_params(vm->arena, process->position + 2, params, str, 0);
 //	print_params(params);
-	if (str[0] && str[0] == 'r')
+	if (str[0] && str[0] == 'r'
+			&& params[0] && params[0] >= 1 && params[0] <= 16)
 		params[0] = process->registre[params[0] - 1];
-	if (str[1] && str[1] == 'r')
+	if (str[1] && str[1] == 'r'
+			&& params[1] && params[1] >= 1 && params[1] <= 16)
 		params[1] = process->registre[params[1] - 1];
 	if (str[0] && str[0] == 'i')
 		params[0] = recup_nb_32(vm->arena,
@@ -84,9 +86,11 @@ int	instruction_xor(t_vm *vm, t_process *process)
 		return (1);
 	take_params(vm->arena, process->position + 2, params, str, 0);
 //	print_params(params);
-	if (str[0] && str[0] == 'r')
+	if (str[0] && str[0] == 'r'
+			&& params[0] && params[0] >= 1 && params[0] <= 16)
 		params[0] = process->registre[params[0] - 1];
-	if (str[1] && str[1] == 'r')
+	if (str[1] && str[1] == 'r'
+			&& params[1] && params[1] >= 1 && params[1] <= 16)
 		params[1] = process->registre[params[1] - 1];
 	if (params[2] && params[2] >= 1 && params[2] <= 16)
 		process->registre[params[2] - 1] = params[0] ^ params[1];
@@ -117,9 +121,11 @@ int	instruction_ldi(t_vm *vm, t_process *process)
 		return (1);
 	take_params(vm->arena, process->position + 2, params, str, 1);
 //	print_params(params);
-	if (str[0] && str[0] == 'r')
+	if (str[0] && str[0] == 'r'
+			&& params[0] && params[0] >= 1 && params[0] <= 16)
 		params[0] = process->registre[params[0] - 1];
-	if (str[1] && str[1] == 'r')
+	if (str[1] && str[1] == 'r'
+			&& params[1] && params[1] >= 1 && params[1] <= 16)
 		params[1] = process->registre[params[1] - 1];
 	if (str[0] && str[0] == 'i')
 		params[0] = recup_nb_32(vm->arena,
@@ -127,7 +133,7 @@ int	instruction_ldi(t_vm *vm, t_process *process)
 	if (params[2] && params[2] >= 1 && params[2] <= 16)
 		process->registre[params[2] - 1] =
 			recup_nb_32(vm->arena, process->position + params[0] + params[1]);
-//	process->carry = (params[2] && params[2] >= 1 && params[2] <= 16
-//			&& !process->registre[params[2] - 1]) ? 1 : 0;
+	process->carry = (params[2] && params[2] >= 1 && params[2] <= 16
+			&& !process->registre[params[2] - 1]) ? 1 : 0;
 	return (inst_done(process, 2 + params[3]));
 }
