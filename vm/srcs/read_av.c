@@ -1,55 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.c                                           :+:      :+:    :+:   */
+/*   read_av.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:18:11 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/06 15:59:57 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/08 18:09:02 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static t_player	*create_player(t_player **first, header_t *header, int pl_nbr)
-{
-	static	int	color = 1;
-	static	int	i = -1;
-	t_player	*new;
-	t_player	*tmp;
-
-	if ((new = (t_player *)ft_memalloc(sizeof(t_player))) == NULL)
-		return (NULL);
-	new->next = NULL;
-	new->code = NULL;
-	if (pl_nbr != -1)
-		new->numero = pl_nbr * -1;
-	else
-	{
-		new->numero = i;
-		i--;
-	}
-	new->color = color;
-	new->header = NULL;
-	new->global_live = 0;
-	new->last_live = 0;
-	if (*first == NULL)
-		*first = new;
-	else
-	{
-		tmp = *first;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-		new->prev = tmp;
-	}
-	new->header = header;
-	color++;
-	return (new);
-}
-
-static header_t	*check_magic_length(header_t *header, char *name)
+static	header_t	*check_magic_length(header_t *header, char *name)
 {
 	int			*magic;
 
@@ -61,7 +24,8 @@ static header_t	*check_magic_length(header_t *header, char *name)
 	}
 	if ((int)swap_32_bytes(header->prog_size) > CHAMP_MAX_SIZE)
 	{
-		dprintf(2, "Error: File %s has too large a code (%d bytes > %d bytes)\n"
+		ft_dprintf(2, "Error: File %s has too" \
+				" large a code (%d bytes > %d bytes)\n"
 				, name, swap_32_bytes(header->prog_size), CHAMP_MAX_SIZE);
 		free(header);
 		return (NULL);
@@ -69,7 +33,8 @@ static header_t	*check_magic_length(header_t *header, char *name)
 	return (header);
 }
 
-static t_player	*read_header(t_player **first, int fd, char *name, int pl_nbr)
+static	t_player	*read_header(t_player **first,
+		int fd, char *name, int pl_nbr)
 {
 	int			ret;
 	header_t	*header;
@@ -92,7 +57,7 @@ static t_player	*read_header(t_player **first, int fd, char *name, int pl_nbr)
 	return (player);
 }
 
-int				read_file(t_player **first, int fd, char *name, int pl_nbr)
+static	int			read_file(t_player **first, int fd, char *name, int pl_nbr)
 {
 	char		*buff;
 	char		test;
@@ -112,14 +77,15 @@ int				read_file(t_player **first, int fd, char *name, int pl_nbr)
 			|| ((ret = read(fd, &test, 1)) != 0))
 	{
 		return (code_error(buff, &player,
-					"Error: File %s has a code size that differs from what its header says\n",
-					name));
+			"Error: File %s has a code size that" \
+			" differs from what its header says\n",
+			name));
 	}
 	player->code = buff;
 	return (1);
 }
 
-t_player		*read_av(char **av, int ac, int i)
+t_player			*read_av(char **av, int ac, int i)
 {
 	t_player	*first;
 	int			fd;
@@ -132,18 +98,12 @@ t_player		*read_av(char **av, int ac, int i)
 		if (!ft_strcmp(av[i], "-n"))
 		{
 			if (!av[i + 1] || (av[i + 1] && ft_atoi(av[i + 1]) <= 0))
-			{
-				ft_dprintf(2, "Invalid player number\n");
-				return (NULL);
-			}
+				return (error_read_av("Invalid player number\n", NULL));
 			pl_nbr = ft_atoi(av[i + 1]);
 			i += 2;
 		}
 		if ((fd = open(av[i], O_RDONLY)) == -1)
-		{
-			dprintf(2, "Can't read source file %s\n", av[i]);
-			return (NULL);
-		}
+			return (error_read_av("Can't read source file %s\n", av[i]));
 		else if ((read_file(&first, fd, av[i], pl_nbr)) == 0)
 			return (NULL);
 		close(fd);

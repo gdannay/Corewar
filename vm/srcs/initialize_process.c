@@ -6,13 +6,13 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:58:20 by vferreir          #+#    #+#             */
-/*   Updated: 2018/06/06 16:28:59 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/08 15:22:41 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			create_new_process(t_process **begin,
+int					create_new_process(t_process **begin,
 		t_process *process, int pos, int n)
 {
 	t_process	*new;
@@ -35,7 +35,7 @@ int			create_new_process(t_process **begin,
 	return (1);
 }
 
-t_process	*create_process(t_process **process,
+static	t_process	*create_process(t_process **process,
 		t_process *tmp, int pos, int color)
 {
 	t_process	*new;
@@ -63,23 +63,24 @@ t_process	*create_process(t_process **process,
 	return (new);
 }
 
-t_process	*initialize_process(t_player *player)
+t_process			*initialize_process(t_map *map)
 {
+	t_player	*tmp_p;
 	t_process	*process;
 	t_process	*tmp;
-	int			space;
 	int			i;
 
 	process = NULL;
 	tmp = NULL;
-	space = MEM_SIZE / nbr_players(player);
 	i = 0;
-	while (player)
+	tmp_p = map->player;
+	while (tmp_p)
 	{
-		if (!(tmp = create_process(&process, tmp, space * i, player->color)))
+		if (!(tmp = create_process(&process,
+						tmp, map->vm->ecart * i, tmp_p->color)))
 			return (NULL);
-		tmp->registre[0] = player->numero;
-		player = player->next;
+		tmp->registre[0] = tmp_p->numero;
+		tmp_p = tmp_p->next;
 		i++;
 	}
 	return (process);

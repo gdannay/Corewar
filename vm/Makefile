@@ -6,19 +6,20 @@
 #    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/10 16:41:29 by clegirar          #+#    #+#              #
-#    Updated: 2018/06/06 16:16:09 by clegirar         ###   ########.fr        #
+#    Updated: 2018/06/08 16:27:14 by clegirar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	./corewar
 
 SRCS			=	srcs/main.c			\
-					srcs/header.c		\
+					srcs/read_av.c		\
+					srcs/create_player.c	\
 					srcs/error.c		\
-					srcs/arena.c		\
+					srcs/create_vm.c		\
 					srcs/visu.c			\
 					srcs/utils.c		\
-					srcs/process.c	\
+					srcs/initialize_process.c	\
 					srcs/run.c			\
 					srcs/instruction_1_to_5.c	\
 					srcs/instruction_6_to_10.c	\
@@ -26,6 +27,7 @@ SRCS			=	srcs/main.c			\
 					srcs/instruction_16.c	\
 					srcs/utils_instructions.c	\
 					srcs/free_all.c	\
+					srcs/init_visu.c	\
 					../op/op.c
 
 OBJS			=	$(SRCS:.c=.o)

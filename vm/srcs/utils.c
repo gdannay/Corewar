@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:59:01 by vferreir          #+#    #+#             */
-/*   Updated: 2018/06/06 16:07:39 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/08 15:23:59 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,9 @@ int			recup_nb_16(char *arena, int position)
 
 void		write_in_arena_32(t_vm *vm, int registre, int pos, int nb)
 {
-//	printf("WRITE = %x %d %d\n", pos, pos, registre);
 	pos %= MEM_SIZE;
-//	printf("WRITEMODU = %x %d %d\n", pos, pos, registre);
 	if (pos < 0)
 		pos += MEM_SIZE;
-//	printf("WRITEPOS = %x %d %d\n", pos, pos, registre);
 	vm->arena[pos % MEM_SIZE] = registre >> 24;
 	vm->arena[(pos + 1) % MEM_SIZE] = registre >> 16;
 	vm->arena[(pos + 2) % MEM_SIZE] = registre >> 8;

@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:45:14 by vferreir          #+#    #+#             */
-/*   Updated: 2018/06/06 16:28:49 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/08 17:30:53 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static	t_ptr	g_ptr[] =
 	{16, &instruction_aff}
 };
 
-static	int		read_instruction(t_map *map, t_process **begin,
-		t_process *process, int current)
+static	int		read_inst(t_map *map, t_process **begin,
+	t_process *process, int current)
 {
 	int		i;
 
@@ -54,21 +54,6 @@ static	int		read_instruction(t_map *map, t_process **begin,
 	else
 		process->position++;
 	return (1);
-}
-
-void			print_process(t_process *process)
-{
-	t_process	*tmp;
-	int			i;
-
-	i = 1;
-	tmp = process;
-	while (tmp)
-	{
-		printf("%d\n", i);
-		i++;
-		tmp = tmp->next;
-	}
 }
 
 void			kill_process(t_process **process, t_map *map)
@@ -95,17 +80,28 @@ void			kill_process(t_process **process, t_map *map)
 	}
 }
 
-int				condition_arret(t_map *map, int get)
+static	void	check_visu_infos(t_map *map, int get)
 {
-	t_process	*process;
+	if (!(map->flag & V_FLAG) || map->space || get == 's')
+	{
+		if (map->vm->nbr_live >= NBR_LIVE || map->vm->max_checks == 10)
+		{
+			map->vm->cycle_delta += CYCLE_DELTA;
+			map->vm->max_checks = 0;
+		}
+		else
+			map->vm->max_checks++;
+		map->vm->cycle_to_die = CYCLE_TO_DIE - map->vm->cycle_delta;
+	}
+	map->vm->nbr_live = 0;
+}
 
-	//printf("%llu\n", map->vm->cycle);
-	process = map->process;
+int				condition_arret(t_map *map, int get, t_process *process)
+{
 	if (map->vm->cycle_to_die <= 0)
 	{
 		while (process)
 		{
-			map->vm->nbr_live += process->live;
 			if (process->live == 0)
 				kill_process(&process, map);
 			else
@@ -114,17 +110,7 @@ int				condition_arret(t_map *map, int get)
 				process = process->next;
 			}
 		}
-		if (!(map->flag & V_FLAG) || map->space || get == 's')
-		{
-			if (map->vm->nbr_live >= NBR_LIVE || map->vm->max_checks == 10)
-			{
-				map->vm->cycle_delta += CYCLE_DELTA;
-				map->vm->max_checks = 0;
-			}
-			else
-				map->vm->max_checks++;
-			map->vm->cycle_to_die = CYCLE_TO_DIE;
-		}
+		check_visu_infos(map, get);
 	}
 	if (!map->process)
 		return (0);
@@ -136,47 +122,31 @@ int				condition_arret(t_map *map, int get)
 	return (1);
 }
 
-int				run_vm(t_map *map)
+int				run_vm(t_map *map, int ret, int get)
 {
-	WINDOW		*arena;
-	WINDOW		*infos;
 	t_process	*tmp;
-	int				ret;
-	int				i;
-	int				get;
 
-	map->vm->cycle_to_die = CYCLE_TO_DIE;
-	map->vm->nbr_live = 0;
-	map->vm->cycle_delta = 0;
-	map->vm->max_checks = 0;
 	if (map->flag & V_FLAG)
-		init_window_vm(&arena, &infos);
-	get = 0;
-	while (condition_arret(map, get))// && map->vm->cycle < 2050)
+		init_window_vm(&map->vm->arena_w, &map->vm->infos);
+	while (condition_arret(map, get, map->process))
 	{
-		printf("\nCYCLE = %llu\n", map->vm->cycle);
 		tmp = map->process;
-		i = 1;
 		while (tmp)
 		{
 			tmp->position %= MEM_SIZE;
-//			printf("POS = %d\n", tmp->position);
-			if (tmp->inst && (!(map->flag & V_FLAG) || map->space || get == 's'))
-				ret = read_instruction(map, &map->process, tmp, tmp->inst);
+			if (tmp->inst
+					&& (!(map->flag & V_FLAG) || map->space || get == 's'))
+				ret = read_inst(map, &map->process, tmp, tmp->inst);
 			else if (!(map->flag & V_FLAG) || map->space || get == 's')
-				ret = read_instruction(map, &map->process,
+				ret = read_inst(map, &map->process,
 						tmp, map->vm->arena[tmp->position]);
 			if (!ret)
 				return (0);
-			i++;
 			tmp = tmp->next;
 		}
-		if (map->flag & V_FLAG)
-			display_windows_vm(arena, infos, map, &get);
-		else
-			map->vm->cycle++;
+		(map->flag & V_FLAG) ? display_windows_vm(map->vm->arena_w,
+			map->vm->infos, map, &get) : map->vm->cycle++;
 	}
-	if (map->flag & V_FLAG)
-		endwin();
+	(map->flag & V_FLAG) ? endwin() : 0;
 	return (1);
 }

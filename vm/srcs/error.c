@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 15:44:27 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/28 11:28:06 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/08 15:23:25 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,13 @@ int		code_error(char *buff, t_player **player, char *str, char *name)
 	ft_strdel(&buff);
 	free_players(player);
 	return (0);
+}
+
+void	*error_read_av(char *format, char *param)
+{
+	if (param)
+		ft_dprintf(2, format, param);
+	else
+		ft_dprintf(2, format);
+	return (NULL);
 }

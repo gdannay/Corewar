@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 14:20:48 by clegirar          #+#    #+#             */
-/*   Updated: 2018/06/04 17:00:41 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/08 17:55:47 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		inst_progress(t_process *process, int inst)
 {
 	process->inst = inst;
 	process->cycle++;
-//	printf("Progress\n");
 	return (1);
 }
 
@@ -29,15 +28,10 @@ int		inst_done(t_process *process, int add_pos)
 	if (process->position < 0)
 		process->position += MEM_SIZE;
 	process->position %= MEM_SIZE;
-//	printf("Done\n");
-	int i;
-	i = -1;
-	while (0 && ++i < REG_NUMBER)
-		printf("REG[%d] : %x\n", i, process->registre[i]);
 	return (1);
 }
 
-char	*take_opcode(unsigned char c, char *str)
+int		take_opcode(unsigned char c, char *str)
 {
 	int i;
 
@@ -54,17 +48,19 @@ char	*take_opcode(unsigned char c, char *str)
 		else if (c >> 6 == 3)
 			str[i] = 'i';
 		else if (!c >> 6)
-			return (NULL);
+			return (0);
 		c = c << 2;
 	}
-	return (str);
+	return (1);
 }
 
 void	take_params(char *arena, int pos, int *params,
-		char *str, int unknown)
+		char *str)
 {
 	int i;
+	int	unknown;
 
+	unknown = params[0];
 	params[3] = 0;
 	i = -1;
 	while (str[++i])
@@ -84,17 +80,5 @@ void	take_params(char *arena, int pos, int *params,
 			params[i] = arena[(pos + params[3]) % MEM_SIZE];
 			params[3] += 1;
 		}
-	}
-}
-
-void	print_params(int *params)
-{
-	int i;
-
-	i = 0;
-	while (0 && i < 4)
-	{
-		printf("Param[%d] : %x %d\n", i, params[i], (short int)params[i]);
-		i++;
 	}
 }

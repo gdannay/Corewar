@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arena.c                                            :+:      :+:    :+:   */
+/*   create_vm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 16:11:29 by clegirar          #+#    #+#             */
-/*   Updated: 2018/06/06 16:29:02 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/08 17:39:07 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			nbr_players(t_player *first)
+static	int		nbr_players(t_player *first)
 {
 	int			i;
 	t_player	*tmp;
@@ -27,7 +27,7 @@ int			nbr_players(t_player *first)
 	return (i);
 }
 
-static void	copy_code(char *arena, char *code, int size)
+static	void	copy_code(char *arena, char *code, int size)
 {
 	int	i;
 
@@ -36,7 +36,7 @@ static void	copy_code(char *arena, char *code, int size)
 		arena[i] = code[i];
 }
 
-static	void 	copy_nb_player(char *arena, int numero, int size)
+static	void	copy_nb_player(char *arena, int numero, int size)
 {
 	int	i;
 
@@ -45,70 +45,43 @@ static	void 	copy_nb_player(char *arena, int numero, int size)
 		arena[i] = numero;
 }
 
-char		*create_arena(t_player *first)
+static	int		create_arenas(t_vm **vm, t_player *first)
 {
-	char		*arena;
-	int			space;
 	int			i;
-	int			nbr;
 	t_player	*tmp;
 
-	if (!(arena = (char *)ft_memalloc(sizeof(char) * (MEM_SIZE))))
-		return (NULL);
+	if ((!((*vm)->arena = (char *)ft_memalloc(sizeof(char) * MEM_SIZE)))
+		|| (!((*vm)->arena_player =
+				(char *)ft_memalloc(sizeof(char) * MEM_SIZE))))
+		return (0);
 	i = 0;
-	nbr = nbr_players(first);
-	space = MEM_SIZE / nbr;
+	(*vm)->nbr_players = nbr_players(first);
+	(*vm)->ecart = MEM_SIZE / (*vm)->nbr_players;
 	tmp = first;
 	while (tmp)
 	{
-		//ft_printf("tmp->code: %s\n", tmp->code);
-		//write(1, tmp->code, (int)swap_32_bytes(tmp->header->prog_size));
-		copy_code(arena + i * space, tmp->code,
+		copy_code((*vm)->arena + i * (*vm)->ecart, tmp->code,
 				(int)swap_32_bytes(tmp->header->prog_size));
-		tmp->start = i * space;
+		copy_nb_player((*vm)->arena_player + i * (*vm)->ecart, tmp->color,
+				(int)swap_32_bytes(tmp->header->prog_size));
+		tmp->start = i * (*vm)->ecart;
 		tmp = tmp->next;
 		i++;
 	}
-	return (arena);
+	return (1);
 }
 
-char	*create_arena_player(t_player *first)
-{
-	char		*arena;
-	int			space;
-	int			i;
-	int			nbr;
-	t_player	*tmp;
-
-	if (!(arena = (char *)ft_memalloc(sizeof(char) * (MEM_SIZE))))
-		return (NULL);
-	i = 0;
-	nbr = nbr_players(first);
-	space = MEM_SIZE / nbr;
-	tmp = first;
-	while (tmp)
-	{
-		copy_nb_player(arena + i * space, tmp->color,
-				(int)swap_32_bytes(tmp->header->prog_size));
-		tmp->start = i * space;
-		tmp = tmp->next;
-		i++;
-	}
-	return (arena);
-}
-
-t_vm		*create_vm(t_player *first)
+t_vm			*create_vm(t_player *first)
 {
 	t_vm	*vm;
 
 	if ((!(vm = (t_vm *)ft_memalloc(sizeof(t_vm))))
-			|| (!(vm->arena = create_arena(first)))
-			|| (!(vm->arena_player = create_arena_player(first))))
+		|| (!(create_arenas(&vm, first))))
 		return (NULL);
 	vm->max_checks = 0;
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;
-	vm->cycle_delta = CYCLE_DELTA;
+	vm->cycle_delta = 0;
 	vm->nbr_live = 0;
 	vm->process = 0;
 	return (vm);
