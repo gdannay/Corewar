@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/08 18:15:10 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/09 15:27:36 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,11 @@ typedef	struct			s_ptr
 }						t_ptr;
 
 uint32_t				swap_32_bytes(uint32_t nb);
-void					*header_error(header_t *header, char *str, char *name);
+void					*header_error(t_player **first,
+	header_t *header, char *str, char *name);
 int						code_error(char *buff, t_player **player,
 		char *str, char *name);
-void					*error_read_av(char *format, char *param);
+void	*error_read_av(t_player *first, char *format, char *param);
 char					*create_arena(t_player *first);
 void					print_arena(WINDOW *visu, t_vm *vm,
 		char *arena, t_map *map);
@@ -99,7 +100,7 @@ t_player				*read_av(char **av, int ac, int i);
 int						recup_int(char *str);
 t_vm					*create_vm(t_player *first);
 t_process				*initialize_process(t_map *map);
-int						run_vm(t_map *map, int ret, int get);
+int						run_vm(t_map *map, int ret, int get, t_process *tmp);
 void					display_windows_vm(WINDOW *arena, WINDOW *infos,
 		t_map *map, int *get);
 t_player				*create_player(t_player **first,
@@ -146,5 +147,6 @@ int						inst_progress(t_process *process, int inst);
 int						inst_done(t_process *process, int add_pos);
 
 void					print_params(int *params);
+void					print_result(t_map *map);
 
 #endif

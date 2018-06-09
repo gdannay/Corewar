@@ -12,10 +12,12 @@
 
 #include "corewar.h"
 
-void	*header_error(header_t *header, char *str, char *name)
+void	*header_error(t_player **first, header_t *header,
+	char *str, char *name)
 {
 	ft_dprintf(2, str, name);
 	free(header);
+	free_players(first);
 	return (NULL);
 }
 
@@ -28,11 +30,13 @@ int		code_error(char *buff, t_player **player, char *str, char *name)
 	return (0);
 }
 
-void	*error_read_av(char *format, char *param)
+void	*error_read_av(t_player *first, char *format, char *param)
 {
 	if (param)
 		ft_dprintf(2, format, param);
 	else
 		ft_dprintf(2, format);
+	if (first)
+		free_players(&first);
 	return (NULL);
 }

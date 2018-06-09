@@ -46,6 +46,7 @@ int	instruction_fork(t_vm *vm, t_process *process, t_process **begin)
 								process->position + 1) % IDX_MOD)
 						, process->color)))
 		return (0);
+	vm->process++;
 	return (inst_done(process, 3));
 }
 

@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:59:01 by vferreir          #+#    #+#             */
-/*   Updated: 2018/06/08 15:23:59 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/09 15:24:25 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,28 @@ uint32_t	swap_32_bytes(uint32_t nb)
 	nb = (nb << 24) | ((nb << 8) & BIT_2)
 		| (nb >> 24) | ((nb >> 8) & BIT_3);
 	return (nb);
+}
+
+void		print_result(t_map *map)
+{
+	t_player	*player;
+	char		*name;
+	int			last_live;
+
+	last_live = 0;
+	name = NULL;
+	player = map->player;
+	while (player)
+	{
+		if (player->last_live > last_live)
+		{
+			last_live = player->last_live;
+			name = player->header->prog_name;
+		}
+		player = player->next;
+	}
+	if (name != NULL)
+		ft_printf("Contestant 1, \"%s\", has won !\n", name);
+	else
+		ft_printf("It's a game with no winner\n");
 }

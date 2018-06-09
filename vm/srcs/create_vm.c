@@ -78,11 +78,11 @@ t_vm			*create_vm(t_player *first)
 	if ((!(vm = (t_vm *)ft_memalloc(sizeof(t_vm))))
 		|| (!(create_arenas(&vm, first))))
 		return (NULL);
+	vm->process = vm->nbr_players;
 	vm->max_checks = 0;
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	vm->cycle_delta = 0;
 	vm->nbr_live = 0;
-	vm->process = 0;
 	return (vm);
 }

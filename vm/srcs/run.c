@@ -78,6 +78,7 @@ void			kill_process(t_process **process, t_map *map)
 			(*process)->prev = tmp->prev;
 		free(tmp);
 	}
+	map->vm->process--;
 }
 
 static	void	check_visu_infos(t_map *map, int get)
@@ -98,6 +99,8 @@ static	void	check_visu_infos(t_map *map, int get)
 
 int				condition_arret(t_map *map, int get, t_process *process)
 {
+	if (map->vm->cycle >= map->dump)
+		return (0);
 	if (map->vm->cycle_to_die <= 0)
 	{
 		while (process)
@@ -122,10 +125,8 @@ int				condition_arret(t_map *map, int get, t_process *process)
 	return (1);
 }
 
-int				run_vm(t_map *map, int ret, int get)
+int				run_vm(t_map *map, int ret, int get, t_process *tmp)
 {
-	t_process	*tmp;
-
 	if (map->flag & V_FLAG)
 		init_window_vm(&map->vm->arena_w, &map->vm->infos);
 	while (condition_arret(map, get, map->process))
@@ -148,5 +149,6 @@ int				run_vm(t_map *map, int ret, int get)
 			map->vm->infos, map, &get) : map->vm->cycle++;
 	}
 	(map->flag & V_FLAG) ? endwin() : 0;
+	print_result(map);
 	return (1);
 }

@@ -30,6 +30,7 @@ void	free_players(t_player **first)
 void	free_vm(t_vm **vm)
 {
 	ft_strdel(&(*vm)->arena);
+	ft_strdel(&(*vm)->arena_player);
 	free(*vm);
 }
 

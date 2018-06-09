@@ -36,7 +36,7 @@ CC				=	@gcc
 
 CFLAGS			=	 -I includes -I ../libft/
 
-LFLAGS			=	../libft/libft.a -lncurses -g3 -fsanitize=address
+LFLAGS			=	../libft/libft.a -lncurses
 
 all				:	$(NAME)
 

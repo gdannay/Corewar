@@ -97,6 +97,7 @@ void			print_infos(WINDOW *infos, t_map *map)
 				player->global_live);
 		player = player->next;
 	}
+	mvwprintw(infos, x + 2, 2, "Number process: %d", map->vm->process);
 	wrefresh(infos);
 }
 

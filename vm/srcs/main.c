@@ -45,6 +45,7 @@ static	int		get_flags(t_map *map, char **av, int *i)
 				&& (!ft_string_isdigit(av[*i + 1]) || ft_atoi(av[*i + 1]) < 0)))
 				return (flag_error("Number of cycles is invalid\n"));
 			map->dump = ft_atoi(av[*i + 1]);
+			*i += 1;
 		}
 		else if (!ft_strcmp(av[*i], "-v"))
 			map->flag = map->flag | V_FLAG;
@@ -74,7 +75,7 @@ int				main(int ac, char **av)
 			|| (!(map->player = read_av(av, ac, i - 1)))
 			|| (!(map->vm = create_vm(map->player)))
 			|| (!(map->process = initialize_process(map)))
-			|| (!(run_vm(map, 1, 0))))
+			|| (!(run_vm(map, 1, 0, NULL))))
 		return (free_map(map));
 	free_map(map);
 	return (0);
