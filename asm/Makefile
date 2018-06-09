@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME			=	asm
+NAME			=	./asm
 
 SRCS			=	srcs/main.c			\
 					srcs/parsing.c		\
@@ -28,11 +28,11 @@ SRCS			=	srcs/main.c			\
 
 OBJS			=	$(SRCS:.c=.o)
 
-CC				=	gcc
+CC				=	@gcc
 
 CFLAGS			=	-Wall -Werror -Wextra -I includes -I ../libft/
 
-LFLAGS			=	../libft/libft.a -g3 -fsanitize=address
+LFLAGS			=	../libft/libft.a
 
 all				:	$(NAME)
 

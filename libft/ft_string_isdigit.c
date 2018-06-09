@@ -6,23 +6,23 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 08:43:25 by clegirar          #+#    #+#             */
-/*   Updated: 2017/11/09 11:57:11 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/09 16:47:41 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_string_isdigit(char *str)
+int	ft_string_isdigit(char *str)
 {
-  int i;
+	int	i;
 
-  i = -1;
-  if (str[0] == '+' || str[0] == '-')
-    i++;
-  while (str[++i])
-  {
-    if (!ft_isdigit(str[i]))
-      return (0);
-  }
-  return (1);
+	i = -1;
+	if (str[0] == '+' || str[0] == '-')
+		i++;
+	while (str[++i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+	}
+	return (1);
 }

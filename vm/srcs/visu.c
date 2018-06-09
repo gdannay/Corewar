@@ -49,7 +49,7 @@ static	void	print_case_arena(t_map *map, int y, int x, int i)
 	wattroff(map->vm->arena_w, COLOR_PAIR(map->vm->arena_player[i]));
 }
 
-void			print_arena(WINDOW *visu, t_vm *vm, char *arena, t_map *map)
+void			print_arena(WINDOW *visu, t_map *map)
 {
 	int	i;
 	int	x;
@@ -105,7 +105,7 @@ void			display_windows_vm(WINDOW *arena, WINDOW *infos,
 		t_map *map, int *get)
 {
 	print_infos(infos, map);
-	print_arena(arena, map->vm, map->vm->arena, map);
+	print_arena(arena, map);
 	timeout(1);
 	*get = getch();
 	if (*get == ' ')

@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/09 15:27:36 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/06/09 16:42:46 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef	struct			s_map
 {
 	struct s_player		*player;
 	char				flag;
-	int					dump;
+	unsigned long long	dump;
 	struct s_vm			*vm;
 	struct s_process	*process;
 	int					space;
@@ -88,13 +88,13 @@ typedef	struct			s_ptr
 
 uint32_t				swap_32_bytes(uint32_t nb);
 void					*header_error(t_player **first,
-	header_t *header, char *str, char *name);
+		header_t *header, char *str, char *name);
 int						code_error(char *buff, t_player **player,
 		char *str, char *name);
-void	*error_read_av(t_player *first, char *format, char *param);
+void					*error_read_av(t_player *first,
+		char *format, char *param);
 char					*create_arena(t_player *first);
-void					print_arena(WINDOW *visu, t_vm *vm,
-		char *arena, t_map *map);
+void					print_arena(WINDOW *visu, t_map *map);
 void					print_infos(WINDOW *infos, t_map *map);
 t_player				*read_av(char **av, int ac, int i);
 int						recup_int(char *str);

@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-static	t_map	*create_map(char **av, int ac)
+static	t_map	*create_map(void)
 {
 	t_map	*map;
 
@@ -70,7 +70,7 @@ int				main(int ac, char **av)
 			"Usage : ./corewar [-a][-v -d N -n N] <champion1.cor> <...>\n");
 		return (-1);
 	}
-	if ((!(map = create_map(av, ac)))
+	if ((!(map = create_map()))
 			|| (!(get_flags(map, av, &i)))
 			|| (!(map->player = read_av(av, ac, i - 1)))
 			|| (!(map->vm = create_vm(map->player)))

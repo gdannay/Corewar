@@ -6,7 +6,7 @@
 /*   By: clegirar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 08:52:16 by clegirar          #+#    #+#             */
-/*   Updated: 2018/05/28 17:39:13 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/09 16:47:04 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # define ABS(Value) ((Value) < 0 ? - (Value) : (Value))
 
 # include "Printf/includes/ft_printf.h"
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
@@ -149,8 +148,8 @@ unsigned	int					ft_atoi_base(char *str,
 char							**ft_tabcpy(char **tab, int i);
 char							**ft_splitspace(char const *s);
 int								ft_stridx(char *str, char *cmp);
-int 							ft_string_isdigit(char *str);
-char 							*ft_strjoindel(char const *s1, char const *s2);
+int								ft_string_isdigit(char *str);
+char							*ft_strjoindel(char const *s1, char const *s2);
 int								ft_countchr(char *str, char c);
 
 #endif

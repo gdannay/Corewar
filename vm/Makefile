@@ -32,9 +32,9 @@ SRCS			=	srcs/main.c			\
 
 OBJS			=	$(SRCS:.c=.o)
 
-CC				=	@gcc
+CC				= @gcc
 
-CFLAGS			=	 -I includes -I ../libft/
+CFLAGS			=	-Wall -Werror -Wextra -I includes -I ../libft/
 
 LFLAGS			=	../libft/libft.a -lncurses
 
@@ -43,18 +43,17 @@ all				:	$(NAME)
 $(NAME)			:	$(OBJS)
 					@make -C ../libft
 					@$(CC) $(OBJS) $(LFLAGS) -o $(NAME)
-					@rm -rf $(OBJS)
 
 %.o				:	%.c
-					$(CC) -o $@ -c $< $(CFLAGS)
+					@$(CC) -o $@ -c $< $(CFLAGS)
 
 clean			:
-					make clean -C ../libft
-					rm -rf $(OBJS)
+					@make clean -C ../libft
+					@rm -rf $(OBJS)
 
 fclean			:
-					rm -rf $(OBJS)
-					make fclean -C ../libft
-					rm -rf $(NAME)
+					@rm -rf $(OBJS)
+					@make fclean -C ../libft
+					@rm -rf $(NAME)
 
 re				:	fclean all
