@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/31 10:30:21 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/11 11:02:38 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-#include "get_next_line.h"
 
 extern struct s_op op_tab[17];
 

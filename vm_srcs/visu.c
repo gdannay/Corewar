@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 10:49:42 by clegirar          #+#    #+#             */
-/*   Updated: 2018/06/08 17:14:54 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/11 12:27:24 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ void			print_infos(WINDOW *infos, t_map *map)
 void			display_windows_vm(WINDOW *arena, WINDOW *infos,
 		t_map *map, int *get)
 {
-	print_infos(infos, map);
-	print_arena(arena, map);
 	timeout(1);
 	*get = getch();
 	if (*get == ' ')
 		map->space = (map->space) ? 0 : 1;
+	print_infos(infos, map);
+	print_arena(arena, map);
 }

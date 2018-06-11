@@ -9,7 +9,7 @@ entree:	live	%42		# entree
 tir:	sti	r1,%:tirb,%1
 	ld	%2304,r10
 	ld	%1,r5
-	ld	%0,r45
+	ld	%0,r4
 
 	ld	%4,r3
 tirf:	live	%42

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   header.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 15:50:30 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/31 11:07:16 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/11 11:04:24 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-#include "get_next_line.h"
 
 extern struct s_op op_tab[17];
 

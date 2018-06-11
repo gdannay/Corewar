@@ -6,7 +6,7 @@
 #    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 08:52:25 by clegirar          #+#    #+#              #
-#    Updated: 2018/05/28 17:38:40 by gdannay          ###   ########.fr        #
+#    Updated: 2018/06/11 11:38:02 by clegirar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,26 +133,29 @@ SRCS	=	ft_atoi.c				\
 			./Printf/srcs/fill_field_no_zero_signed.c
 
 CC		=	gcc
-
 OBJS	=	$(SRCS:.c=.o)
-
 CFLAGS	=	-Wall -Wextra -Werror -I./ -I./Printf/includes
+GREEN					=	\x1b[32m
+END						=	\x1b[0m
 
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJS)
-	ar rc $(NAME) $(OBJS)
-	ranlib $(NAME)
+	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
+	@echo "$(NAME) : $(GREEN)Done$(END)"
 
 %.o		: 	%.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+	@$(CC) -o $@ -c $< $(CFLAGS)
 
 clean	:
-	rm -rf $(OBJS)
+		@echo "$(NAME) clean: $(GREEN)Done$(END)"
+		@rm -rf $(OBJS)
 
 fclean	:
-	rm -rf $(OBJS)
-	rm -rf $(NAME)
+	@rm -rf $(OBJS)
+	@rm -rf $(NAME)
+	@echo "$(NAME) fclean: $(GREEN)Done$(END)"
 
 re		:	fclean all
 

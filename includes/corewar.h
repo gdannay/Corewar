@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/09 16:42:46 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/06/11 12:08:38 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define COREWAR_H
 
 # include <fcntl.h>
-# include "../../libft/libft.h"
-# include "../../op/op.h"
-# include "../../asm/includes/asm.h"
+# include "../libft/libft.h"
+# include "../op/op.h"
+# include "asm.h"
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
@@ -74,7 +74,7 @@ typedef	struct			s_map
 {
 	struct s_player		*player;
 	char				flag;
-	unsigned long long	dump;
+	long long	dump;
 	struct s_vm			*vm;
 	struct s_process	*process;
 	int					space;
@@ -94,8 +94,6 @@ int						code_error(char *buff, t_player **player,
 void					*error_read_av(t_player *first,
 		char *format, char *param);
 char					*create_arena(t_player *first);
-void					print_arena(WINDOW *visu, t_map *map);
-void					print_infos(WINDOW *infos, t_map *map);
 t_player				*read_av(char **av, int ac, int i);
 int						recup_int(char *str);
 t_vm					*create_vm(t_player *first);

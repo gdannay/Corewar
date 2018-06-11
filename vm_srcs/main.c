@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:08:01 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/08 16:16:12 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/11 12:00:48 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int				main(int ac, char **av)
 	if (ac < 2)
 	{
 		ft_dprintf(2,
-			"Usage : ./corewar [-a][-v -d N -n N] <champion1.cor> <...>\n");
+			"Usage : ./corewar [-a][-v -dump N -n N] <champion1.cor> <...>\n");
 		return (-1);
 	}
 	if ((!(map = create_map()))

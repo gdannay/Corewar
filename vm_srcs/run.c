@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:45:14 by vferreir          #+#    #+#             */
-/*   Updated: 2018/06/08 17:30:53 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/11 12:07:19 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static	void	check_visu_infos(t_map *map, int get)
 
 int				condition_arret(t_map *map, int get, t_process *process)
 {
-	if (map->vm->cycle >= map->dump)
+	if (map->dump > 0 && (long long)map->vm->cycle >= map->dump)
 		return (0);
 	if (map->vm->cycle_to_die <= 0)
 	{

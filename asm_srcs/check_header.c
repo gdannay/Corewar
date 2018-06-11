@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_header.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 18:09:25 by gdannay           #+#    #+#             */
-/*   Updated: 2018/05/31 10:36:59 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/11 11:04:32 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
-#include "get_next_line.h"
 
 int				check_length(char **str, char **line, int type, int length)
 {
