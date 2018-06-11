@@ -25,6 +25,7 @@ int	instruction_aff(t_vm *vm, t_process *process)
 	take_params(vm->arena, process->position + 2, params, str);
 	if (params[0] && params[0] >= 1 && params[0] <= 16)
 		params[0] = process->registre[params[0] - 1];
-	ft_printf("%c\n", params[0] % 256);
+	if (vm->flag & A_FLAG)
+		ft_printf("%c\n", params[0] % 256);
 	return (inst_done(process, 2 + params[3]));
 }

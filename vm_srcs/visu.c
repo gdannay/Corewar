@@ -73,10 +73,6 @@ void			print_infos(WINDOW *infos, t_map *map)
 	t_player	*player;
 	int			x;
 
-	wattron(infos, COLOR_PAIR(1));
-	(map->space) ? mvwprintw(infos, 1, 2, "***RUN***")
-	: mvwprintw(infos, 1, 2, "**PAUSE**");
-	wattroff(infos, COLOR_PAIR(1));
 	mvwprintw(infos, 3, 2, "Cycle: %llu", map->vm->cycle);
 	mvwprintw(infos, 4, 2, "Cycle to_die:     ");
 	mvwprintw(infos, 4, 2, "Cycle to die: %d",
@@ -108,6 +104,10 @@ void			display_windows_vm(WINDOW *arena, WINDOW *infos,
 	*get = getch();
 	if (*get == ' ')
 		map->space = (map->space) ? 0 : 1;
+	wattron(infos, COLOR_PAIR(1));
+	(map->space) ? mvwprintw(infos, 1, 2, "***RUN***")
+	: mvwprintw(infos, 1, 2, "**PAUSE**");
+	wattroff(infos, COLOR_PAIR(1));
 	print_infos(infos, map);
 	print_arena(arena, map);
 }

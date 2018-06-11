@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/11 12:08:38 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/11 14:42:33 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct			s_vm
 {
 	WINDOW				*arena_w;
 	WINDOW				*infos;
+	char				flag;
 	char				*arena;
 	char				*arena_player;
 	unsigned long long	cycle;
@@ -74,7 +75,7 @@ typedef	struct			s_map
 {
 	struct s_player		*player;
 	char				flag;
-	long long	dump;
+	long long			dump;
 	struct s_vm			*vm;
 	struct s_process	*process;
 	int					space;

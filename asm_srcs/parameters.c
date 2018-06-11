@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 18:18:58 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/30 16:42:56 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/11 14:41:35 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int			check_params(t_inst *new, char *line, int row, int col)
 		ft_tabdel(&split);
 		return (ERROR);
 	}
-	//printf("ICI = %d [%s] [%s] [%s] [%s] [%s] [%x]\n", new->code, new->label, new->name, new->params[0], new->params[1], new->params[2], new->codage);
 	ft_tabdel(&split);
 	return (TRUE);
 }

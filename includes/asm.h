@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/10 16:39:56 by clegirar          #+#    #+#             */
-/*   Updated: 2018/06/11 11:02:30 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/11 14:42:14 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # define ERROR 0
 # define TRUE 1
 # define NEXT 2
-//# define malloc(x) NULL
 
 typedef struct		s_inst
 {

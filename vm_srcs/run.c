@@ -34,6 +34,7 @@ static	int		read_inst(t_map *map, t_process **begin,
 {
 	int		i;
 
+	map->vm->flag = map->flag;
 	i = 0;
 	if (current == 1)
 		return (instruction_live(map->vm, process, map->player));

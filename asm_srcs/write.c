@@ -6,7 +6,7 @@
 /*   By: vferreir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 18:04:05 by vferreir          #+#    #+#             */
-/*   Updated: 2018/05/30 16:49:11 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/06/11 14:44:02 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int			write_in_cor(char *av, header_t *header, t_inst *first)
 {
 	char	*name;
 	int		fd;
-//	av = strrchr(av, '/') + 1;
+
 	av[ft_strlen(av) - 2] = '\0';
 	if ((name = ft_strjoin(av, ".cor")) == NULL)
 		return (ERROR);
