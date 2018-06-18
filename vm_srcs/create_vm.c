@@ -6,13 +6,13 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 16:11:29 by clegirar          #+#    #+#             */
-/*   Updated: 2018/06/11 12:02:05 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/11 16:13:41 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static	int		nbr_players(t_player *first)
+int				nbr_players(t_player *first)
 {
 	int			i;
 	t_player	*tmp;

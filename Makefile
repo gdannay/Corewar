@@ -6,7 +6,7 @@
 #    By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/11 10:50:26 by clegirar          #+#    #+#              #
-#    Updated: 2018/06/11 11:39:53 by clegirar         ###   ########.fr        #
+#    Updated: 2018/06/18 14:14:30 by clegirar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,13 +39,17 @@ COREWAR_SRCS	=	vm_srcs/main.c			\
 					vm_srcs/utils.c		\
 					vm_srcs/initialize_process.c	\
 					vm_srcs/run.c			\
-					vm_srcs/instruction_1_to_5.c	\
-					vm_srcs/instruction_6_to_10.c	\
-					vm_srcs/instruction_11_to_15.c	\
-					vm_srcs/instruction_16.c	\
-					vm_srcs/utils_instructions.c	\
+					vm_srcs/aritmetical_instructions.c	\
+					vm_srcs/logical_instructions.c	\
+					vm_srcs/direct_instructions.c		\
+					vm_srcs/indirect_instructions.c	\
+					vm_srcs/fork_rest_instructions.c	\
+					vm_srcs/inst_done_progress.c	\
+					vm_srcs/take_opcode_params.c	\
 					vm_srcs/free_all.c	\
 					vm_srcs/init_visu.c	\
+					vm_srcs/print_entry_result.c	\
+					vm_srcs/fct_dump.c	\
 					op/op.c
 
 LIBFT					= libft/libft.a

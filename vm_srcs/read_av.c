@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:18:11 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/09 16:08:12 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/06/11 19:29:33 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ t_player			*read_av(char **av, int ac, int i)
 		pl_nbr = -1;
 		if (!ft_strcmp(av[i], "-n"))
 		{
-			if (!av[i + 1] || (av[i + 1] && ft_atoi(av[i + 1]) <= 0))
+			if (!av[i + 1] || (av[i + 1] && (ft_atoi(av[i + 1]) <= 0
+							|| ft_atol(av[i + 1]) > INT_MAX)))
 				return (error_read_av(first, "Invalid player number\n", NULL));
 			pl_nbr = ft_atoi(av[i + 1]);
 			i += 2;
@@ -116,5 +117,7 @@ t_player			*read_av(char **av, int ac, int i)
 			return (NULL);
 		close(fd);
 	}
+	if (nbr_players(first) > MAX_PLAYERS)
+		return (error_read_av(first, "Too many players\n", NULL));
 	return (first);
 }

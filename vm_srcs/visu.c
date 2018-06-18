@@ -6,7 +6,7 @@
 /*   By: clegirar <clegirar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 10:49:42 by clegirar          #+#    #+#             */
-/*   Updated: 2018/06/11 12:27:24 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/18 14:50:18 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void			print_arena(WINDOW *visu, t_map *map)
 	{
 		print_case_arena(map, y, x, i);
 		i++;
-		x = (i != 0 && i % 64 == 0) ? 2 : x + 3;
-		(i != 0 && i % 64 == 0) ? y += 1 : 0;
+		x = (i % 64 == 0) ? 2 : x + 3;
+		(i % 64 == 0) ? y += 1 : 0;
 	}
 	wrefresh(visu);
 }
@@ -98,16 +98,28 @@ void			print_infos(WINDOW *infos, t_map *map)
 }
 
 void			display_windows_vm(WINDOW *arena, WINDOW *infos,
-		t_map *map, int *get)
+		t_map *map)
 {
-	timeout(1);
-	*get = getch();
-	if (*get == ' ')
+	int	get;
+
+	map->s = 0;
+	get = getch();
+	if (get == 32)
 		map->space = (map->space) ? 0 : 1;
-	wattron(infos, COLOR_PAIR(1));
-	(map->space) ? mvwprintw(infos, 1, 2, "***RUN***")
-	: mvwprintw(infos, 1, 2, "**PAUSE**");
-	wattroff(infos, COLOR_PAIR(1));
+	else if (get == 's')
+		map->s = 1;
+	if (map->space)
+	{
+		wattron(infos, COLOR_PAIR(1));
+		mvwprintw(infos, 1, 2, "****RUN****");
+		wattroff(infos, COLOR_PAIR(1));
+	}
+	else
+	{
+		wattron(infos, COLOR_PAIR(2));
+		mvwprintw(infos, 1, 2, "***PAUSE***");
+		wattroff(infos, COLOR_PAIR(2));
+	}
 	print_infos(infos, map);
 	print_arena(arena, map);
 }

@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:07:18 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/11 14:42:33 by vferreir         ###   ########.fr       */
+/*   Updated: 2018/06/18 14:09:55 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <ncurses.h>
+# include <limits.h>
 
 # define HEADER_SIZE sizeof(header_t)
 # define D_FLAG 1
@@ -79,6 +80,7 @@ typedef	struct			s_map
 	struct s_vm			*vm;
 	struct s_process	*process;
 	int					space;
+	int					s;
 }						t_map;
 
 typedef	struct			s_ptr
@@ -99,9 +101,9 @@ t_player				*read_av(char **av, int ac, int i);
 int						recup_int(char *str);
 t_vm					*create_vm(t_player *first);
 t_process				*initialize_process(t_map *map);
-int						run_vm(t_map *map, int ret, int get, t_process *tmp);
+int						run_vm(t_map *map, int ret, t_process *tmp);
 void					display_windows_vm(WINDOW *arena, WINDOW *infos,
-		t_map *map, int *get);
+		t_map *map);
 t_player				*create_player(t_player **first,
 		header_t *header, int pl_nbr);
 
@@ -132,12 +134,13 @@ int						free_map(t_map *map);
 
 void					init_window_vm(WINDOW **arena, WINDOW **infos);
 void					print_process(t_process *process);
-int						take_opcode(unsigned char c, char *str);
+int						take_opcode(unsigned char c, char *str, int process);
 void					take_params(char *arena, int pos,
 		int *params, char *str);
+int						check_op(int process, char *str);
 int						recup_nb_32(char *arena, int position);
 int						recup_nb_16(char *arena, int position);
-void					write_in_arena_32(t_vm *vm, int registre,
+void					write_arena(t_vm *vm, int registre,
 		int pos, int nb);
 int						create_new_process(t_process **begin,
 		t_process *process, int pos, int n);
@@ -147,5 +150,12 @@ int						inst_done(t_process *process, int add_pos);
 
 void					print_params(int *params);
 void					print_result(t_map *map);
+void					print_entry(t_map *map);
+
+int						nbr_players(t_player *first);
+
+int						fct_dump(t_map *map);
+
+void					print_entry(t_map *map);
 
 #endif

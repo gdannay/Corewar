@@ -6,7 +6,7 @@
 /*   By: vferreir <vferreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:45:14 by vferreir          #+#    #+#             */
-/*   Updated: 2018/06/11 12:07:19 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/18 14:55:32 by clegirar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,72 +82,71 @@ void			kill_process(t_process **process, t_map *map)
 	map->vm->process--;
 }
 
-static	void	check_visu_infos(t_map *map, int get)
+static	void	check_infos(t_map *map)
 {
-	if (!(map->flag & V_FLAG) || map->space || get == 's')
+	if (map->vm->nbr_live >= NBR_LIVE || map->vm->max_checks == 10)
 	{
-		if (map->vm->nbr_live >= NBR_LIVE || map->vm->max_checks == 10)
-		{
-			map->vm->cycle_delta += CYCLE_DELTA;
-			map->vm->max_checks = 0;
-		}
-		else
-			map->vm->max_checks++;
-		map->vm->cycle_to_die = CYCLE_TO_DIE - map->vm->cycle_delta;
+		map->vm->cycle_delta += CYCLE_DELTA;
+		map->vm->max_checks = 0;
 	}
+	else
+		map->vm->max_checks++;
+	map->vm->cycle_to_die = CYCLE_TO_DIE - map->vm->cycle_delta;
 	map->vm->nbr_live = 0;
 }
 
-int				condition_arret(t_map *map, int get, t_process *process)
+int				condition_arret(t_map *map, t_process *process)
 {
-	if (map->dump > 0 && (long long)map->vm->cycle >= map->dump)
-		return (0);
+	t_process	*tmp;
+
+	tmp = process;
+	if (map->dump >= 0 && (long long)map->vm->cycle >= map->dump)
+		return (fct_dump(map));
 	if (map->vm->cycle_to_die <= 0)
 	{
-		while (process)
+		while (tmp)
 		{
-			if (process->live == 0)
-				kill_process(&process, map);
+			if (tmp->live == 0)
+				kill_process(&tmp, map);
 			else
 			{
-				process->live = 0;
-				process = process->next;
+				tmp->live = 0;
+				tmp = tmp->next;
 			}
 		}
-		check_visu_infos(map, get);
+		check_infos(map);
 	}
-	if (!map->process)
-		return (0);
-	if (!(map->flag & V_FLAG) || map->space || get == 's')
+	if (!(map->flag & V_FLAG) || map->space || map->s)
 	{
 		map->vm->cycle_to_die--;
 		map->vm->cycle++;
 	}
-	return (1);
+	return ((!map->process) ? 0 : 1);
 }
 
-int				run_vm(t_map *map, int ret, int get, t_process *tmp)
+int				run_vm(t_map *map, int ret, t_process *tmp)
 {
+	print_entry(map);
 	if (map->flag & V_FLAG)
 		init_window_vm(&map->vm->arena_w, &map->vm->infos);
-	while (condition_arret(map, get, map->process))
+	while (condition_arret(map, map->process))
 	{
 		tmp = map->process;
 		while (tmp)
 		{
 			tmp->position %= MEM_SIZE;
 			if (tmp->inst
-					&& (!(map->flag & V_FLAG) || map->space || get == 's'))
+					&& (!(map->flag & V_FLAG) || map->space || map->s))
 				ret = read_inst(map, &map->process, tmp, tmp->inst);
-			else if (!(map->flag & V_FLAG) || map->space || get == 's')
+			else if (!(map->flag & V_FLAG) || map->space || map->s)
 				ret = read_inst(map, &map->process,
 						tmp, map->vm->arena[tmp->position]);
 			if (!ret)
 				return (0);
 			tmp = tmp->next;
 		}
-		(map->flag & V_FLAG) ? display_windows_vm(map->vm->arena_w,
-			map->vm->infos, map, &get) : map->vm->cycle++;
+		if (map->flag & V_FLAG)
+			display_windows_vm(map->vm->arena_w, map->vm->infos, map);
 	}
 	(map->flag & V_FLAG) ? endwin() : 0;
 	print_result(map);
