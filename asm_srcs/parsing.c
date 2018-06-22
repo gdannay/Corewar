@@ -6,7 +6,7 @@
 /*   By: gdannay <gdannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 14:23:44 by gdannay           #+#    #+#             */
-/*   Updated: 2018/06/11 11:02:38 by clegirar         ###   ########.fr       */
+/*   Updated: 2018/06/22 14:59:38 by vferreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ int			find_next_char(char *str, int i)
 
 int			find_next_space(char *str, int i)
 {
-	int temp;
-
-	temp = i;
 	while (str[i] && str[i] != ' ' && str[i] != '\t')
 		i++;
 	return (i);
@@ -34,10 +31,8 @@ int			find_next_space(char *str, int i)
 static void	delete_comment(char *str)
 {
 	int	i;
-	int	com;
 
 	i = 0;
-	com = 0;
 	while (str[i] && str[i] != COMMENT_CHAR && str[i] != ';')
 		i++;
 	ft_bzero(str + i, ft_strlen(str) - i);
